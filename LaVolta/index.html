@@ -1,0 +1,648 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>La volta</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/style.css" rel="stylesheet">
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="img/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="img/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" href="img/favicon.png">
+  
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/scripts.js"></script>
+    <script type="text/javascript" src="jquery-1.3.2.js">
+        
+    </script>
+    <style type="text/css">
+        .tdco
+        {
+            border: 4px solid black;
+            border-collapse: separate;
+        }
+        .classname
+        {
+            background: -webkit-gradient( linear, left top, left bottom, color-stop(0.05, #77d42a), color-stop(1, #5cb811) );
+            background: -moz-linear-gradient( center top, #77d42a 5%, #5cb811 100% );
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#77d42a', endColorstr='#5cb811');
+            background-color: #77d42a;
+            -webkit-border-top-left-radius: 0px;
+            -moz-border-radius-topleft: 0px;
+            border-top-left-radius: 0px;
+            -webkit-border-top-right-radius: 0px;
+            -moz-border-radius-topright: 0px;
+            border-top-right-radius: 0px;
+            -webkit-border-bottom-right-radius: 0px;
+            -moz-border-radius-bottomright: 0px;
+            border-bottom-right-radius: 0px;
+            -webkit-border-bottom-left-radius: 0px;
+            -moz-border-radius-bottomleft: 0px;
+            border-bottom-left-radius: 0px;
+            text-indent: 0;
+            border: 1px solid #268a16;
+            display: inline-block;
+            color: #306108;
+            font-family: Verdana;
+            font-size: 15px;
+            font-weight: bold;
+            font-style: normal;
+            height: 60px;
+            line-height: 65px;
+            width: 120px;
+            text-decoration: none;
+            text-align: center;
+        }
+        .classname:hover
+        {
+            background: -webkit-gradient( linear, left top, left bottom, color-stop(0.05, #5cb811), color-stop(1, #77d42a) );
+            background: -moz-linear-gradient( center top, #5cb811 5%, #77d42a 100% );
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#5cb811', endColorstr='#77d42a');
+            background-color: #5cb811;
+        }
+        .classname:active
+        {
+            position: relative;
+            top: 1px;</style>
+    <script type="text/javascript">
+        var db;
+
+        function indexedDBOk() {
+            return "indexedDB" in window;
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            //No support? Go in the corner and pout.
+            if (!indexedDBOk) return;
+
+            var openRequest = indexedDB.open("laVolta", 1);
+
+            openRequest.onupgradeneeded = function (e) {
+                var thisDB = e.target.result;
+
+                if (!thisDB.objectStoreNames.contains("partidas")) {
+                    thisDB.createObjectStore("partidas", { autoIncrement: true });
+                }
+            }
+
+            openRequest.onsuccess = function (e) {
+                console.log("running onsuccess");
+
+                db = e.target.result;
+
+                //Listen for add clicks
+                document.querySelector("#btnSave").addEventListener("click", guardarPartida, false);
+                //Listen for get clicks
+                document.querySelector("#btnLoad").addEventListener("click", cargarPartida, false);
+            }
+
+            openRequest.onerror = function (e) {
+                //Do something for the error
+            }
+
+
+        }, false);
+
+        function guardarPartida(e) {
+            //Get a transaction
+            //default for OS list is all, default for type is read
+            var transaction = db.transaction(["partidas"], "readwrite");
+            //Ask for the objectStore
+            var store = transaction.objectStore("partidas");
+
+            //Define a person
+            var partida = {
+                x11: cont11,
+                p11: puntos11,
+                x12: cont12,
+                p12: puntos12,
+                x13: cont13,
+                p13: puntos13,
+                x21: cont21,
+                p21: puntos21,
+                x22: cont22,
+                p22: puntos22,
+                x23: cont23,
+                p23: puntos23,
+                created: new Date()
+            }
+
+            //Perform the add
+            var request = store.add(partida);
+
+            request.onerror = function (e) {
+                console.log("Error", e.target.error.name);
+                //some type of error handler
+            }
+
+            request.onsuccess = function (e) {
+                console.log("Woot! Did it");
+            }
+        }
+        function cargarPartida(e) {
+            var key = document.querySelector("#key").value;
+            if (key === "" || isNaN(key)) return;
+
+            var transaction = db.transaction(["partidas"], "readonly");
+            var store = transaction.objectStore("partidas");
+
+            var request = store.get(Number(key));
+
+            request.onsuccess = function (e) {
+
+                var result = e.target.result;
+                console.dir(result);
+
+                if (result) {
+                    var pa = new Array();
+                    var i = 0;
+                    for (var field in result) {
+                        pa[i] = result[field];
+                        i++;
+                    }
+                    cont11 = pa[0];
+                    puntos11 = pa[1];
+                    $("#eq0co0").css({ left: cont11 });
+
+                    cont12 = pa[2];
+                    puntos12 = pa[3];
+                    $("#eq0co1").css({ left: cont12 });
+
+                    cont13 = pa[4];
+                    puntos13 = pa[5];
+                    $("#eq0co2").css({ left: cont13 });
+
+                    cont21 = pa[6];
+                    puntos21 = pa[7];
+                    $("#eq1co0").css({ left: cont21 });
+
+                    cont22 = pa[8];
+                    puntos22 = pa[9];
+                    $("#eq1co1").css({ left: cont22 });
+
+                    cont23 = pa[10];
+                    puntos23 = pa[11];
+                    $("#eq1co2").css({ left: cont23 });
+
+                    console.log(pa.toString());
+                    document.getElementById("butonAgregar").disabled = true;
+                    document.getElementById("buton").disabled = false;
+                    document.getElementById("btnPass").disabled = false;
+                    document.getElementById("estado").innerHTML = "";
+
+                    document.getElementById("eq0co0").setAttribute("src", "black_bike.png");
+                    document.getElementById("eq0co1").setAttribute("src", "black_bike.png");
+                    document.getElementById("eq0co2").setAttribute("src", "black_bike.png");
+
+                    document.getElementById("eq1co0").setAttribute("src", "brown_bike.png");
+                    document.getElementById("eq1co1").setAttribute("src", "brown_bike.png");
+                    document.getElementById("eq1co2").setAttribute("src", "brown_bike.png");
+                } else {
+                    console.log("No match");
+                }
+            }
+
+
+        }
+
+        //-------------------------------------------------------
+
+        var cont11 = Math.round(Math.random() * 0);
+        var cont12 = Math.round(Math.random() * 0);
+        var cont13 = Math.round(Math.random() * 0);
+
+        var cont21 = Math.round(Math.random() * 0);
+        var cont22 = Math.round(Math.random() * 0);
+        var cont23 = Math.round(Math.random() * 0);
+
+        var bool11 = false;
+        var bool12 = false;
+        var bool13 = false;
+
+        var bool21 = false;
+        var bool22 = false;
+        var bool23 = false;
+
+        var puntosE1 = 150;
+        var puntosE2 = 150;
+
+        var puntos11;
+        var puntos12;
+        var puntos13;
+
+        var puntos21;
+        var puntos22;
+        var puntos23;
+
+        function prepararMapa() {
+            document.getElementById("btnPass").disabled = true;
+            document.getElementById("buton").disabled = true;
+            tablaCarrera = document.createElement("table");
+            tablaCarrera.setAttribute("width", "800px");
+            tablaCarrera.setAttribute("style", "margin-left:13%");
+            tbody = document.createElement("tbody");
+            tablaCarrera.appendChild(tbody);
+            for (var i = 0; i < 2; i++) {
+                troweq = document.createElement("tr");
+                troweq.setAttribute("style", "visible:false");
+                tdeq = document.createElement("td");
+                tablaEquipo = document.createElement("table");
+                tablaEquipo.setAttribute("style", "border:3px");
+                tablaEquipo.setAttribute("style", "border-color:Black");
+                tablaEquipo.setAttribute("width", "790px");
+                tablaEquipo.setAttribute("cellpspacing", "0px");
+                tablaEquipo.setAttribute("style", "border-collapse:separate;border-spacing:0 5px;");
+                tbodyEquipo = document.createElement("tbody");
+                tbody.appendChild(troweq);
+                troweq.appendChild(tdeq);
+                tdeq.appendChild(tablaEquipo);
+                tablaEquipo.appendChild(tbodyEquipo);
+                for (var j = 0; j < 3; j++) {
+                    rastro = document.createElement("div");
+                    rastro.setAttribute("style", "position:relative");
+                    rastro.setAttribute("style", "background-color:Black");
+                    rastro.setAttribute("height", "2px");
+                    rastro.setAttribute("id", "Req" + i + "co" + j);
+                    trowco = document.createElement("tr");
+                    tdco = document.createElement("td");
+                    tdco.setAttribute("class", "tdco");
+                    tbodyEquipo.setAttribute("style", "background-image:url('background1.jpg')");
+                    imagen = document.createElement("img");
+                    imagen.setAttribute("width", "68px");
+                    imagen.setAttribute("height", "68px");
+                    imagen.setAttribute("style", "position:relative");
+                    imagen.setAttribute("id", "eq" + i + "co" + j);
+                    tdco.appendChild(rastro);
+                    tdco.appendChild(imagen);
+                    tbodyEquipo.appendChild(trowco);
+
+                    trowco.appendChild(tdco);
+                }
+
+            }
+            document.getElementById("tabledoc").appendChild(tablaCarrera);
+//            document.body.appendChild(tablaCarrera);
+            $('tr').css("margin", "5px");
+            //              
+        }
+        function agregarPuntos() {
+            document.getElementById("eq0co0").setAttribute("src", "black_bike.png");
+            document.getElementById("eq0co1").setAttribute("src", "black_bike.png");
+            document.getElementById("eq0co2").setAttribute("src", "black_bike.png");
+
+            document.getElementById("eq1co0").setAttribute("src", "brown_bike.png");
+            document.getElementById("eq1co1").setAttribute("src", "brown_bike.png");
+            document.getElementById("eq1co2").setAttribute("src", "brown_bike.png");
+
+            $("#eq0co0").css({ left: 0 });
+            $("#eq0co1").css({ left: 0 });
+            $("#eq0co2").css({ left: 0 });
+
+            $("#eq1co0").css({ left: 0 });
+            $("#eq1co1").css({ left: 0 });
+            $("#eq1co2").css({ left: 0 });
+
+            document.getElementById("estado").innerHTML = "";
+
+            puntos11 = parseInt(document.getElementById("txt11").value);
+            puntos12 = parseInt(document.getElementById("txt12").value);
+            puntos13 = parseInt(document.getElementById("txt13").value);
+
+            puntos21 = parseInt(document.getElementById("txt21").value);
+            puntos22 = parseInt(document.getElementById("txt22").value);
+            puntos23 = parseInt(document.getElementById("txt23").value);
+            if ((puntos11 + puntos12 + puntos13) > 150 || (puntos21 + puntos22 + puntos23) > 150) {
+                alert("Los puntos de un equipo no pueden ser superior a 150");
+            }
+            else if (puntos11 < 20 || puntos12 < 20 || puntos13 < 20 || puntos21 < 20 || puntos22 < 20 || puntos23 < 20) {
+                alert("Los puntos de cada corredor no pueden ser inferior a 20");
+            }
+            else if (isNaN(puntos11) == true || isNaN(puntos12) == true || isNaN(puntos13) == true || isNaN(puntos21) == true || isNaN(puntos22) == true || isNaN(puntos23) == true) {
+                alert("Solo puede introducir numeros");
+            }
+            else {
+                document.getElementById("buton").disabled = false;
+                document.getElementById("butonAgregar").disabled = true;
+                document.getElementById("btnPass").disabled = false;
+                document.getElementById("btnLoad").disabled = false;
+                document.getElementById("btnSave").disabled = false;
+            }
+        }
+        function random(r) {
+            var rand = Math.round(Math.random() * r);
+            return rand;
+        }
+        var timer;
+
+        function pasarCarrera() {
+            document.getElementById("buton").disabled = true;
+            document.getElementById("btnPass").disabled = true;
+            document.getElementById("btnLoad").disabled = true;
+            document.getElementById("btnSave").disabled = true;
+            timer = setInterval(pasarTurno, 500);
+        }
+
+        function pasarTurno() {
+            rand11 = random(puntos11);
+            rand12 = random(puntos12);
+            rand13 = random(puntos13);
+
+            rand21 = random(puntos21);
+            rand22 = random(puntos22);
+            rand23 = random(puntos23);
+
+            $(document).ready(function () {
+                if ((cont11 + rand11) < 700) {
+                    $("#eq0co0").animate({ "left": "+=" + rand11 + "px" }, "slow");
+                    //        		        $("#Req0co0").animate({ width: "+=" + rand11 + "px" }, "slow");
+                    cont11 = cont11 + rand11;
+                }
+                else {
+                    if (bool11 == false) {
+                        $("#eq0co0").animate({ "left": "+=" + (700 - cont11) + "px" }, "slow");
+                        bool11 = true;
+                    }
+                }
+
+                if ((cont12 + rand12) < 700) {
+                    $("#eq0co1").animate({ "left": "+=" + rand12 + "px" }, "slow");
+                    cont12 = cont12 + rand12;
+                }
+                else {
+                    if (bool12 == false) {
+                        $("#eq0co1").animate({ "left": "+=" + (700 - cont12) + "px" }, "slow");
+                        bool12 = true;
+                    }
+                }
+                if ((cont13 + rand13) < 700) {
+                    $("#eq0co2").animate({ "left": "+=" + rand13 + "px" }, "slow");
+                    cont13 = cont13 + rand13;
+                }
+                else {
+                    if (bool13 == false) {
+                        $("#eq0co2").animate({ "left": "+=" + (700 - cont13) + "px" }, "slow");
+                        bool13 = true;
+                    }
+                }
+
+
+                //--------------------------------------------------------------------------------------
+
+
+                if ((cont21 + rand21) < 700) {
+                    $("#eq1co0").animate({ "left": "+=" + rand21 + "px" }, "slow");
+                    cont21 = cont21 + rand21;
+                }
+                else {
+                    if (bool21 == false) {
+                        $("#eq1co0").animate({ "left": "+=" + (700 - cont21) + "px" }, "slow");
+                        bool21 = true;
+                    }
+                }
+
+                if ((cont22 + rand22) < 700) {
+                    $("#eq1co1").animate({ "left": "+=" + rand22 + "px" }, "slow");
+                    cont22 = cont22 + rand22;
+                }
+                else {
+                    if (bool22 == false) {
+                        $("#eq1co1").animate({ "left": "+=" + (700 - cont22) + "px" }, "slow");
+                        bool22 = true;
+                    }
+                }
+                if ((cont23 + rand23) < 700) {
+                    $("#eq1co2").animate({ "left": "+=" + rand23 + "px" }, "slow");
+                    cont23 = cont23 + rand23;
+                }
+                else {
+                    if (bool23 == false) {
+                        $("#eq1co3").animate({ "left": "+=" + (700 - cont23) + "px" }, "slow");
+                        bool23 = true;
+                    }
+                }
+
+
+                if (bool21 == true && bool22 == true && bool23 == true && bool11 == true && bool12 == true && bool13 == true) {
+                    setTimeout(function () {
+                        document.getElementById("eq1co0").setAttribute("src", "brown_flag.png");
+                        document.getElementById("eq1co1").setAttribute("src", "brown_flag.png");
+                        document.getElementById("eq1co2").setAttribute("src", "brown_flag.png");
+                        document.getElementById("eq0co0").setAttribute("src", "black_flag.png");
+                        document.getElementById("eq0co1").setAttribute("src", "black_flag.png");
+                        document.getElementById("eq0co2").setAttribute("src", "black_flag.png");
+                        document.getElementById("estado").innerHTML = "Empate";
+                        document.getElementById("buton").disabled = true;
+                        document.getElementById("butonAgregar").disabled = false;
+                        document.getElementById("btnPass").disabled = true;
+                        document.getElementById("btnSave").disabled = true;
+                        document.getElementById("btnLoad").disabled = false;
+                    }, 5000);
+                    clearInterval(timer);
+                    bool21 = bool22 = bool23 = false;
+                    cont11 = cont12 = cont13 = cont21 = cont22 = cont23 = 0;
+                }
+                else if (bool21 == true && bool22 == true && bool23 == true) {
+                    setTimeout(function () {
+                        document.getElementById("eq1co0").setAttribute("src", "winner.png");
+                        document.getElementById("eq1co1").setAttribute("src", "winner.png");
+                        document.getElementById("eq1co2").setAttribute("src", "winner.png");
+                        document.getElementById("eq0co0").setAttribute("src", "loser.png");
+                        document.getElementById("eq0co1").setAttribute("src", "loser.png");
+                        document.getElementById("eq0co2").setAttribute("src", "loser.png");
+                        document.getElementById("estado").innerHTML = "Equipo 2 ha ganado";
+                        document.getElementById("buton").disabled = true;
+                        document.getElementById("butonAgregar").disabled = false;
+                        document.getElementById("btnPass").disabled = true;
+                        document.getElementById("btnSave").disabled = true;
+                        document.getElementById("btnLoad").disabled = false;
+                    }, 5000);
+                    clearInterval(timer);
+                    bool21 = bool22 = bool23 = false;
+                    cont11 = cont12 = cont13 = cont21 = cont22 = cont23 = 0;
+                }
+                else if (bool11 == true && bool12 == true && bool13 == true) {
+                    setTimeout(function () {
+
+                        document.getElementById("eq0co0").setAttribute("src", "winner.png");
+                        document.getElementById("eq0co1").setAttribute("src", "winner.png");
+                        document.getElementById("eq0co2").setAttribute("src", "winner.png");
+                        document.getElementById("eq1co0").setAttribute("src", "loser.png");
+                        document.getElementById("eq1co1").setAttribute("src", "loser.png");
+                        document.getElementById("eq1co2").setAttribute("src", "loser.png");
+                        document.getElementById("estado").innerHTML = "Equipo 1 ha ganado";
+                        document.getElementById("buton").disabled = true;
+                        document.getElementById("butonAgregar").disabled = false;
+                        document.getElementById("btnPass").disabled = true;
+                        document.getElementById("btnSave").disabled = true;
+                        document.getElementById("btnLoad").disabled = false;
+
+                    }, 5000);
+                    clearInterval(timer);
+                    bool11 = bool12 = bool13 = false;
+                    cont11 = cont12 = cont13 = cont21 = cont22 = cont23 = 0;
+                }
+            });
+        }
+        	
+    </script>
+</head>
+<body onload="prepararMapa()" style="background: url(web_background.jpg) no-repeat center bottom fixed; width: 100%;
+   background-size: cover;">
+            <div class="container">
+	        <div class="row clearfix" style="margin-top:2%">
+		        <div class="col-md-6 column" style="border:1px solid;padding:1%;margin-bottom:1%;text-align:center;border-radius:100px;-moz-border-radius:100px;-webkit-border-radius:100px;" >
+			        <h3 class="text-center">
+				        Equipo 1
+			        </h3>
+			        <div class="row clearfix">
+				        <div class="col-md-4 column">
+                            <input class="classname" type="number" value="50" id="txt11"> </input> 
+				        </div>
+				        <div class="col-md-4 column">
+                            <input class="classname" value="50" type="number" id="txt12"> </input>
+				        </div>
+				        <div class="col-md-4 column">
+                            <input class="classname" value="50" type="number" id="txt13"> </input>
+				        </div>
+			        </div>
+		        </div>
+		        <div class="col-md-6 column" style="border:1px solid;padding:1%;margin-bottom:1%;text-align:center;border-radius:100px;-moz-border-radius:100px;-webkit-border-radius:100px;">
+			        <h3 class="text-center" >
+				        Equipo 2
+			        </h3>
+			        <div class="row clearfix">
+				        <div class="col-md-4 column">
+                            <input class="classname" value="50" type="number" id="txt21"> </input>
+				        </div>
+				        <div class="col-md-4 column">
+                            <input class="classname" value="50" type="number" id="txt22"> </input>
+				        </div>
+				        <div class="col-md-4 column">
+                            <input class="classname" value="50" type="number" id="txt23"> </input>
+				        </div>
+			        </div>
+		        </div>
+	        </div>
+	        <div class="row clearfix">
+		        <div class="col-md-2 column">
+                <button type="button" class="classname" onclick="agregarPuntos()" id="butonAgregar">
+                Empezar</button>
+		        </div>
+		        <div class="col-md-2 column">
+                <button type="button" class="classname" onclick="pasarTurno()" id="buton">
+                Mover
+                </button>
+		        </div>
+		        <div class="col-md-2 column">
+                  <button type="button" class="classname" id="btnSave">
+                Save Game</button>
+		        </div>
+		        <div class="col-md-2 column">
+                 <button type="button" class="classname" id="btnLoad">
+                Load Game</button>
+                <input style="margin-top:3%" type="number" class="classname" id="key" value="0">
+		        </div>
+		        <div class="col-md-2 column">
+                    <button id="btnPass" class="classname" type="button" onclick="pasarCarrera()">
+                Ver Carrera</button>
+		        </div>
+		        <div class="col-md-2 column">
+                    <div class="row clearfix">
+		                <div class="col-md-12 column">
+			                <a id="modal-420951" href="#modal-container-420951" role="button" class="btn" data-toggle="modal"><button id="Button1" class="classname" type="button"> Ayuda</button></a>
+			                    <div class="modal fade" id="modal-container-420951" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				                    <div class="modal-dialog">
+					                    <div class="modal-content">
+						                    <div class="modal-header">
+							                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+							                    <h4 class="modal-title" id="myModalLabel">
+								                    Instrucciones
+							                    </h4>
+						                    </div>
+						                    <div class="modal-body">
+							                    <p>
+                                                Bienvenidos a "La Volta App".
+                                                <br />
+                                                Esta aplicación emula una etapa de ciclismo entre dos equipos. Para empezar a jugar
+                                                indique los puntos de energia para cada corredor.
+                                                <br />
+                                                Cada equipo dispone de 150 puntos de energia, indica los puntos para cada corredor
+                                                y empezar a jugar!</p>
+						                    </div>
+						                    <div class="modal-footer">
+							                    <button type="button" class="btn btn-default" data-dismiss="modal">Vale</button> 
+						                    </div>
+					                    </div>
+				                    </div>
+			                    </div>
+		                </div>
+	                </div>
+		        </div>
+	        </div>
+	        <div class="row clearfix" style="text-align:center;font-size:20px;color:Black;font-family:Verdana;font-weight:bolder;margin-top:5px">
+                <p id="estado">
+                </p>
+            </div>
+            <div class="col-md-12 column" id="Div1" >
+		        <div class="col-md-12 column" id="tabledoc" >
+		        </div>
+	        </div>
+        </div>
+    <!--<div style="text-align: center; font-family: Verdana; font-weight: bold">
+        <h1>
+            La Volta</h1>
+        <p>
+            Bienvenidos a "La Volta App".
+            <br />
+            Esta aplicación emula una etapa de ciclismo entre dos equipos. Para empezar a jugar
+            indique los puntos de energia para cada corredor.
+            <br />
+            Cada equipo dispone de 150 puntos de energia, indica los puntos para cada corredor
+            y empezar a jugar!</p>
+        <div style="float:left;border:5px solid Black;padding:1%">
+            <p style="font-size: 25px">
+                <strong>Equipo 1</strong></p>
+            <p>
+                Corredor 1:<input class="classname" type="number" value="50" id="txt11"> </input>
+                Corredor 2:<input class="classname" value="50" type="number" id="txt12"> </input>
+                Corredor 3:<input class="classname" value="50" type="number" id="txt13"> </input>
+            </p>
+        </div>
+        <div style="float:left;border:5px solid Black;padding:1%">
+            <p style="font-size: 25px">
+                <strong>Equipo 2</strong></p>
+            <p>
+                Corredor 1:<input class="classname" value="50" type="number" id="txt21"> </input>
+                Corredor 2:<input class="classname" value="50" type="number" id="txt22"> </input>
+                Corredor 3:<input class="classname" value="50" type="number" id="txt23"> </input>
+            </p>
+        </div>
+        <div style="margin:2%;float:left">
+            <button type="button" class="classname" onclick="agregarPuntos()" id="butonAgregar">
+                Empezar partida</button>
+            <button type="button" class="classname" onclick="pasarTurno()" id="buton">
+                Mover
+            </button>
+            <button type="button" class="classname" id="btnSave">
+                Save Game</button>
+            <button type="button" class="classname" id="btnLoad">
+                Load Game</button>
+            <input type="number" class="classname" id="key" value="0"><br />
+            <button id="btnPass" class="classname" type="button" onclick="pasarCarrera()">
+                Ver Carrera</button>
+        </div>
+        <p id="estado">
+        </p>
+    </div>-->
+</body>
+</html>

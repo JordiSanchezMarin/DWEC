@@ -1,0 +1,343 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>All-in-One</title>
+   <!-- <link rel="StyleSheet" href="diseño.css" media="all" type="text/css" />-->
+    <script type="text/javascript">
+        //esta funcion es llamda con el boton calcular, y es la encargada de pasarle la info necesaria a las otras funciones para que calculen el resultado,
+        // también es la encargada de mostrar el resultado
+        function btncalcular_Click() {
+            var num1 = parseFloat(document.getElementById("txtn1").value);
+            var num2 = parseFloat(document.getElementById("txtn2").value);
+            var op = document.getElementById("txtop").value;
+            if (esNumero(num1) == false || esNumero(num2) == false) {
+                alert("Error: Debe introducir solo numeros");
+            }
+            else if (esNumero(calcular(num1, num2, op)) == true)
+                document.getElementById("lblresult").textContent = "Resultado: " + calcular(num1, num2, op);
+
+        }
+        //esta funcion es llamada cuando se pulsa el boton Random, se encarga de definir el tipo de operación y de indicar los dos numero aleatorios,
+        // una vez sabidos estos parametros se los pasa a la funcion calcular() para que devuelva el resultado y se pueda mostrar
+        function calcularRandom() {
+            var num1 = Math.random() * 10;
+            var num2 = Math.random() * 10;
+            var rand = Math.round(Math.random() * 3);
+            var op;
+            switch (rand) {
+                case 0:
+                    op = "+";
+                    break;
+                case 1:
+                    op = "-";
+                    break;
+                case 2:
+                    op = "*";
+                    break;
+                case 3:
+                    op = "/";
+                    break;
+            }
+            document.getElementById("txtn1").value = num1;
+            document.getElementById("txtn2").value = num2;
+            document.getElementById("txtop").value = op;
+            if (calcular(num1, num2, op) > 0) {
+                document.getElementById("lblresult").setAttribute("style", "background-color:Green");
+            }
+            else if (calcular(num1, num2, op) < 0) {
+                document.getElementById("lblresult").setAttribute("style", "background-color:#b0403a");
+            }
+            
+            document.getElementById("lblresult").textContent = "Resultado: " + calcular(num1, num2, op);
+
+
+        }
+        // esta funcion es llamada por las funciones calcularRandom() y btncalcular_Click, se encarga de efetuar la operacion y devolver el resultado
+        function calcular(n1, n2, o) {
+            var res;
+            switch (o) {
+                case "*":
+                    {
+                        res = n1 * n2;
+                        break;
+                    }
+
+                case "/":
+                    {
+                        res = n1 / n2;
+                        break;
+                    }
+
+                case "+":
+                    {
+                        res = n1 + n2;
+                        break;
+                    }
+                case "-":
+                    {
+                        res = n1 - n2;
+                        break;
+                    }
+                default:
+                    alert("Error: Debe introducir un operador correcto ('+', '-', '*' o '/')");
+                    break;
+            }
+            return res;
+        }
+        // Esta funcion es la encargada decirnos si el valor introducido es un numero u otro tipo de dato
+        function esNumero(n) {
+            if (isNaN(n)) {
+                return false;
+            }
+            else
+                return true;
+        }
+        // Esta funcion se encarga de cargar la cabecera de la tabla Contactos
+        function tablaCabecera() {
+            var array = new Array();
+            array[0] = "Nombre";
+            array[1] = "Nacimiento";
+            array[2] = "Telefono";
+            miTabla = document.createElement("table");
+            miTabla.setAttribute("border", "1");
+            miTabla.setAttribute("id", "tableAgenda");
+            miTabla.setAttribute("style", "background-color:#c07642");
+            tbBody = document.createElement("tbody");
+            tbBody.setAttribute("id", "tbodyAgenda");
+            tr = document.createElement("tr");
+            for (var i = 0; i <= 2; i++) {
+                td1 = document.createElement("td");
+                td1.innerHTML = array[i];
+                tr.appendChild(td1);
+            }
+            tbBody.appendChild(tr);
+            miTabla.appendChild(tbBody);
+            document.getElementById("lbllista").appendChild(miTabla);
+         }
+         
+         // Es la encargada de añadir contactos a la tabla Contactos
+         function añadirContacto() {
+             var fecha = new Date(document.getElementById("txtnac").value);
+             var person = new Object();
+             person.nombre = document.getElementById("txtname").value;
+             person.fecha = fecha.getDate() + "/" + (fecha.getMonth() + 1) + "/" + fecha.getFullYear();
+             person.telefono = document.getElementById("txttlf").value;
+             miTabla = document.getElementById("tableAgenda");
+             tbBody = document.getElementById("tbodyAgenda");
+             tr = document.createElement("tr");
+             tr.setAttribute("id", person.nombre);
+             for (var property in person) {
+                 td = document.createElement("td");
+                 td.innerHTML = person[property];
+                 tr.appendChild(td);
+             }
+             tbBody.appendChild(tr);
+             miTabla.appendChild(tbBody);
+             document.getElementById("lbllista").appendChild(miTabla);
+//             document.body.appendChild(miTabla);
+         }
+         //Es la encargada de eliminar contactos de la tabla Contactos
+         function eliminarContacto() {
+             var id = document.getElementById("txtnameD").value;
+             var row = document.getElementById(id);
+             var tbody = document.getElementById("tbodyAgenda");
+             tbody.removeChild(row);
+         }
+         // es la encargada de mostrar en un alert, la informacion del contacto que buscamos
+         function buscarContacto() {
+             var id = document.getElementById("txtnameB").value;
+             var row = document.getElementById(id);
+             var res = row.innerHTML;
+             var resultado = new String();
+             var cont = 0;
+             for (i = 0; i < res.length; i++) {
+                 if (res[i] == ">" && res[i + 1] != "<") {
+                     i++;
+                     if (cont == 0) {
+                         resultado = "Nombre: ";
+                     }
+                     else if (cont == 1) {
+                         resultado = resultado + " || Nacimiento: ";
+                     }
+                     else if (cont == 2) {
+                     resultado = resultado + " || Telefono: ";
+                     }
+                     for (; res[i] != "<" && i < res.length; i++) {
+                        resultado = resultado + res[i];
+                    }
+                    cont++;       
+                 }
+             }
+            alert(resultado);
+         }
+    </script>
+</head>
+<body onload="tablaCabecera()" style="background-color:#b0403a">
+    <form id="form1" runat="server">
+    <div class="div_content" style="font-family:Calibri">
+        <div style="color:Black; border-color:Black;text-align:center;margin-left:370px;margin-right:370px">
+        <table border="2px" style="background-color:#365da4">
+            <tbody>
+                <tr>
+                     <td>
+                        <h1><u>Calculadora</u></h1>
+                        Numero 1: <input id="txtn1" />
+                        Operador: <input id="txtop" style="width:30px" />
+                        Numero 2: <input id="txtn2" />
+                        <button type="button" title="Calcular" onclick="btncalcular_Click()" >Calcular</button>
+                        <button type="button" title="Random" onclick="calcularRandom()" > Random</button> <br /><br />
+                        <label id="lblresult" ></label>
+                     </td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+        <div style="margin-left:230px;margin-top:10px">
+        <table border="1px" style="background-color:#2e892d">
+            <tbody>
+                <tr>
+                    <td colspan="3" style="text-align:center">
+                         <h1><u>Agenda</u></h1>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h2 style="text-align:center">Añadir Contacto</h2 >
+                    </td>
+                    <td>
+                        <h2 style="text-align:center">Eliminar Contacto</h2>
+                    </td>
+                    <td>
+                        <h2 style="text-align:center"> Buscar Contacto </h2>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table >
+                            <tbody >
+                                <tr>
+                                    <td>
+                                        Nombre:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input id="txtname" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Nacimiento: <input id="txtnac" /> (año,mes,dia = 90,11,18)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                       Telefono:&nbsp;&nbsp;&nbsp;&nbsp; <input id="txttlf"/>
+                                    </td>
+                                </tr>   
+                                <tr>
+                                    <td>
+                                        <button type="button" title="ContactoAdd" onclick="añadirContacto()"> Añadir Contacto</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td>
+                        
+                        Nombre: <input id="txtnameD" /> <br /><br />
+                        <button type="button" title="ContactoRemove" onclick="eliminarContacto()">Eliminar Contacto</button>
+                    </td>
+                    <td>
+                        Nombre: <input id="txtnameB" /> <br /> <br />
+                        <button type="button" title="ContactoFind" onclick="buscarContacto()">Buscar Contacto</button>
+                    </td>
+                </tr> 
+            </tbody>
+        </table>
+        <br /><br />
+        <h1><u>Contactos</u></h1>
+            <label id="lbllista" >
+            </label>
+        </div>
+        <div style="margin-left:230px;margin-top:4px">
+            <h1><u>Objetos Implementados</u></h1>
+            <table border="1px" style="background-color:#9d3494">
+                <tbody>
+                    <tr>
+                        <th>
+                            Objeto
+                        </th>
+                        <th>
+                            Implementación
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+                           Js Number 
+                        </td>
+                        <td>
+                            - Para transformar el texto introducido de String a float se ha utilizado el metodo <i>parseInt()</i> <br />
+                            - Para comprobar que el texto introducido era un numero se ha utilizado el metodo <i>isNan()</i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Js String
+                        </td>
+                        <td>
+                            - Para guardar el resultado de la busqueda he tenido que crear un objeto tipo <i>String()</i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Js Date
+                        </td>
+                        <td>
+                            - Para guardar la fecha introducida en el Textbox, se ha tenido que crear un objeto <i>Date()</i>, para <br />
+                              luego utilizar sus metodos de la siguiente manera:<br /> <i> person.fecha = fecha.getDate() + "/" + (fecha.getMonth() + 1) + "/" + fecha.getFullYear();</i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Js Array
+                        </td>
+                        <td>
+                            - Se ha utilizado el objeto <i>Array()</i> para crear la cabecera de la tabla de Contactos
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Js Boolean
+                        </td>
+                        <td>
+                            - Este objeto se ha utilizado en el return, de la funcion <i>esNumero()</i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Js Math
+                        </td>
+                        <td>    
+                            - Este objetose ha utilizado para hacer una operacion aleatoria<br />
+                            - Se ha utilizado el metodo <i>Math.random()</i> para sacar un numero del 1 al 10 de manera aleatoria <br />
+                            - Se ha utilizado el metodo <i>Math.round()</i> para redondear el random, que determina el tipo de operación
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Instrucción for...in
+                        </td>
+                        <td>
+                            - Se ha utilizado esta instrucción para recorrer las propiedades del objeto Persona() de la siguiente manera: <br />
+                                 <i>for (var property in person)</i> 
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="margin-left:230px;margin-top:4px">
+            <h2><u>Codigo</u></h2>
+            <p> <b> NOTA --> LOS COMENTARIOS NO SE MUESTRAN EN ESTE CODIGO, PORQUE SE INTRODUJERON DESPUES DE REALIZAR LA IMAGEN. <br /> PARA PODER VERLOS SE TIENE QUE INSPECCIONAR EL CODIGO</b></p>
+            <img src="img_activitat1_4.png" alt="sourcecode"/>
+        </div>
+    </div>
+    </form>
+</body>
+</html>   
