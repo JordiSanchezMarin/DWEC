@@ -74,53 +74,70 @@
             position: relative;
             top: 1px;</style>
     <script type="text/javascript">
+
+        // Variables Globales ---------------------------------------------------------------------------------------------------------------------------------------------------------
+        var cont11 = Math.round(Math.random() * 0);
+        var cont12 = Math.round(Math.random() * 0);
+        var cont13 = Math.round(Math.random() * 0);
+
+        var cont21 = Math.round(Math.random() * 0);
+        var cont22 = Math.round(Math.random() * 0);
+        var cont23 = Math.round(Math.random() * 0);
+
+        var bool11 = false;
+        var bool12 = false;
+        var bool13 = false;
+
+        var bool21 = false;
+        var bool22 = false;
+        var bool23 = false;
+
+        var puntos11;
+        var puntos12;
+        var puntos13;
+
+        var puntos21;
+        var puntos22;
+        var puntos23;
+
+        var timer;
+
         var db;
 
+        // Funcion que detecta si el navegador soporta IndexedDB-----------------------------------------------------------------------------------------------------------------------
         function indexedDBOk() {
             return "indexedDB" in window;
         }
-
+        // Preparacion de la base de datos---------------------------------------------------------------------------------------------------------------------------------------------
         document.addEventListener("DOMContentLoaded", function () {
-
-            //No support? Go in the corner and pout.
             if (!indexedDBOk) return;
-
+            //crea la base de datos llamada "laVolta"
             var openRequest = indexedDB.open("laVolta", 1);
-
             openRequest.onupgradeneeded = function (e) {
                 var thisDB = e.target.result;
-
+                //si la tabla "partidas" no esta creada en la base de datos, la crea
                 if (!thisDB.objectStoreNames.contains("partidas")) {
+                    //autoIncrement --> base de datos la cual sus keys se van incrementando cada vez que añades un registro
                     thisDB.createObjectStore("partidas", { autoIncrement: true });
                 }
             }
-
             openRequest.onsuccess = function (e) {
                 console.log("running onsuccess");
-
                 db = e.target.result;
-
-                //Listen for add clicks
+                //añade 2 eventos a dos botones html: onClick(guardarPartida) onClick(cargarPartida)
                 document.querySelector("#btnSave").addEventListener("click", guardarPartida, false);
-                //Listen for get clicks
                 document.querySelector("#btnLoad").addEventListener("click", cargarPartida, false);
             }
-
             openRequest.onerror = function (e) {
-                //Do something for the error
             }
-
-
         }, false);
-
+        //Esta funcion se utiliza para guardar los datos en la base de datos ------------------------------------------------------------------------------------------------------
         function guardarPartida(e) {
-            //Get a transaction
-            //default for OS list is all, default for type is read
+            //crea una transaccion de lectura y escritura en la tabla partidas
             var transaction = db.transaction(["partidas"], "readwrite");
-            //Ask for the objectStore
+            //a traves de la transaccion se recoge la tabla y se guarda en store
             var store = transaction.objectStore("partidas");
-
-            //Define a person
+            //se crea un objeto con todos los datos que queremos almacenar
             var partida = {
                 x11: cont11,
                 p11: puntos11,
@@ -136,40 +153,40 @@
                 p23: puntos23,
                 created: new Date()
             }
-
-            //Perform the add
+            //se añade a la tabla "partidas" el objeto creado
             var request = store.add(partida);
-
             request.onerror = function (e) {
                 console.log("Error", e.target.error.name);
-                //some type of error handler
             }
-
             request.onsuccess = function (e) {
                 console.log("Woot! Did it");
             }
         }
+//Esta funcion se utiliza para cargar los datos de una base de datos a traves de una key --------------------------------------------------------------------------------------------
         function cargarPartida(e) {
+            //recoge la key
             var key = document.querySelector("#key").value;
             if (key === "" || isNaN(key)) return;
-
+            //crea una transaccion de solo lectura en la tabla partidas
             var transaction = db.transaction(["partidas"], "readonly");
+            //utiliza la transaccion para obtener la tabla 
             var store = transaction.objectStore("partidas");
-
+            //utiliza la tabla para recoger un registro a partir de la key indicada anteriormente
             var request = store.get(Number(key));
-
             request.onsuccess = function (e) {
-
                 var result = e.target.result;
                 console.dir(result);
-
+                //si encuentra un resultado...
                 if (result) {
                     var pa = new Array();
                     var i = 0;
+                    //por cada campo que haya en el tabla se añade en la array
                     for (var field in result) {
                         pa[i] = result[field];
                         i++;
                     }
+
+                    //se recogen los metros recorridos y los metros maximos por turno de cada jugador, ademas se coloca a cada uno en su posicion(metros recorridos)
                     cont11 = pa[0];
                     puntos11 = pa[1];
                     $("#eq0co0").css({ left: cont11 });
@@ -193,57 +210,46 @@
                     cont23 = pa[10];
                     puntos23 = pa[11];
                     $("#eq1co2").css({ left: cont23 });
-
-                    console.log(pa.toString());
+                    //Se deshabilitan/habilitan los botones necesarios
                     document.getElementById("butonAgregar").disabled = true;
                     document.getElementById("buton").disabled = false;
                     document.getElementById("btnPass").disabled = false;
                     document.getElementById("estado").innerHTML = "";
-
-                    document.getElementById("eq0co0").setAttribute("src", "black_bike.png");
-                    document.getElementById("eq0co1").setAttribute("src", "black_bike.png");
-                    document.getElementById("eq0co2").setAttribute("src", "black_bike.png");
-
-                    document.getElementById("eq1co0").setAttribute("src", "brown_bike.png");
-                    document.getElementById("eq1co1").setAttribute("src", "brown_bike.png");
-                    document.getElementById("eq1co2").setAttribute("src", "brown_bike.png");
                 } else {
                     console.log("No match");
                 }
+                //añade las imagenes a la tabla
+                insertarBicis(1);
             }
-
-
         }
 
-        //-------------------------------------------------------
-
-        var cont11 = Math.round(Math.random() * 0);
-        var cont12 = Math.round(Math.random() * 0);
-        var cont13 = Math.round(Math.random() * 0);
-
-        var cont21 = Math.round(Math.random() * 0);
-        var cont22 = Math.round(Math.random() * 0);
-        var cont23 = Math.round(Math.random() * 0);
-
-        var bool11 = false;
-        var bool12 = false;
-        var bool13 = false;
-
-        var bool21 = false;
-        var bool22 = false;
-        var bool23 = false;
-
-        var puntosE1 = 150;
-        var puntosE2 = 150;
-
-        var puntos11;
-        var puntos12;
-        var puntos13;
-
-        var puntos21;
-        var puntos22;
-        var puntos23;
-
+//Esta funcion se dedica a insertar las imagenes de las bicis, además de ponerlas en la posicion inicial en caso de que se empiece partida----------------------------------------------------
+        function insertarBicis(num) {
+            if (num == 0) {
+                document.getElementById("eq0co0").setAttribute("src", "black_bike.png");
+                document.getElementById("eq0co1").setAttribute("src", "black_bike.png");
+                document.getElementById("eq0co2").setAttribute("src", "black_bike.png");
+                document.getElementById("eq1co0").setAttribute("src", "brown_bike.png");
+                document.getElementById("eq1co1").setAttribute("src", "brown_bike.png");
+                document.getElementById("eq1co2").setAttribute("src", "brown_bike.png");
+                $("#eq0co0").css({ left: 0 });
+                $("#eq0co1").css({ left: 0 });
+                $("#eq0co2").css({ left: 0 });
+                $("#eq1co0").css({ left: 0 });
+                $("#eq1co1").css({ left: 0 });
+                $("#eq1co2").css({ left: 0 });
+            }
+            else if (num == 1) {
+                document.getElementById("eq0co0").setAttribute("src", "black_bike.png");
+                document.getElementById("eq0co1").setAttribute("src", "black_bike.png");
+                document.getElementById("eq0co2").setAttribute("src", "black_bike.png");
+                document.getElementById("eq1co0").setAttribute("src", "brown_bike.png");
+                document.getElementById("eq1co1").setAttribute("src", "brown_bike.png");
+                document.getElementById("eq1co2").setAttribute("src", "brown_bike.png");
+            }
+                
+        }
+        //Esta funcion se ejecuta cuando se carga el body, se encarga de crear la tabla ademas de insertar las imaganes ---------------------------------------------------------------------------
         function prepararMapa() {
             document.getElementById("btnPass").disabled = true;
             document.getElementById("buton").disabled = true;
@@ -268,52 +274,28 @@
                 tdeq.appendChild(tablaEquipo);
                 tablaEquipo.appendChild(tbodyEquipo);
                 for (var j = 0; j < 3; j++) {
-                    rastro = document.createElement("div");
-                    rastro.setAttribute("style", "position:relative");
-                    rastro.setAttribute("style", "background-color:Black");
-                    rastro.setAttribute("height", "2px");
-                    rastro.setAttribute("id", "Req" + i + "co" + j);
                     trowco = document.createElement("tr");
                     tdco = document.createElement("td");
                     tdco.setAttribute("class", "tdco");
                     tbodyEquipo.setAttribute("style", "background-image:url('background1.jpg')");
-                    
                     imagen = document.createElement("img");
                     imagen.setAttribute("width", "68px");
                     imagen.setAttribute("height", "68px");
                     imagen.setAttribute("style", "position:relative");
                     imagen.setAttribute("id", "eq" + i + "co" + j);
-                    
-                    tdco.appendChild(rastro);
                     tdco.appendChild(imagen);
                     tbodyEquipo.appendChild(trowco);
-
                     trowco.appendChild(tdco);
                 }
 
             }
             document.getElementById("tabledoc").appendChild(tablaCarrera);
-//            document.body.appendChild(tablaCarrera);
             $('tr').css("margin", "5px");
-            //              
+            insertarBicis(0);
         }
+        //Esta funcion se dedica a comprobar que se han introducido correctamente los metros por turno de cada corredor, ademas de recogerlos para poderlos utilizar en la carrera------------------------------
         function agregarPuntos() {
-            document.getElementById("eq0co0").setAttribute("src", "black_bike.png");
-            document.getElementById("eq0co1").setAttribute("src", "black_bike.png");
-            document.getElementById("eq0co2").setAttribute("src", "black_bike.png");
-
-            document.getElementById("eq1co0").setAttribute("src", "brown_bike.png");
-            document.getElementById("eq1co1").setAttribute("src", "brown_bike.png");
-            document.getElementById("eq1co2").setAttribute("src", "brown_bike.png");
-
-            $("#eq0co0").css({ left: 0 });
-            $("#eq0co1").css({ left: 0 });
-            $("#eq0co2").css({ left: 0 });
-
-            $("#eq1co0").css({ left: 0 });
-            $("#eq1co1").css({ left: 0 });
-            $("#eq1co2").css({ left: 0 });
-
+            insertarBicis(0);
             document.getElementById("estado").innerHTML = "";
 
             puntos11 = parseInt(document.getElementById("txt11").value);
@@ -340,12 +322,13 @@
                 document.getElementById("btnSave").disabled = false;
             }
         }
+        //Esta funcion devuelve un random, se utiliza en los metros recorridos por turno------------------------------------------------------------------------------------------------------------------------
         function random(r) {
             var rand = Math.round(Math.random() * r);
             return rand;
         }
-        var timer;
 
+        //Esta funcion se dedica a pasar la carrera hasta el final, he utlizado un setInterval, que se limpia cuando llegan al final ---------------------------------------------------------------------------
         function pasarCarrera() {
             document.getElementById("buton").disabled = true;
             document.getElementById("btnPass").disabled = true;
@@ -353,10 +336,21 @@
             document.getElementById("btnSave").disabled = true;
             timer = setInterval(pasarTurno, 500);
         }
-
+        //Esta funcion realiza la animacion de tirar para alante un corredor -----------------------------------------------------------------------------------------------------------------------------------
+        function animar(id, random) {
+            $("#" + id).animate({ "left": "+=" + random + "px" }, "slow");
+        }
+        //Esta funcion se ejecuta al final de la carrera, sirve para los corredores que hayan levantado rueda, vuelvan a su angulo inicial (0) ----------------------------------------------------------------
+        function initRotate(id) {
+                var css = '-webkit-transform: rotate(' + 1500 + Math.round(Math.random() * 1500) + 'deg);';
+                $("#" + id).css("transform", "rotate(" + 0 + "deg)");
+                $("#" + id).css("-moz-transform", "rotate(" + 0 + "deg)");
+                $("#" + id).css("-webkit-transform", "rotate(" + 0 + "deg)");
+                $("#" + id).css("-o-transform", "rotate(" + 0 + "deg)");
+        }
+        //Esta es la funcion mas importante, ya que contiene toda la logica del juego -------------------------------------------------------------------------------------------------------------------------
         function pasarTurno() {
-                
-
+            //recogemos los randoms de cada corredor
             rand11 = random(puntos11);
             rand12 = random(puntos12);
             rand13 = random(puntos13);
@@ -367,15 +361,18 @@
 
             var deg = 1500 + Math.round(Math.random() * 1500);
             var r = 0;
-
+            //si la pagina esta cargada ...
             $(document).ready(function () {
+            // EQUIPO 1 ---------------------------
+            //si el corredor no ha llegado al final avanza "x" pixeles y los acumula en un contador
                 if ((cont11 + rand11) < 700) {
-                    $("#eq0co0").animate({ "left": "+=" + rand11 + "px" }, "slow");
-                    //        		        $("#Req0co0").animate({ width: "+=" + rand11 + "px" }, "slow");
+                    animar("eq0co0", rand11);
                     cont11 = cont11 + rand11;
                 }
+                //en caso contrario ( el corredor a llegado al final) ...
                 else {
                     if (bool11 == false) {
+                    //cada 70 milisegundo el angulo de la imagen disminuye en 1
                         interval1 = setInterval(function () {
                             var css = '-webkit-transform: rotate(' + deg + 'deg);';
                             $("#eq0co0").css("transform", "rotate(" + r + "deg)");
@@ -383,18 +380,17 @@
                             $("#eq0co0").css("-webkit-transform", "rotate(" + r + "deg)");
                             $("#eq0co0").css("-o-transform", "rotate(" + r + "deg)");
                             r--;
-                            if (r == -35)
+                            if (r <= -35)
+                            //cuando el angulo de la imagen llega a -35 se limpia el interval
                                 clearInterval(interval1);
                         }, 70);
-
-
-                        $("#eq0co0").animate({ "left": "+=" + (700 - cont11) + "px" }, "slow");
+                        //indica que el corredor en cuestion ha llegado al final
                         bool11 = true;
                     }
                 }
 
                 if ((cont12 + rand12) < 700) {
-                    $("#eq0co1").animate({ "left": "+=" + rand12 + "px" }, "slow");
+                    animar("eq0co1", rand12);
                     cont12 = cont12 + rand12;
                 }
                 else {
@@ -406,17 +402,14 @@
                             $("#eq0co1").css("-webkit-transform", "rotate(" + r + "deg)");
                             $("#eq0co1").css("-o-transform", "rotate(" + r + "deg)");
                             r--;
-                            if (r == -35)
+                            if (r <= -35)
                                 clearInterval(interval2);
                         }, 70);
-                       
-
-                        $("#eq0co1").animate({ "left": "+=" + (700 - cont12) + "px" }, "slow");
                         bool12 = true;
                     }
                 }
                 if ((cont13 + rand13) < 700) {
-                    $("#eq0co2").animate({ "left": "+=" + rand13 + "px" }, "slow");
+                    animar("eq0co2", rand13);
                     cont13 = cont13 + rand13;
                 }
                 else {
@@ -428,22 +421,15 @@
                             $("#eq0co2").css("-webkit-transform", "rotate(" + r + "deg)");
                             $("#eq0co2").css("-o-transform", "rotate(" + r + "deg)");
                             r--;
-                            if (r == -35)
+                            if (r <= -35)
                                 clearInterval(interval3);
                         }, 70);
-                        
-
-                        $("#eq0co2").animate({ "left": "+=" + (700 - cont13) + "px" }, "slow");
                         bool13 = true;
                     }
                 }
-
-
-                //--------------------------------------------------------------------------------------
-
-
+                // EQUIPO 2 ---------------------------
                 if ((cont21 + rand21) < 700) {
-                    $("#eq1co0").animate({ "left": "+=" + rand21 + "px" }, "slow");
+                    animar("eq1co0", rand21);
                     cont21 = cont21 + rand21;
                 }
                 else {
@@ -455,18 +441,14 @@
                             $("#eq1co0").css("-webkit-transform", "rotate(" + r + "deg)");
                             $("#eq1co0").css("-o-transform", "rotate(" + r + "deg)");
                             r--;
-                            if (r == -35)
+                            if (r <= -35)
                                 clearInterval(interval4);
                         }, 70);
-                        
-
-                        $("#eq1co0").animate({ "left": "+=" + (700 - cont21) + "px" }, "slow");
                         bool21 = true;
                     }
                 }
-
                 if ((cont22 + rand22) < 700) {
-                    $("#eq1co1").animate({ "left": "+=" + rand22 + "px" }, "slow");
+                    animar("eq1co1", rand22);
                     cont22 = cont22 + rand22;
                 }
                 else {
@@ -478,17 +460,14 @@
                             $("#eq1co1").css("-webkit-transform", "rotate(" + r + "deg)");
                             $("#eq1co1").css("-o-transform", "rotate(" + r + "deg)");
                             r--;
-                            if (r == -35)
+                            if (r <= -35)
                                 clearInterval(interval5);
                         }, 70);
-                        
-
-                        $("#eq1co1").animate({ "left": "+=" + (700 - cont22) + "px" }, "slow");
                         bool22 = true;
                     }
                 }
                 if ((cont23 + rand23) < 700) {
-                    $("#eq1co2").animate({ "left": "+=" + rand23 + "px" }, "slow");
+                    animar("eq1co2", rand23);
                     cont23 = cont23 + rand23;
                 }
                 else {
@@ -500,36 +479,34 @@
                             $("#eq1co2").css("-webkit-transform", "rotate(" + r + "deg)");
                             $("#eq1co2").css("-o-transform", "rotate(" + r + "deg)");
                             r--;
-                            if (r == -35)
+                            if (r <= -35)
                                 clearInterval(interval6);
                         }, 70);
-                      
-
-                        $("#eq1co2").animate({ "left": "+=" + (700 - cont23) + "px" }, "slow");
                         bool23 = true;
                     }
                 }
-
-
+                //Esta parte de la funcion se dedica a comprobar quien ha ganado la carrera, contemplo la posibilidad de empate
+                //EMPATE ----------------------------------
                 if (bool21 == true && bool22 == true && bool23 == true && bool11 == true && bool12 == true && bool13 == true) {
+                    // 5 segundos despues de finalizar la carrera le cambia las imagenes a los corredores ademas de ponerle el angulo de rotacion a 0
                     setTimeout(function () {
 
-                        
+                        initRotate("eq1co0");
                         document.getElementById("eq1co0").setAttribute("src", "winner.png");
 
-                        
+                        initRotate("eq1co1");
                         document.getElementById("eq1co1").setAttribute("src", "winner.png");
 
-                        
+                        initRotate("eq1co2");
                         document.getElementById("eq1co2").setAttribute("src", "winner.png");
 
-                        
+                        initRotate("eq0co0");
                         document.getElementById("eq0co0").setAttribute("src", "winner.png");
 
-                        
+                        initRotate("eq0co1");
                         document.getElementById("eq0co1").setAttribute("src", "winner.png");
 
-                        
+                        initRotate("eq0co2");
                         document.getElementById("eq0co2").setAttribute("src", "winner.png");
 
                         document.getElementById("estado").innerHTML = "Empate";
@@ -543,48 +520,26 @@
                     bool21 = bool22 = bool23 = false;
                     cont11 = cont12 = cont13 = cont21 = cont22 = cont23 = 0;
                 }
+                //GANA EQUIPO2 ----------------------------------
                 else if (bool21 == true && bool22 == true && bool23 == true) {
                     setTimeout(function () {
-                        var css = '-webkit-transform: rotate(' + deg + 'deg);';
-                        $("#eq1co0").css("transform", "rotate(" + 0 + "deg)");
-                        $("#eq1co0").css("-moz-transform", "rotate(" + 0 + "deg)");
-                        $("#eq1co0").css("-webkit-transform", "rotate(" + 0 + "deg)");
-                        $("#eq1co0").css("-o-transform", "rotate(" + 0 + "deg)");
+
+                        initRotate("eq1co0");
                         document.getElementById("eq1co0").setAttribute("src", "winner.png");
 
-                        var css = '-webkit-transform: rotate(' + deg + 'deg);';
-                        $("#eq1co1").css("transform", "rotate(" + 0 + "deg)");
-                        $("#eq1co1").css("-moz-transform", "rotate(" + 0 + "deg)");
-                        $("#eq1co1").css("-webkit-transform", "rotate(" + 0 + "deg)");
-                        $("#eq1co1").css("-o-transform", "rotate(" + 0 + "deg)");
+                        initRotate("eq1co1");
                         document.getElementById("eq1co1").setAttribute("src", "winner.png");
 
-                        var css = '-webkit-transform: rotate(' + deg + 'deg);';
-                        $("#eq1co2").css("transform", "rotate(" + 0 + "deg)");
-                        $("#eq1co2").css("-moz-transform", "rotate(" + 0 + "deg)");
-                        $("#eq1co2").css("-webkit-transform", "rotate(" + 0 + "deg)");
-                        $("#eq1co2").css("-o-transform", "rotate(" + 0 + "deg)");
+                        initRotate("eq1co2");
                         document.getElementById("eq1co2").setAttribute("src", "winner.png");
 
-                        var css = '-webkit-transform: rotate(' + deg + 'deg);';
-                        $("#eq0co0").css("transform", "rotate(" + 0 + "deg)");
-                        $("#eq0co0").css("-moz-transform", "rotate(" + 0 + "deg)");
-                        $("#eq0co0").css("-webkit-transform", "rotate(" + 0 + "deg)");
-                        $("#eq0co0").css("-o-transform", "rotate(" + 0 + "deg)");
+                        initRotate("eq0co0");
                         document.getElementById("eq0co0").setAttribute("src", "loser.png");
 
-                        var css = '-webkit-transform: rotate(' + deg + 'deg);';
-                        $("#eq0co1").css("transform", "rotate(" + 0 + "deg)");
-                        $("#eq0co1").css("-moz-transform", "rotate(" + 0 + "deg)");
-                        $("#eq0co1").css("-webkit-transform", "rotate(" + 0 + "deg)");
-                        $("#eq0co1").css("-o-transform", "rotate(" + 0 + "deg)");
+                        initRotate("eq0co1");
                         document.getElementById("eq0co1").setAttribute("src", "loser.png");
 
-                        var css = '-webkit-transform: rotate(' + deg + 'deg);';
-                        $("#eq0co2").css("transform", "rotate(" + 0 + "deg)");
-                        $("#eq0co2").css("-moz-transform", "rotate(" + 0 + "deg)");
-                        $("#eq0co2").css("-webkit-transform", "rotate(" + 0 + "deg)");
-                        $("#eq0co2").css("-o-transform", "rotate(" + 0 + "deg)");
+                        initRotate("eq0co2");
                         document.getElementById("eq0co2").setAttribute("src", "loser.png");
 
                         document.getElementById("estado").innerHTML = "Equipo 2 ha ganado";
@@ -598,49 +553,26 @@
                     bool21 = bool22 = bool23 = false;
                     cont11 = cont12 = cont13 = cont21 = cont22 = cont23 = 0;
                 }
+                //GANA EQUIPO1 ----------------------------------
                 else if (bool11 == true && bool12 == true && bool13 == true) {
                     setTimeout(function () {
 
-                        var css = '-webkit-transform: rotate(' + deg + 'deg);';
-                        $("#eq0co0").css("transform", "rotate(" + 0 + "deg)");
-                        $("#eq0co0").css("-moz-transform", "rotate(" + 0 + "deg)");
-                        $("#eq0co0").css("-webkit-transform", "rotate(" + 0 + "deg)");
-                        $("#eq0co0").css("-o-transform", "rotate(" + 0 + "deg)");
+                        initRotate("eq0co0");
                         document.getElementById("eq0co0").setAttribute("src", "winner.png");
 
-                        var css = '-webkit-transform: rotate(' + deg + 'deg);';
-                        $("#eq0co1").css("transform", "rotate(" + 0 + "deg)");
-                        $("#eq0co1").css("-moz-transform", "rotate(" + 0 + "deg)");
-                        $("#eq0co1").css("-webkit-transform", "rotate(" + 0 + "deg)");
-                        $("#eq0co1").css("-o-transform", "rotate(" + 0 + "deg)");
+                        initRotate("eq0co1");
                         document.getElementById("eq0co1").setAttribute("src", "winner.png");
 
-                        var css = '-webkit-transform: rotate(' + deg + 'deg);';
-                        $("#eq0co2").css("transform", "rotate(" + 0 + "deg)");
-                        $("#eq0co2").css("-moz-transform", "rotate(" + 0 + "deg)");
-                        $("#eq0co2").css("-webkit-transform", "rotate(" + 0 + "deg)");
-                        $("#eq0co2").css("-o-transform", "rotate(" + 0 + "deg)");
+                        initRotate("eq0co2");
                         document.getElementById("eq0co2").setAttribute("src", "winner.png");
 
-                        var css = '-webkit-transform: rotate(' + deg + 'deg);';
-                        $("#eq1co0").css("transform", "rotate(" + 0 + "deg)");
-                        $("#eq1co0").css("-moz-transform", "rotate(" + 0 + "deg)");
-                        $("#eq1co0").css("-webkit-transform", "rotate(" + 0 + "deg)");
-                        $("#eq1co0").css("-o-transform", "rotate(" + 0 + "deg)");
+                        initRotate("eq1co0");
                         document.getElementById("eq1co0").setAttribute("src", "loser.png");
 
-                        var css = '-webkit-transform: rotate(' + deg + 'deg);';
-                        $("#eq1co1").css("transform", "rotate(" + 0 + "deg)");
-                        $("#eq1co1").css("-moz-transform", "rotate(" + 0 + "deg)");
-                        $("#eq1co1").css("-webkit-transform", "rotate(" + 0 + "deg)");
-                        $("#eq1co1").css("-o-transform", "rotate(" + 0 + "deg)");
+                        initRotate("eq1co1");
                         document.getElementById("eq1co1").setAttribute("src", "loser.png");
 
-                        var css = '-webkit-transform: rotate(' + deg + 'deg);';
-                        $("#eq1co2").css("transform", "rotate(" + 0 + "deg)");
-                        $("#eq1co2").css("-moz-transform", "rotate(" + 0 + "deg)");
-                        $("#eq1co2").css("-webkit-transform", "rotate(" + 0 + "deg)");
-                        $("#eq1co2").css("-o-transform", "rotate(" + 0 + "deg)");
+                        initRotate("eq1co2");
                         document.getElementById("eq1co2").setAttribute("src", "loser.png");
 
                         document.getElementById("estado").innerHTML = "Equipo 1 ha ganado";
