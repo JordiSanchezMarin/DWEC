@@ -277,11 +277,13 @@
                     tdco = document.createElement("td");
                     tdco.setAttribute("class", "tdco");
                     tbodyEquipo.setAttribute("style", "background-image:url('background1.jpg')");
+                    
                     imagen = document.createElement("img");
                     imagen.setAttribute("width", "68px");
                     imagen.setAttribute("height", "68px");
                     imagen.setAttribute("style", "position:relative");
                     imagen.setAttribute("id", "eq" + i + "co" + j);
+                    
                     tdco.appendChild(rastro);
                     tdco.appendChild(imagen);
                     tbodyEquipo.appendChild(trowco);
@@ -353,6 +355,8 @@
         }
 
         function pasarTurno() {
+                
+
             rand11 = random(puntos11);
             rand12 = random(puntos12);
             rand13 = random(puntos13);
@@ -360,6 +364,9 @@
             rand21 = random(puntos21);
             rand22 = random(puntos22);
             rand23 = random(puntos23);
+
+            var deg = 1500 + Math.round(Math.random() * 1500);
+            var r = 0;
 
             $(document).ready(function () {
                 if ((cont11 + rand11) < 700) {
@@ -369,6 +376,18 @@
                 }
                 else {
                     if (bool11 == false) {
+                        interval1 = setInterval(function () {
+                            var css = '-webkit-transform: rotate(' + deg + 'deg);';
+                            $("#eq0co0").css("transform", "rotate(" + r + "deg)");
+                            $("#eq0co0").css("-moz-transform", "rotate(" + r + "deg)");
+                            $("#eq0co0").css("-webkit-transform", "rotate(" + r + "deg)");
+                            $("#eq0co0").css("-o-transform", "rotate(" + r + "deg)");
+                            r--;
+                            if (r == -35)
+                                clearInterval(interval1);
+                        }, 70);
+
+
                         $("#eq0co0").animate({ "left": "+=" + (700 - cont11) + "px" }, "slow");
                         bool11 = true;
                     }
@@ -380,6 +399,18 @@
                 }
                 else {
                     if (bool12 == false) {
+                        interval2 = setInterval(function () {
+                            var css = '-webkit-transform: rotate(' + deg + 'deg);';
+                            $("#eq0co1").css("transform", "rotate(" + r + "deg)");
+                            $("#eq0co1").css("-moz-transform", "rotate(" + r + "deg)");
+                            $("#eq0co1").css("-webkit-transform", "rotate(" + r + "deg)");
+                            $("#eq0co1").css("-o-transform", "rotate(" + r + "deg)");
+                            r--;
+                            if (r == -35)
+                                clearInterval(interval2);
+                        }, 70);
+                       
+
                         $("#eq0co1").animate({ "left": "+=" + (700 - cont12) + "px" }, "slow");
                         bool12 = true;
                     }
@@ -390,6 +421,18 @@
                 }
                 else {
                     if (bool13 == false) {
+                        interval3 = setInterval(function () {
+                            var css = '-webkit-transform: rotate(' + deg + 'deg);';
+                            $("#eq0co2").css("transform", "rotate(" + r + "deg)");
+                            $("#eq0co2").css("-moz-transform", "rotate(" + r + "deg)");
+                            $("#eq0co2").css("-webkit-transform", "rotate(" + r + "deg)");
+                            $("#eq0co2").css("-o-transform", "rotate(" + r + "deg)");
+                            r--;
+                            if (r == -35)
+                                clearInterval(interval3);
+                        }, 70);
+                        
+
                         $("#eq0co2").animate({ "left": "+=" + (700 - cont13) + "px" }, "slow");
                         bool13 = true;
                     }
@@ -405,6 +448,18 @@
                 }
                 else {
                     if (bool21 == false) {
+                        interval4 = setInterval(function () {
+                            var css = '-webkit-transform: rotate(' + deg + 'deg);';
+                            $("#eq1co0").css("transform", "rotate(" + r + "deg)");
+                            $("#eq1co0").css("-moz-transform", "rotate(" + r + "deg)");
+                            $("#eq1co0").css("-webkit-transform", "rotate(" + r + "deg)");
+                            $("#eq1co0").css("-o-transform", "rotate(" + r + "deg)");
+                            r--;
+                            if (r == -35)
+                                clearInterval(interval4);
+                        }, 70);
+                        
+
                         $("#eq1co0").animate({ "left": "+=" + (700 - cont21) + "px" }, "slow");
                         bool21 = true;
                     }
@@ -416,6 +471,18 @@
                 }
                 else {
                     if (bool22 == false) {
+                        interval5 = setInterval(function () {
+                            var css = '-webkit-transform: rotate(' + deg + 'deg);';
+                            $("#eq1co1").css("transform", "rotate(" + r + "deg)");
+                            $("#eq1co1").css("-moz-transform", "rotate(" + r + "deg)");
+                            $("#eq1co1").css("-webkit-transform", "rotate(" + r + "deg)");
+                            $("#eq1co1").css("-o-transform", "rotate(" + r + "deg)");
+                            r--;
+                            if (r == -35)
+                                clearInterval(interval5);
+                        }, 70);
+                        
+
                         $("#eq1co1").animate({ "left": "+=" + (700 - cont22) + "px" }, "slow");
                         bool22 = true;
                     }
@@ -426,7 +493,19 @@
                 }
                 else {
                     if (bool23 == false) {
-                        $("#eq1co3").animate({ "left": "+=" + (700 - cont23) + "px" }, "slow");
+                        interval6 = setInterval(function () {
+                            var css = '-webkit-transform: rotate(' + deg + 'deg);';
+                            $("#eq1co2").css("transform", "rotate(" + r + "deg)");
+                            $("#eq1co2").css("-moz-transform", "rotate(" + r + "deg)");
+                            $("#eq1co2").css("-webkit-transform", "rotate(" + r + "deg)");
+                            $("#eq1co2").css("-o-transform", "rotate(" + r + "deg)");
+                            r--;
+                            if (r == -35)
+                                clearInterval(interval6);
+                        }, 70);
+                      
+
+                        $("#eq1co2").animate({ "left": "+=" + (700 - cont23) + "px" }, "slow");
                         bool23 = true;
                     }
                 }
@@ -434,12 +513,25 @@
 
                 if (bool21 == true && bool22 == true && bool23 == true && bool11 == true && bool12 == true && bool13 == true) {
                     setTimeout(function () {
+
+                        
                         document.getElementById("eq1co0").setAttribute("src", "winner.png");
+
+                        
                         document.getElementById("eq1co1").setAttribute("src", "winner.png");
+
+                        
                         document.getElementById("eq1co2").setAttribute("src", "winner.png");
+
+                        
                         document.getElementById("eq0co0").setAttribute("src", "winner.png");
+
+                        
                         document.getElementById("eq0co1").setAttribute("src", "winner.png");
+
+                        
                         document.getElementById("eq0co2").setAttribute("src", "winner.png");
+
                         document.getElementById("estado").innerHTML = "Empate";
                         document.getElementById("buton").disabled = true;
                         document.getElementById("butonAgregar").disabled = false;
@@ -453,12 +545,48 @@
                 }
                 else if (bool21 == true && bool22 == true && bool23 == true) {
                     setTimeout(function () {
+                        var css = '-webkit-transform: rotate(' + deg + 'deg);';
+                        $("#eq1co0").css("transform", "rotate(" + 0 + "deg)");
+                        $("#eq1co0").css("-moz-transform", "rotate(" + 0 + "deg)");
+                        $("#eq1co0").css("-webkit-transform", "rotate(" + 0 + "deg)");
+                        $("#eq1co0").css("-o-transform", "rotate(" + 0 + "deg)");
                         document.getElementById("eq1co0").setAttribute("src", "winner.png");
+
+                        var css = '-webkit-transform: rotate(' + deg + 'deg);';
+                        $("#eq1co1").css("transform", "rotate(" + 0 + "deg)");
+                        $("#eq1co1").css("-moz-transform", "rotate(" + 0 + "deg)");
+                        $("#eq1co1").css("-webkit-transform", "rotate(" + 0 + "deg)");
+                        $("#eq1co1").css("-o-transform", "rotate(" + 0 + "deg)");
                         document.getElementById("eq1co1").setAttribute("src", "winner.png");
+
+                        var css = '-webkit-transform: rotate(' + deg + 'deg);';
+                        $("#eq1co2").css("transform", "rotate(" + 0 + "deg)");
+                        $("#eq1co2").css("-moz-transform", "rotate(" + 0 + "deg)");
+                        $("#eq1co2").css("-webkit-transform", "rotate(" + 0 + "deg)");
+                        $("#eq1co2").css("-o-transform", "rotate(" + 0 + "deg)");
                         document.getElementById("eq1co2").setAttribute("src", "winner.png");
+
+                        var css = '-webkit-transform: rotate(' + deg + 'deg);';
+                        $("#eq0co0").css("transform", "rotate(" + 0 + "deg)");
+                        $("#eq0co0").css("-moz-transform", "rotate(" + 0 + "deg)");
+                        $("#eq0co0").css("-webkit-transform", "rotate(" + 0 + "deg)");
+                        $("#eq0co0").css("-o-transform", "rotate(" + 0 + "deg)");
                         document.getElementById("eq0co0").setAttribute("src", "loser.png");
+
+                        var css = '-webkit-transform: rotate(' + deg + 'deg);';
+                        $("#eq0co1").css("transform", "rotate(" + 0 + "deg)");
+                        $("#eq0co1").css("-moz-transform", "rotate(" + 0 + "deg)");
+                        $("#eq0co1").css("-webkit-transform", "rotate(" + 0 + "deg)");
+                        $("#eq0co1").css("-o-transform", "rotate(" + 0 + "deg)");
                         document.getElementById("eq0co1").setAttribute("src", "loser.png");
+
+                        var css = '-webkit-transform: rotate(' + deg + 'deg);';
+                        $("#eq0co2").css("transform", "rotate(" + 0 + "deg)");
+                        $("#eq0co2").css("-moz-transform", "rotate(" + 0 + "deg)");
+                        $("#eq0co2").css("-webkit-transform", "rotate(" + 0 + "deg)");
+                        $("#eq0co2").css("-o-transform", "rotate(" + 0 + "deg)");
                         document.getElementById("eq0co2").setAttribute("src", "loser.png");
+
                         document.getElementById("estado").innerHTML = "Equipo 2 ha ganado";
                         document.getElementById("buton").disabled = true;
                         document.getElementById("butonAgregar").disabled = false;
@@ -473,12 +601,48 @@
                 else if (bool11 == true && bool12 == true && bool13 == true) {
                     setTimeout(function () {
 
+                        var css = '-webkit-transform: rotate(' + deg + 'deg);';
+                        $("#eq0co0").css("transform", "rotate(" + 0 + "deg)");
+                        $("#eq0co0").css("-moz-transform", "rotate(" + 0 + "deg)");
+                        $("#eq0co0").css("-webkit-transform", "rotate(" + 0 + "deg)");
+                        $("#eq0co0").css("-o-transform", "rotate(" + 0 + "deg)");
                         document.getElementById("eq0co0").setAttribute("src", "winner.png");
+
+                        var css = '-webkit-transform: rotate(' + deg + 'deg);';
+                        $("#eq0co1").css("transform", "rotate(" + 0 + "deg)");
+                        $("#eq0co1").css("-moz-transform", "rotate(" + 0 + "deg)");
+                        $("#eq0co1").css("-webkit-transform", "rotate(" + 0 + "deg)");
+                        $("#eq0co1").css("-o-transform", "rotate(" + 0 + "deg)");
                         document.getElementById("eq0co1").setAttribute("src", "winner.png");
+
+                        var css = '-webkit-transform: rotate(' + deg + 'deg);';
+                        $("#eq0co2").css("transform", "rotate(" + 0 + "deg)");
+                        $("#eq0co2").css("-moz-transform", "rotate(" + 0 + "deg)");
+                        $("#eq0co2").css("-webkit-transform", "rotate(" + 0 + "deg)");
+                        $("#eq0co2").css("-o-transform", "rotate(" + 0 + "deg)");
                         document.getElementById("eq0co2").setAttribute("src", "winner.png");
+
+                        var css = '-webkit-transform: rotate(' + deg + 'deg);';
+                        $("#eq1co0").css("transform", "rotate(" + 0 + "deg)");
+                        $("#eq1co0").css("-moz-transform", "rotate(" + 0 + "deg)");
+                        $("#eq1co0").css("-webkit-transform", "rotate(" + 0 + "deg)");
+                        $("#eq1co0").css("-o-transform", "rotate(" + 0 + "deg)");
                         document.getElementById("eq1co0").setAttribute("src", "loser.png");
+
+                        var css = '-webkit-transform: rotate(' + deg + 'deg);';
+                        $("#eq1co1").css("transform", "rotate(" + 0 + "deg)");
+                        $("#eq1co1").css("-moz-transform", "rotate(" + 0 + "deg)");
+                        $("#eq1co1").css("-webkit-transform", "rotate(" + 0 + "deg)");
+                        $("#eq1co1").css("-o-transform", "rotate(" + 0 + "deg)");
                         document.getElementById("eq1co1").setAttribute("src", "loser.png");
+
+                        var css = '-webkit-transform: rotate(' + deg + 'deg);';
+                        $("#eq1co2").css("transform", "rotate(" + 0 + "deg)");
+                        $("#eq1co2").css("-moz-transform", "rotate(" + 0 + "deg)");
+                        $("#eq1co2").css("-webkit-transform", "rotate(" + 0 + "deg)");
+                        $("#eq1co2").css("-o-transform", "rotate(" + 0 + "deg)");
                         document.getElementById("eq1co2").setAttribute("src", "loser.png");
+
                         document.getElementById("estado").innerHTML = "Equipo 1 ha ganado";
                         document.getElementById("buton").disabled = true;
                         document.getElementById("butonAgregar").disabled = false;
