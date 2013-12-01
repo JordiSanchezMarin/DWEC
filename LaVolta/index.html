@@ -315,7 +315,12 @@
                     imagen.setAttribute("height", "68px");
                     imagen.setAttribute("style", "position:relative");
                     imagen.setAttribute("id", "eq" + i + "co" + j);
+                    rastro = document.createElement("label");
+                    rastro.setAttribute("style", "position:relative");
+                    rastro.setAttribute("id", "req" + i + "co" + j);
+                    rastro.setAttribute("text", "0");
                     c.appendChild(imagen);
+                    c.appendChild(rastro);
                 }
                 
             }
@@ -650,6 +655,7 @@
 				        </div>
 				        <div class="col-md-4 column">
                             <input class="classname" value="50" type="number" id="txt13"> </input>
+                            
 				        </div>
 			        </div>
 		        </div>
@@ -658,7 +664,7 @@
                         <button type="button" class="classname" onclick="agregarPuntos()" id="butonAgregar">Empezar</button>
                         <button type="button" class="classname" onclick="pasarTurno()" id="buton">Mover</button>
                         <button id="btnPass" class="classname" type="button" onclick="pasarCarrera()">
-                        Ver Carrera</button>
+                        Ver toda</button>
                                             <div class="row clearfix">
 		                <div class="col-md-12 column">
 			                <a id="modal-420951" href="#modal-container-420951" role="button" class="btn" data-toggle="modal"><button id="Button1" class="classname" type="button"> Ayuda</button></a>
@@ -739,7 +745,6 @@
                         <div class="col-md-12 column c" id="c21">
 		                </div>
                         <div class="col-md-12 column c" id="c22">
-		                </div>
 		            </div>
 		        </div>
             </div>
