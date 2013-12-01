@@ -463,7 +463,7 @@
         }
         //Esta funcion sirve para calcular el porcentaje de carrera de un corredor
         function calcularProcentaje(cn) {
-            por = Math.round((cn * 100) / 650);
+            por = Math.round((cn * 100) / 640);
             if(por < 10)
                 return "00" + por + "%";
             if(por < 100)
@@ -488,7 +488,7 @@
             $(document).ready(function () {
                 // EQUIPO 1 ---------------------------
                 //si el corredor no ha llegado al final avanza "x" pixeles y los acumula en un contador
-                if ((cont11 + rand11) < 673) {
+                if ((cont11 + rand11) < 645) {
                     animar("eq0co0", rand11);
                     cont11 = cont11 + rand11;
                     setTimeout(animar("lbl0", rand11), 700);
@@ -515,7 +515,7 @@
                     }
                 }
 
-                if ((cont12 + rand12) < 673) {
+                if ((cont12 + rand12) < 645) {
                     animar("eq0co1", rand12);
                     cont12 = cont12 + rand12;
                     setTimeout(animar("lbl1", rand12), 700);
@@ -536,7 +536,7 @@
                         bool12 = true;
                     }
                 }
-                if ((cont13 + rand13) < 673) {
+                if ((cont13 + rand13) < 645) {
                     animar("eq0co2", rand13);
                     cont13 = cont13 + rand13;
                     setTimeout(animar("lbl2", rand13), 700);
@@ -558,7 +558,7 @@
                     }
                 }
                 // EQUIPO 2 ---------------------------
-                if ((cont21 + rand21) < 673) {
+                if ((cont21 + rand21) < 645) {
                     animar("eq1co0", rand21);
                     cont21 = cont21 + rand21;
                     setTimeout(animar("lbl3", rand21), 700);
@@ -579,7 +579,7 @@
                         bool21 = true;
                     }
                 }
-                if ((cont22 + rand22) < 673) {
+                if ((cont22 + rand22) < 645) {
                     animar("eq1co1", rand22);
                     cont22 = cont22 + rand22;
                     setTimeout(animar("lbl4", rand22), 700);
@@ -600,7 +600,7 @@
                         bool22 = true;
                     }
                 }
-                if ((cont23 + rand23) < 673) {
+                if ((cont23 + rand23) < 645) {
                     animar("eq1co2", rand23);
                     cont23 = cont23 + rand23;
                     setTimeout(animar("lbl5", rand23), 700);
