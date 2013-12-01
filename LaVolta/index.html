@@ -2,6 +2,7 @@
 "http://www.w3.org/TR/html4/loose.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=10" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>La volta</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -25,10 +26,10 @@
         
     </script>
     <style type="text/css">
-        .tdco
+        .c
         {
-            border: 4px solid black;
-            border-collapse: separate;
+            border:2px solid black;
+            margin:3px;
         }
         .classname
         {
@@ -56,11 +57,12 @@
             font-size: 15px;
             font-weight: bold;
             font-style: normal;
-            height: 60px;
-            line-height: 65px;
-            width: 120px;
+            height: 40px;
+            line-height: 40px;
+            width: 100px;
             text-decoration: none;
             text-align: center;
+            margin-bottom:10px;
         }
         .classname:hover
         {
@@ -250,47 +252,86 @@
                 
         }
         //Esta funcion se ejecuta cuando se carga el body, se encarga de crear la tabla ademas de insertar las imaganes ---------------------------------------------------------------------------
+//        function prepararMapa() {
+//            document.getElementById("btnPass").disabled = true;
+//            document.getElementById("buton").disabled = true;
+//            tablaCarrera = document.createElement("div");
+//            tablaCarrera.setAttribute("width", "800px");
+//            tablaCarrera.setAttribute("style", "margin-left:13%");
+//            tbody = document.createElement("tbody");
+//            tablaCarrera.appendChild(tbody);
+//            for (var i = 0; i < 2; i++) {
+//                troweq = document.createElement("tr");
+//                troweq.setAttribute("style", "visible:false");
+//                tdeq = document.createElement("td");
+//                tablaEquipo = document.createElement("table");
+//                tablaEquipo.setAttribute("style", "border:3px");
+//                tablaEquipo.setAttribute("style", "border-color:Black");
+//                tablaEquipo.setAttribute("width", "790px");
+//                tablaEquipo.setAttribute("cellpspacing", "0px");
+//                tablaEquipo.setAttribute("style", "border-collapse:separate;border-spacing:0 5px;");
+//                tbodyEquipo = document.createElement("tbody");
+//                tbody.appendChild(troweq);
+//                troweq.appendChild(tdeq);
+//                tdeq.appendChild(tablaEquipo);
+//                tablaEquipo.appendChild(tbodyEquipo);
+//                for (var j = 0; j < 3; j++) {
+//                    trowco = document.createElement("tr");
+//                    tdco = document.createElement("td");
+//                    tdco.setAttribute("class", "tdco");
+//                    tbodyEquipo.setAttribute("style", "background-image:url('background1.jpg')");
+//                    imagen = document.createElement("img");
+//                    imagen.setAttribute("width", "68px");
+//                    imagen.setAttribute("height", "68px");
+//                    imagen.setAttribute("style", "position:relative");
+//                    imagen.setAttribute("id", "eq" + i + "co" + j);
+//                    tdco.appendChild(imagen);
+//                    tbodyEquipo.appendChild(trowco);
+//                    trowco.appendChild(tdco);
+//                }
+
+//            }
+//            document.getElementById("tabledoc").appendChild(tablaCarrera);
+//            $('tr').css("margin", "5px");
+//            insertarBicis(0);
+        //        }
         function prepararMapa() {
             document.getElementById("btnPass").disabled = true;
             document.getElementById("buton").disabled = true;
-            tablaCarrera = document.createElement("table");
-            tablaCarrera.setAttribute("width", "800px");
-            tablaCarrera.setAttribute("style", "margin-left:13%");
-            tbody = document.createElement("tbody");
-            tablaCarrera.appendChild(tbody);
-            for (var i = 0; i < 2; i++) {
-                troweq = document.createElement("tr");
-                troweq.setAttribute("style", "visible:false");
-                tdeq = document.createElement("td");
-                tablaEquipo = document.createElement("table");
-                tablaEquipo.setAttribute("style", "border:3px");
-                tablaEquipo.setAttribute("style", "border-color:Black");
-                tablaEquipo.setAttribute("width", "790px");
-                tablaEquipo.setAttribute("cellpspacing", "0px");
-                tablaEquipo.setAttribute("style", "border-collapse:separate;border-spacing:0 5px;");
-                tbodyEquipo = document.createElement("tbody");
-                tbody.appendChild(troweq);
-                troweq.appendChild(tdeq);
-                tdeq.appendChild(tablaEquipo);
-                tablaEquipo.appendChild(tbodyEquipo);
-                for (var j = 0; j < 3; j++) {
-                    trowco = document.createElement("tr");
-                    tdco = document.createElement("td");
-                    tdco.setAttribute("class", "tdco");
-                    tbodyEquipo.setAttribute("style", "background-image:url('background1.jpg')");
+            divgeneral = document.getElementById("divgeneral");
+            divequipo1 = document.getElementById("divequipo1");
+
+            for (i = 0; i <= 1; i++) {
+                for (j = 0; j <= 2; j++) {
+                    if (i == 0) {
+                        c = document.getElementById("c" + j);
+                    }
+                    else {
+                        c = document.getElementById("c2" + j);
+                    }
+                    c.setAttribute("style", "background-image:url('background1.jpg')");
                     imagen = document.createElement("img");
                     imagen.setAttribute("width", "68px");
                     imagen.setAttribute("height", "68px");
                     imagen.setAttribute("style", "position:relative");
                     imagen.setAttribute("id", "eq" + i + "co" + j);
-                    tdco.appendChild(imagen);
-                    tbodyEquipo.appendChild(trowco);
-                    trowco.appendChild(tdco);
+                    c.appendChild(imagen);
                 }
-
+                
             }
-            document.getElementById("tabledoc").appendChild(tablaCarrera);
-            $('tr').css("margin", "5px");
+//            c1 = document.getElementById("c1");
+//            c2 = document.getElementById("c2");
+//            c3 = document.getElementById("c3");
+//            c4 = document.getElementById("c21");
+//            c5 = document.getElementById("c22");
+//            c6 = document.getElementById("c23");
+//            c1.setAttribute("style", "background-image:url('background1.jpg')");
+//            imagen = document.createElement("img");
+//            imagen.setAttribute("width", "68px");
+//            imagen.setAttribute("height", "68px");
+//            imagen.setAttribute("style", "position:relative");
+//            imagen.setAttribute("id", "eq" + 0 + "co" + 0);
+//            c1.appendChild(imagen);
             insertarBicis(0);
         }
         //Esta funcion se dedica a comprobar que se han introducido correctamente los metros por turno de cada corredor, ademas de recogerlos para poderlos utilizar en la carrera------------------------------
@@ -596,8 +637,8 @@
    background-size: cover;">
             <div class="container">
 	        <div class="row clearfix" style="margin-top:2%">
-		        <div class="col-md-6 column" style="border:1px solid;padding:1%;margin-bottom:1%;text-align:center;border-radius:100px;-moz-border-radius:100px;-webkit-border-radius:100px;" >
-			        <h3 class="text-center">
+		        <div class="col-md-4 column" style="background-image:url(equipobackground.jpg);background-size:100%" >
+			        <h3 class="text-center" style="color:White">
 				        Equipo 1
 			        </h3>
 			        <div class="row clearfix">
@@ -612,48 +653,13 @@
 				        </div>
 			        </div>
 		        </div>
-		        <div class="col-md-6 column" style="border:1px solid;padding:1%;margin-bottom:1%;text-align:center;border-radius:100px;-moz-border-radius:100px;-webkit-border-radius:100px;">
-			        <h3 class="text-center" >
-				        Equipo 2
-			        </h3>
-			        <div class="row clearfix">
-				        <div class="col-md-4 column">
-                            <input class="classname" value="50" type="number" id="txt21"> </input>
-				        </div>
-				        <div class="col-md-4 column">
-                            <input class="classname" value="50" type="number" id="txt22"> </input>
-				        </div>
-				        <div class="col-md-4 column">
-                            <input class="classname" value="50" type="number" id="txt23"> </input>
-				        </div>
-			        </div>
-		        </div>
-	        </div>
-	        <div class="row clearfix">
-		        <div class="col-md-2 column">
-                <button type="button" class="classname" onclick="agregarPuntos()" id="butonAgregar">
-                Empezar</button>
-		        </div>
-		        <div class="col-md-2 column">
-                <button type="button" class="classname" onclick="pasarTurno()" id="buton">
-                Mover
-                </button>
-		        </div>
-		        <div class="col-md-2 column">
-                  <button type="button" class="classname" id="btnSave">
-                Save Game</button>
-		        </div>
-		        <div class="col-md-2 column">
-                 <button type="button" class="classname" id="btnLoad">
-                Load Game</button>
-                <input style="margin-top:3%" type="number" class="classname" id="key" value="0">
-		        </div>
-		        <div class="col-md-2 column">
-                    <button id="btnPass" class="classname" type="button" onclick="pasarCarrera()">
-                Ver Carrera</button>
-		        </div>
-		        <div class="col-md-2 column">
-                    <div class="row clearfix">
+                <div class="col-md-4 column" >
+                    <div class="col-md-6 column" style="text-align:center">
+                        <button type="button" class="classname" onclick="agregarPuntos()" id="butonAgregar">Empezar</button>
+                        <button type="button" class="classname" onclick="pasarTurno()" id="buton">Mover</button>
+                        <button id="btnPass" class="classname" type="button" onclick="pasarCarrera()">
+                        Ver Carrera</button>
+                                            <div class="row clearfix">
 		                <div class="col-md-12 column">
 			                <a id="modal-420951" href="#modal-container-420951" role="button" class="btn" data-toggle="modal"><button id="Button1" class="classname" type="button"> Ayuda</button></a>
 			                    <div class="modal fade" id="modal-container-420951" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -683,16 +689,60 @@
 			                    </div>
 		                </div>
 	                </div>
+                    </div>
+                    <div class="col-md-6 column" >
+                        <button type="button" class="classname" id="btnSave">Save Game</button>
+                        <button type="button" class="classname" id="btnLoad">Load Game</button>
+                        <input style="margin-top:3%" type="number" class="classname" id="key" value="0">
+                    </div>
+                </div>
+		        <div class="col-md-4 column" style="background-image:url(equipobackground.jpg);background-size:100%">
+			        <h3 class="text-center" style="color:White" >
+				        Equipo 2
+			        </h3>
+			        <div class="row clearfix">
+				        <div class="col-md-4 column">
+                            <input class="classname" value="50" type="number" id="txt21"> </input>
+				        </div>
+				        <div class="col-md-4 column">
+                            <input class="classname" value="50" type="number" id="txt22"> </input>
+				        </div>
+				        <div class="col-md-4 column">
+                            <input class="classname" value="50" type="number" id="txt23"> </input>
+				        </div>
+			        </div>
+		        </div>
+	        </div>
+	        <div class="row clearfix">
+		        
+		        <div class="col-md-12 column">
+
 		        </div>
 	        </div>
 	        <div class="row clearfix" style="text-align:center;font-size:20px;color:Black;font-family:Verdana;font-weight:bolder;margin-top:5px">
                 <p id="estado">
                 </p>
             </div>
-            <div class="col-md-12 column" id="Div1" >
-		        <div class="col-md-12 column" id="tabledoc" >
+            <div class="col-md-12 column" >
+                <div class="col-md-12 column" id="divgeneral" style="width:860px;margin-left:10%" >
+                    <div class="col-md-12 column" id="divequipo1" style="margin-bottom:10px">
+                        <div class="col-md-12 column c" id="c0" >
+		                </div>
+                        <div class="col-md-12 column c"id="c1" >
+		                </div>
+                        <div class="col-md-12 column c"id="c2">
+		                </div>
+		            </div>
+                    <div class="col-md-12 column" id="divequipo2" >
+                        <div class="col-md-12 column c" id="c20" >
+		                </div>
+                        <div class="col-md-12 column c" id="c21">
+		                </div>
+                        <div class="col-md-12 column c" id="c22">
+		                </div>
+		            </div>
 		        </div>
-	        </div>
+            </div>
         </div>
     <!--<div style="text-align: center; font-family: Verdana; font-weight: bold">
         <h1>
