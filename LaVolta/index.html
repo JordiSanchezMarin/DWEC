@@ -31,6 +31,73 @@
             border:2px solid black;
             margin:3px;
         }
+        .lblestadoperdedor {
+	        background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #f05348), color-stop(1, #e6594c) );
+	        background:-moz-linear-gradient( center top, #f05348 5%, #e6594c 100% );
+	        filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f05348', endColorstr='#e6594c');
+	        background-color:#f05348;
+	        -webkit-border-top-left-radius:0px;
+	        -moz-border-radius-topleft:0px;
+	        border-top-left-radius:0px;
+	        -webkit-border-top-right-radius:0px;
+	        -moz-border-radius-topright:0px;
+	        border-top-right-radius:0px;
+	        -webkit-border-bottom-right-radius:0px;
+	        -moz-border-radius-bottomright:0px;
+	        border-bottom-right-radius:0px;
+	        -webkit-border-bottom-left-radius:0px;
+	        -moz-border-radius-bottomleft:0px;
+	        border-bottom-left-radius:0px;
+	        text-indent:0;
+	        border:1px solid #d02718;
+	        display:inline-block;
+	        color:#362e36;
+	        font-family:Verdana;
+	        font-size:15px;
+	        font-weight:bold;
+	        font-style:normal;
+	        height:50px;
+	        line-height:50px;
+	        width:100px;
+	        text-decoration:none;
+	        text-align:center;
+	        text-shadow:1px 0px 50px #810e05;
+        }
+        .lblestadoganador {
+	        -moz-box-shadow:inset 0px 1px 0px 0px #caefab;
+	        -webkit-box-shadow:inset 0px 1px 0px 0px #caefab;
+	        box-shadow:inset 0px 1px 0px 0px #caefab;
+	        background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #77d42a), color-stop(1, #5cb811) );
+	        background:-moz-linear-gradient( center top, #77d42a 5%, #5cb811 100% );
+	        filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#77d42a', endColorstr='#5cb811');
+	        background-color:#77d42a;
+	        -webkit-border-top-left-radius:0px;
+	        -moz-border-radius-topleft:0px;
+	        border-top-left-radius:0px;
+	        -webkit-border-top-right-radius:0px;
+	        -moz-border-radius-topright:0px;
+	        border-top-right-radius:0px;
+	        -webkit-border-bottom-right-radius:0px;
+	        -moz-border-radius-bottomright:0px;
+	        border-bottom-right-radius:0px;
+	        -webkit-border-bottom-left-radius:0px;
+	        -moz-border-radius-bottomleft:0px;
+	        border-bottom-left-radius:0px;
+	        text-indent:0;
+	        border:1px solid #268a16;
+	        display:inline-block;
+	        color:#306108;
+	        font-family:Verdana;
+	        font-size:15px;
+	        font-weight:bold;
+	        font-style:normal;
+	        height:50px;
+	        line-height:50px;
+	        width:100px;
+	        text-decoration:none;
+	        text-align:center;
+	        text-shadow:1px 1px 0px #aade7c;
+        }
         label
         {
             -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
@@ -264,12 +331,13 @@
                     document.getElementById("butonAgregar").disabled = true;
                     document.getElementById("buton").disabled = false;
                     document.getElementById("btnPass").disabled = false;
-                    document.getElementById("estado").innerHTML = "";
                 } else {
                     console.log("No match");
                 }
                 //añade las imagenes a la tabla
                 insertarBicis(1);
+                $("#estado1").attr("style", "visibility:hidden");
+                $("#estado2").attr("style", "visibility:hidden");
             }
         }
 
@@ -329,9 +397,10 @@
         //Esta funcion se dedica a comprobar que se han introducido correctamente los metros por turno de cada corredor, ademas de recogerlos para poderlos utilizar en la carrera------------------------------
         function agregarPuntos() {
             insertarBicis(0);
-            document.getElementById("estado").innerHTML = "";
+            $("#estado1").attr("style", "visibility:hidden");
+            $("#estado2").attr("style", "visibility:hidden");
             for (i = 0 , j = 0; i <= 5; i++,j++) {
-                $("#lbl" + i).html("00%");
+                $("#lbl" + i).html("000%");
                 $("#lbl" + i).attr("style", "position:relative;font-size:15px");
              
             }
@@ -389,6 +458,8 @@
         function calcularProcentaje(cn) {
             por = Math.round((cn * 100) / 650);
             if(por < 10)
+                return "00" + por + "%";
+            if(por < 100)
                 return "0" + por + "%";
             else
                 return por + "%";
@@ -415,7 +486,7 @@
                     cont11 = cont11 + rand11;
                     setTimeout(animar("lbl0", rand11), 700);
                     $("#lbl0").html(calcularProcentaje(cont11));
-                    
+
                 }
                 //en caso contrario ( el corredor a llegado al final) ...
                 else {
@@ -462,7 +533,7 @@
                     animar("eq0co2", rand13);
                     cont13 = cont13 + rand13;
                     setTimeout(animar("lbl2", rand13), 700);
-                        $("#lbl2").html(calcularProcentaje(cont13));
+                    $("#lbl2").html(calcularProcentaje(cont13));
                 }
                 else {
                     if (bool13 == false) {
@@ -573,7 +644,12 @@
                         document.getElementById("eq0co2").setAttribute("src", "winner.png");
                         $("#lbl5").html("100%");
 
-                        document.getElementById("estado").innerHTML = "Empate";
+                        $("#estado1").attr("style", "visibility:visible");
+                        $("#estado2").attr("style", "visibility:visible");
+                        $("#estado1").attr("class", "lblestadoganador");
+                        $("#estado2").attr("class", "lblestadoganador");
+                        $("#estado1").html("Ganador");
+                        $("#estado2").html("Ganador");
                         document.getElementById("buton").disabled = true;
                         document.getElementById("butonAgregar").disabled = false;
                         document.getElementById("btnPass").disabled = true;
@@ -609,7 +685,13 @@
                         initRotate("eq0co2");
                         document.getElementById("eq0co2").setAttribute("src", "loser.png");
 
-                        document.getElementById("estado").innerHTML = "Equipo 2 ha ganado";
+                        $("#estado1").attr("style", "visibility:visible");
+                        $("#estado2").attr("style", "visibility:visible");
+                        $("#estado1").attr("class", "lblestadoperdedor");
+                        $("#estado2").attr("class", "lblestadoganador");
+                        $("#estado1").html("Perdedor");
+                        $("#estado2").html("Ganador");
+
                         document.getElementById("buton").disabled = true;
                         document.getElementById("butonAgregar").disabled = false;
                         document.getElementById("btnPass").disabled = true;
@@ -623,6 +705,7 @@
                 //GANA EQUIPO1 ----------------------------------
                 else if (bool11 == true && bool12 == true && bool13 == true) {
                     setTimeout(function () {
+
 
                         initRotate("eq0co0");
                         document.getElementById("eq0co0").setAttribute("src", "winner.png");
@@ -644,8 +727,13 @@
 
                         initRotate("eq1co2");
                         document.getElementById("eq1co2").setAttribute("src", "loser.png");
+                        $("#estado1").attr("style", "visibility:visible");
+                        $("#estado2").attr("style", "visibility:visible");
+                        $("#estado1").attr("class", "lblestadoganador");
+                        $("#estado2").attr("class", "lblestadoperdedor");
+                        $("#estado1").html("Ganador");
+                        $("#estado2").html("Perdedor");
 
-                        document.getElementById("estado").innerHTML = "Equipo 1 ha ganado";
                         document.getElementById("buton").disabled = true;
                         document.getElementById("butonAgregar").disabled = false;
                         document.getElementById("btnPass").disabled = true;
@@ -682,6 +770,10 @@
                             
 				        </div>
 			        </div>
+                    <div class="row clearfix" style="text-align:center;font-size:20px;color:Black;font-family:Verdana;font-weight:bolder;margin-top:5px">
+                            <label id="estado1">
+                            </label>
+                    </div>
 		        </div>
                 <div class="col-md-4 column" >
                     <div class="col-md-6 column" style="text-align:center">
@@ -741,6 +833,10 @@
                             <input class="classname" value="50" type="number" id="txt23"> </input>
 				        </div>
 			        </div>
+                    <div class="row clearfix" style="text-align:center;font-size:20px;color:Black;font-family:Verdana;font-weight:bolder;margin-top:5px">
+                        <label id="estado2">
+                        </label>
+                    </div>
 		        </div>
 	        </div>
 	        <div class="row clearfix">
@@ -749,10 +845,7 @@
 
 		        </div>
 	        </div>
-	        <div class="row clearfix" style="text-align:center;font-size:20px;color:Black;font-family:Verdana;font-weight:bolder;margin-top:5px">
-                <label id="estado">
-                </p>
-            </div>
+	        
 
             <div class="col-md-12 column" >
                 <div class="col-md-12 column" id="divgeneral" style="width:860px;margin-left:10%" >
@@ -775,7 +868,7 @@
                             <label id="lbl4"></label>
 		                </div>
                         <div class="col-md-12 column c" id="c22">
-                            <label id="lbl5"></label>
+                            <label id="lbl5" ></label>
 		                </div>
 		            </div>
                 </div>
