@@ -31,7 +31,11 @@
             border:2px solid black;
             margin:3px;
         }
-        .lblestadoperdedor {
+        .lblestadoperdedor 
+        {
+            -moz-box-shadow:inset 0px 1px 0px 0px #f05348;
+	        -webkit-box-shadow:inset 0px 1px 0px 0px #f05348;
+	        box-shadow:inset 0px 1px 0px 0px #f05348;
 	        background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #f05348), color-stop(1, #e6594c) );
 	        background:-moz-linear-gradient( center top, #f05348 5%, #e6594c 100% );
 	        filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f05348', endColorstr='#e6594c');
@@ -64,9 +68,9 @@
 	        text-shadow:1px 0px 50px #810e05;
         }
         .lblestadoganador {
-	        -moz-box-shadow:inset 0px 1px 0px 0px #caefab;
-	        -webkit-box-shadow:inset 0px 1px 0px 0px #caefab;
-	        box-shadow:inset 0px 1px 0px 0px #caefab;
+	        -moz-box-shadow:inset 0px 1px 0px 0px #77d42a;
+	        -webkit-box-shadow:inset 0px 1px 0px 0px #77d42a;
+	        box-shadow:inset 0px 1px 0px 0px #77d42a;
 	        background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #77d42a), color-stop(1, #5cb811) );
 	        background:-moz-linear-gradient( center top, #77d42a 5%, #5cb811 100% );
 	        filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#77d42a', endColorstr='#5cb811');
@@ -98,7 +102,7 @@
 	        text-align:center;
 	        text-shadow:1px 1px 0px #aade7c;
         }
-        label
+        label, .alert
         {
             -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
 	        -webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
@@ -162,7 +166,7 @@
 	    width:100px;
 	    text-decoration:none;
 	    text-align:center;
-	    margin-bottom:10px;
+	    margin-bottom:7px;
     }
     .classname:hover {
 	    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #a89ea8), color-stop(1, #ffffff) );
@@ -204,6 +208,23 @@
         var timer;
 
         var db;
+
+        //rotacion caballito
+        var r1 = 0;
+        var r2 = 0;
+        var r3 = 0;
+
+        var r4 = 0;
+        var r5 = 0;
+        var r6 = 0;
+
+        var interval1;
+        var interval2;
+        var interval3;
+
+        var interval4;
+        var interval5;
+        var interval6;
 
         // Funcion que detecta si el navegador soporta IndexedDB-----------------------------------------------------------------------------------------------------------------------
         function indexedDBOk() {
@@ -447,19 +468,11 @@
             document.getElementById("btnPass").disabled = true;
             document.getElementById("btnLoad").disabled = true;
             document.getElementById("btnSave").disabled = true;
-            timer = setInterval(pasarTurno, 500);
+            timer = setInterval(pasarTurno, 1100);
         }
         //Esta funcion realiza la animacion de tirar para alante un corredor -----------------------------------------------------------------------------------------------------------------------------------
         function animar(id, random) {
             $("#" + id).animate({ "left": "+=" + random + "px" }, "slow");
-        }
-        //Esta funcion se ejecuta al final de la carrera, sirve para los corredores que hayan levantado rueda, vuelvan a su angulo inicial (0) ----------------------------------------------------------------
-        function initRotate(id) {
-                var css = '-webkit-transform: rotate(' + 1500 + Math.round(Math.random() * 1500) + 'deg);';
-                $("#" + id).css("transform", "rotate(" + 0 + "deg)");
-                $("#" + id).css("-moz-transform", "rotate(" + 0 + "deg)");
-                $("#" + id).css("-webkit-transform", "rotate(" + 0 + "deg)");
-                $("#" + id).css("-o-transform", "rotate(" + 0 + "deg)");
         }
         //Esta funcion sirve para calcular el porcentaje de carrera de un corredor
         function calcularProcentaje(cn) {
@@ -481,41 +494,26 @@
             rand21 = random(puntos21);
             rand22 = random(puntos22);
             rand23 = random(puntos23);
-
-            var deg = 1500 + Math.round(Math.random() * 1500);
-            var r = 0;
             //si la pagina esta cargada ...
             $(document).ready(function () {
                 // EQUIPO 1 ---------------------------
                 //si el corredor no ha llegado al final avanza "x" pixeles y los acumula en un contador
-                if ((cont11 + rand11) < 645) {
+                if ((cont11) < 570) {
                     animar("eq0co0", rand11);
                     cont11 = cont11 + rand11;
                     setTimeout(animar("lbl0", rand11), 700);
                     $("#lbl0").html(calcularProcentaje(cont11));
-
                 }
                 //en caso contrario ( el corredor a llegado al final) ...
                 else {
                     if (bool11 == false) {
-                        //cada 70 milisegundo el angulo de la imagen disminuye en 1
-                        interval1 = setInterval(function () {
-                            var css = '-webkit-transform: rotate(' + deg + 'deg);';
-                            $("#eq0co0").css("transform", "rotate(" + r + "deg)");
-                            $("#eq0co0").css("-moz-transform", "rotate(" + r + "deg)");
-                            $("#eq0co0").css("-webkit-transform", "rotate(" + r + "deg)");
-                            $("#eq0co0").css("-o-transform", "rotate(" + r + "deg)");
-                            r--;
-                            if (r <= -35)
-                            //cuando el angulo de la imagen llega a -35 se limpia el interval
-                                clearInterval(interval1);
-                        }, 70);
-                        //indica que el corredor en cuestion ha llegado al final
+                        setTimeout(animar("lbl0", 650 - cont11), 700);
+                        animar("eq0co0", 650 - cont11);
                         bool11 = true;
                     }
+                    $("#lbl0").html("100%");
                 }
-
-                if ((cont12 + rand12) < 645) {
+                if ((cont12) < 570) {
                     animar("eq0co1", rand12);
                     cont12 = cont12 + rand12;
                     setTimeout(animar("lbl1", rand12), 700);
@@ -523,20 +521,14 @@
                 }
                 else {
                     if (bool12 == false) {
-                        interval2 = setInterval(function () {
-                            var css = '-webkit-transform: rotate(' + deg + 'deg);';
-                            $("#eq0co1").css("transform", "rotate(" + r + "deg)");
-                            $("#eq0co1").css("-moz-transform", "rotate(" + r + "deg)");
-                            $("#eq0co1").css("-webkit-transform", "rotate(" + r + "deg)");
-                            $("#eq0co1").css("-o-transform", "rotate(" + r + "deg)");
-                            r--;
-                            if (r <= -35)
-                                clearInterval(interval2);
-                        }, 70);
+                        setTimeout(animar("lbl1", 650 - cont12), 700);
+                        animar("eq0co1", 650 - cont12);
                         bool12 = true;
+
                     }
+                    $("#lbl1").html("100%");
                 }
-                if ((cont13 + rand13) < 645) {
+                if ((cont13) < 570) {
                     animar("eq0co2", rand13);
                     cont13 = cont13 + rand13;
                     setTimeout(animar("lbl2", rand13), 700);
@@ -544,21 +536,14 @@
                 }
                 else {
                     if (bool13 == false) {
-                        interval3 = setInterval(function () {
-                            var css = '-webkit-transform: rotate(' + deg + 'deg);';
-                            $("#eq0co2").css("transform", "rotate(" + r + "deg)");
-                            $("#eq0co2").css("-moz-transform", "rotate(" + r + "deg)");
-                            $("#eq0co2").css("-webkit-transform", "rotate(" + r + "deg)");
-                            $("#eq0co2").css("-o-transform", "rotate(" + r + "deg)");
-                            r--;
-                            if (r <= -35)
-                                clearInterval(interval3);
-                        }, 70);
+                        setTimeout(animar("lbl2", 650 - cont13), 700);
+                        animar("eq0co2", 650 - cont13);
                         bool13 = true;
                     }
+                    $("#lbl2").html("100%");
                 }
                 // EQUIPO 2 ---------------------------
-                if ((cont21 + rand21) < 645) {
+                if ((cont21) < 570) {
                     animar("eq1co0", rand21);
                     cont21 = cont21 + rand21;
                     setTimeout(animar("lbl3", rand21), 700);
@@ -566,20 +551,13 @@
                 }
                 else {
                     if (bool21 == false) {
-                        interval4 = setInterval(function () {
-                            var css = '-webkit-transform: rotate(' + deg + 'deg);';
-                            $("#eq1co0").css("transform", "rotate(" + r + "deg)");
-                            $("#eq1co0").css("-moz-transform", "rotate(" + r + "deg)");
-                            $("#eq1co0").css("-webkit-transform", "rotate(" + r + "deg)");
-                            $("#eq1co0").css("-o-transform", "rotate(" + r + "deg)");
-                            r--;
-                            if (r <= -35)
-                                clearInterval(interval4);
-                        }, 70);
+                        setTimeout(animar("lbl3", 650 - cont21), 700);
+                        animar("eq1co0", 650 - cont21);
                         bool21 = true;
                     }
+                    $("#lbl3").html("100%");
                 }
-                if ((cont22 + rand22) < 645) {
+                if ((cont22) < 570) {
                     animar("eq1co1", rand22);
                     cont22 = cont22 + rand22;
                     setTimeout(animar("lbl4", rand22), 700);
@@ -587,20 +565,13 @@
                 }
                 else {
                     if (bool22 == false) {
-                        interval5 = setInterval(function () {
-                            var css = '-webkit-transform: rotate(' + deg + 'deg);';
-                            $("#eq1co1").css("transform", "rotate(" + r + "deg)");
-                            $("#eq1co1").css("-moz-transform", "rotate(" + r + "deg)");
-                            $("#eq1co1").css("-webkit-transform", "rotate(" + r + "deg)");
-                            $("#eq1co1").css("-o-transform", "rotate(" + r + "deg)");
-                            r--;
-                            if (r <= -35)
-                                clearInterval(interval5);
-                        }, 70);
+                        setTimeout(animar("lbl4", 650 - cont22), 700);
+                        animar("eq1co1", 650 - cont22);
                         bool22 = true;
                     }
+                    $("#lbl4").html("100%");
                 }
-                if ((cont23 + rand23) < 645) {
+                if ((cont23) < 570) {
                     animar("eq1co2", rand23);
                     cont23 = cont23 + rand23;
                     setTimeout(animar("lbl5", rand23), 700);
@@ -608,49 +579,24 @@
                 }
                 else {
                     if (bool23 == false) {
-                        interval6 = setInterval(function () {
-                            var css = '-webkit-transform: rotate(' + deg + 'deg);';
-                            $("#eq1co2").css("transform", "rotate(" + r + "deg)");
-                            $("#eq1co2").css("-moz-transform", "rotate(" + r + "deg)");
-                            $("#eq1co2").css("-webkit-transform", "rotate(" + r + "deg)");
-                            $("#eq1co2").css("-o-transform", "rotate(" + r + "deg)");
-                            r--;
-                            if (r <= -35)
-                                clearInterval(interval6);
-                        }, 70);
+                        setTimeout(animar("lbl5", 650 - cont23), 700);
+                        animar("eq1co2", 650 - cont23);
                         bool23 = true;
                     }
+                    $("#lbl5").html("100%");
                 }
                 //Esta parte de la funcion se dedica a comprobar quien ha ganado la carrera, contemplo la posibilidad de empate
                 //EMPATE ----------------------------------
                 if (bool21 == true && bool22 == true && bool23 == true && bool11 == true && bool12 == true && bool13 == true) {
-                    // 5 segundos despues de finalizar la carrera le cambia las imagenes a los corredores ademas de ponerle el angulo de rotacion a 0
+                    // 5 segundos despues de finalizar la carrera le cambia las imagenes a los corredores
+                    clearInterval(timer);
                     setTimeout(function () {
-
-                        initRotate("eq1co0");
                         document.getElementById("eq1co0").setAttribute("src", "winner.png");
-                        $("#lbl0").html("100%");
-
-                        initRotate("eq1co1");
                         document.getElementById("eq1co1").setAttribute("src", "winner.png");
-                        $("#lbl1").html("100%");
-
-                        initRotate("eq1co2");
                         document.getElementById("eq1co2").setAttribute("src", "winner.png");
-                        $("#lbl2").html("100%");
-
-                        initRotate("eq0co0");
                         document.getElementById("eq0co0").setAttribute("src", "winner.png");
-                        $("#lbl3").html("100%");
-
-                        initRotate("eq0co1");
                         document.getElementById("eq0co1").setAttribute("src", "winner.png");
-                        $("#lbl4").html("100%");
-
-                        initRotate("eq0co2");
                         document.getElementById("eq0co2").setAttribute("src", "winner.png");
-                        $("#lbl5").html("100%");
-
                         $("#estado1").attr("style", "visibility:visible");
                         $("#estado2").attr("style", "visibility:visible");
                         $("#estado1").attr("class", "lblestadoganador");
@@ -662,36 +608,20 @@
                         document.getElementById("btnPass").disabled = true;
                         document.getElementById("btnSave").disabled = true;
                         document.getElementById("btnLoad").disabled = false;
+                        bool21 = bool22 = bool23 = bool11 = bool12 = bool13 = false;
+                        cont11 = cont12 = cont13 = cont21 = cont22 = cont23 = 0;
                     }, 2000);
-                    clearInterval(timer);
-                    bool21 = bool22 = bool23 = false;
-                    cont11 = cont12 = cont13 = cont21 = cont22 = cont23 = 0;
                 }
                 //GANA EQUIPO2 ----------------------------------
                 else if (bool21 == true && bool22 == true && bool23 == true) {
+                    clearInterval(timer);
                     setTimeout(function () {
-
-                        initRotate("eq1co0");
                         document.getElementById("eq1co0").setAttribute("src", "winner.png");
-                        $("#lbl3").html("100%");
-
-                        initRotate("eq1co1");
                         document.getElementById("eq1co1").setAttribute("src", "winner.png");
-                        $("#lbl4").html("100%");
-
-                        initRotate("eq1co2");
                         document.getElementById("eq1co2").setAttribute("src", "winner.png");
-                        $("#lbl5").html("100%");
-
-                        initRotate("eq0co0");
                         document.getElementById("eq0co0").setAttribute("src", "loser.png");
-
-                        initRotate("eq0co1");
                         document.getElementById("eq0co1").setAttribute("src", "loser.png");
-
-                        initRotate("eq0co2");
                         document.getElementById("eq0co2").setAttribute("src", "loser.png");
-
                         $("#estado1").attr("style", "visibility:visible");
                         $("#estado2").attr("style", "visibility:visible");
                         $("#estado1").attr("class", "lblestadoperdedor");
@@ -704,35 +634,19 @@
                         document.getElementById("btnPass").disabled = true;
                         document.getElementById("btnSave").disabled = true;
                         document.getElementById("btnLoad").disabled = false;
-                    }, 5000);
-                    clearInterval(timer);
-                    bool21 = bool22 = bool23 = false;
-                    cont11 = cont12 = cont13 = cont21 = cont22 = cont23 = 0;
+                        bool21 = bool22 = bool23 = bool11 = bool12 = bool13 = false;
+                        cont11 = cont12 = cont13 = cont21 = cont22 = cont23 = 0;
+                    }, 2000);
                 }
                 //GANA EQUIPO1 ----------------------------------
                 else if (bool11 == true && bool12 == true && bool13 == true) {
+                    clearInterval(timer);
                     setTimeout(function () {
-
-
-                        initRotate("eq0co0");
                         document.getElementById("eq0co0").setAttribute("src", "winner.png");
-                        $("#lbl0").html("100%");
-
-                        initRotate("eq0co1");
                         document.getElementById("eq0co1").setAttribute("src", "winner.png");
-                        $("#lbl1").html("100%");
-
-                        initRotate("eq0co2");
                         document.getElementById("eq0co2").setAttribute("src", "winner.png");
-                        $("#lbl2").html("100%");
-
-                        initRotate("eq1co0");
                         document.getElementById("eq1co0").setAttribute("src", "loser.png");
-
-                        initRotate("eq1co1");
                         document.getElementById("eq1co1").setAttribute("src", "loser.png");
-
-                        initRotate("eq1co2");
                         document.getElementById("eq1co2").setAttribute("src", "loser.png");
                         $("#estado1").attr("style", "visibility:visible");
                         $("#estado2").attr("style", "visibility:visible");
@@ -746,11 +660,9 @@
                         document.getElementById("btnPass").disabled = true;
                         document.getElementById("btnSave").disabled = true;
                         document.getElementById("btnLoad").disabled = false;
-
-                    }, 5000);
-                    clearInterval(timer);
-                    bool11 = bool12 = bool13 = false;
-                    cont11 = cont12 = cont13 = cont21 = cont22 = cont23 = 0;
+                        bool21 = bool22 = bool23 = bool11 = bool12 = bool13 = false;
+                        cont11 = cont12 = cont13 = cont21 = cont22 = cont23 = 0;
+                    }, 2000);
                 }
             });
         }
@@ -760,7 +672,7 @@
 <body onload="prepararMapa()" style="background: url(web_background.jpg) no-repeat center top fixed; width: 100%;
    background-size: cover;">
             <div class="container">
-	        <div class="row clearfix" style="margin-top:2%">
+	        <div class="row clearfix" style="margin-top:3px">
 		        <div class="col-md-4 column"  > 
 			        <h3 class="text-center" style="color:#a8bfe2;font-family:Verdana;font-size:30px;text-shadow: 1px 2px 3px #666">
 				        Equipo 1
@@ -778,7 +690,7 @@
 				        </div>
 			        </div>
                     <div class="row clearfix" style="text-align:center;font-size:20px;color:Black;font-family:Verdana;font-weight:bolder;margin-top:5px">
-                            <label id="estado1">
+                            <label id="estado1" style="visibility:hidden">
                             </label>
                     </div>
 		        </div>
@@ -787,31 +699,38 @@
                         <button type="button" class="classname" onclick="agregarPuntos()" id="butonAgregar">Empezar</button>
                         <button type="button" class="classname" onclick="pasarTurno()" id="buton">Mover</button>
                         <button id="btnPass" class="classname" type="button" onclick="pasarCarrera()">
-                        Ver toda</button>
+                        Pasar</button>
                         <div class="row clearfix">
 		                <div class="col-md-12 column">
-			                <a id="modal-420951" href="#modal-container-420951" role="button" class="btn" data-toggle="modal"><button id="Button1" class="classname" type="button"> Ayuda</button></a>
-			                    <div class="modal fade" id="modal-container-420951" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-				                    <div class="modal-dialog">
-					                    <div class="modal-content">
-						                    <div class="modal-header">
-							                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-							                    <h4 class="modal-title" id="myModalLabel">
-								                    Instrucciones
+			                <a id="modal-420951" href="#modal-container-420951" role="button" class="btn" data-toggle="modal"><button id="Button1" class="classname" type="button"> Ayuda </button></a>
+			                    <div  class="modal fade" id="modal-container-420951" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				                    <div class="modal-dialog" >
+					                    <div class="modal-content" style = "background-color:#C0C0C0">
+						                    <div class="modal-header" style="background-color:#242424 ">
+							                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="color:#C0C0C0">×</button>
+							                    <h4 class="modal-title" id="myModalLabel" style="color:#C0C0C0;font-size:25px;Verdana;">
+								                    <strong>Instrucciones</strong>
 							                    </h4>
 						                    </div>
-						                    <div class="modal-body">
-							                    <p>
-                                                Bienvenidos a "La Volta App".
-                                                <br />
-                                                Esta aplicación emula una etapa de ciclismo entre dos equipos. Para empezar a jugar
-                                                indique los puntos de energia para cada corredor.
-                                                <br />
-                                                Cada equipo dispone de 150 puntos de energia, indica los puntos para cada corredor
-                                                y empezar a jugar!</p>
+						                    <div class="modal-body" style="text-align:left;font-size:15px;Verdana;background-color:#C0C0C0;">
+                                                    <div style="font-weight:bold;text-decoration:underline">Normativa</div>
+                                                    <ul> 
+                                                        <li type="circle">Esta aplicación simula una etapa de ciclismo entre dos equipos. </li>
+                                                        <li type="circle">Cada equipo dispone de 150 puntos de energia a repartir entre sus tres corredores.</li>
+                                                        <li type="circle">Los puntos de energia de un corredor son los metros máximos que puede recorrer en un turno.</li>
+                                                        <li type="circle">Gana el equipo que consiga llegar antes a la meta con los tres corredores. </li>
+                                                    </ul>
+                                                    <div style="font-weight:bold;text-decoration:underline">Uso</div>
+                                                        <ol> 
+                                                        <li value="1"><strong>Empezar Partida</strong>: Añade los puntos de energia a los corredores y permite empezar a <strong>Mover</strong>.</li>
+                                                        <li ><strong>Mover</strong>: Pasa un turno de juego.</li>
+                                                        <li ><strong>Pasar</strong>: Avanza la carrera hasta el final.</li>
+                                                        <li ><strong>Guardar</strong>: Guarda la carrera en el estado actual.</li>
+                                                        <li ><strong>Cargar</strong>: Carga una partida eligiendo su <strong>ID</strong>.</li>
+                                                    </ol>
 						                    </div>
-						                    <div class="modal-footer">
-							                    <button type="button" class="btn btn-default" data-dismiss="modal">Vale</button> 
+						                    <div class="modal-footer" style="background-color:#242424 ">
+							                    <button type="button"  class="classname" data-dismiss="modal">Vale</button> 
 						                    </div>
 					                    </div>
 				                    </div>
@@ -820,9 +739,9 @@
 	                </div>
                     </div>
                     <div class="col-md-6 column" >
-                        <button type="button" class="classname" id="btnSave">Save Game</button>
-                        <button type="button" class="classname" id="btnLoad">Load Game</button>
-                        <input style="margin-top:3%" type="number" class="classname" id="key" value="0">
+                        <button type="button" class="classname" id="btnSave">Guardar</button>
+                        <button type="button" class="classname" id="btnLoad">Cargar</button>
+                        <input  type="number" class="classname" id="key" value="0">
                     </div>
                 </div>
 		        <div class="col-md-4 column" >
@@ -841,7 +760,7 @@
 				        </div>
 			        </div>
                     <div class="row clearfix" style="text-align:center;font-size:20px;color:Black;font-family:Verdana;font-weight:bolder;margin-top:5px">
-                        <label id="estado2">
+                        <label id="estado2" style="visibility:hidden">
                         </label>
                     </div>
 		        </div>
@@ -858,24 +777,24 @@
                 <div class="col-md-12 column" id="divgeneral" style="width:860px;margin-left:10%" >
                     <div class="col-md-12 column" id="divequipo1" style="margin-bottom:10px">
                         <div class="col-md-12 column c" id="c0" >
-                           <label id="lbl0"></label>
+                           <label id="lbl0" style="visibility:hidden"></label>
 		                </div>
                         <div class="col-md-12 column c"id="c1" >
-                            <label id="lbl1"></label>
+                            <label id="lbl1" style="visibility:hidden"></label>
 		                </div>
                         <div class="col-md-12 column c"id="c2">
-                            <label id="lbl2"></label>
+                            <label id="lbl2" style="visibility:hidden"></label>
 		                </div>
 		            </div>
                     <div class="col-md-12 column" id="divequipo2" >
                         <div class="col-md-12 column c" id="c20" >
-                            <label id="lbl3"></label>
+                            <label id="lbl3" style="visibility:hidden"></label>
 		                </div>
                         <div class="col-md-12 column c" id="c21">
-                            <label id="lbl4"></label>
+                            <label id="lbl4" style="visibility:hidden"></label>
 		                </div>
                         <div class="col-md-12 column c" id="c22">
-                            <label id="lbl5" ></label>
+                            <label id="lbl5" style="visibility:hidden"></label>
 		                </div>
 		            </div>
                 </div>
