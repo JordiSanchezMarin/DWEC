@@ -334,6 +334,7 @@
                     document.getElementById("butonAgregar").disabled = true;
                     document.getElementById("buton").disabled = false;
                     document.getElementById("btnPass").disabled = false;
+                    document.getElementById("btnParar").disabled = true;
                 } else {
                     console.log("No match");
                 }
@@ -437,6 +438,7 @@
                 document.getElementById("btnPass").disabled = false;
                 document.getElementById("btnLoad").disabled = false;
                 document.getElementById("btnSave").disabled = false;
+                document.getElementById("btnParar").disabled = true;
             }
         }
         //Esta funcion devuelve un random, se utiliza en los metros recorridos por turno------------------------------------------------------------------------------------------------------------------------
@@ -451,7 +453,18 @@
             document.getElementById("btnPass").disabled = true;
             document.getElementById("btnLoad").disabled = true;
             document.getElementById("btnSave").disabled = true;
+            document.getElementById("btnParar").disabled = false;
             timer = setInterval(pasarTurno, 1100);
+        }
+        //Esta funcion pausara la carrera
+        function pararCarrera()
+        {
+            clearInterval(timer);
+            document.getElementById("btnPass").disabled = false;
+            document.getElementById("btnParar").disabled = true;
+            document.getElementById("buton").disabled = false;
+            document.getElementById("btnLoad").disabled = false;
+            document.getElementById("btnSave").disabled = false;
         }
         //Esta funcion realiza la animacion de tirar para alante un corredor -----------------------------------------------------------------------------------------------------------------------------------
         function animar(id, random) {
@@ -711,6 +724,11 @@
                                                         <li ><strong>Guardar</strong>: Guarda la carrera en el estado actual.</li>
                                                         <li ><strong>Cargar</strong>: Carga una partida eligiendo su <strong>ID</strong>.</li>
                                                     </ol>
+                                                    <div style="font-weight:bold;text-decoration:underline;color:red">Restricciones</div>
+                                                    <ul>
+                                                            <li title="circle" style="color:red"><strong>Se recomienda utilizar el Chrome, con el IE o Mozilla no es seguro que funcione, dependiendo de la versión.</strong> </li>
+
+                                                    </ul>
 						                    </div>
 						                    <div class="modal-footer" style="background-color:#242424 ">
 							                    <button type="button"  class="classname" data-dismiss="modal">Vale</button> 
@@ -725,6 +743,7 @@
                         <button type="button" class="classname" id="btnSave">Guardar</button>
                         <button type="button" class="classname" id="btnLoad">Cargar</button>
                         <input  type="number" class="classname" id="key" value="0">
+                        <button type="button" class="classname" onclick="pararCarrera()" id="btnParar">Parar</button>
                     </div>
                 </div>
 		        <div class="col-md-4 column" >
