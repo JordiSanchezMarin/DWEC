@@ -63,6 +63,7 @@
         //Estrellas ---------------------------------------------------------
         //array estrellas
         var estrellas = new Array();
+        
         //añadir estrellas
         var imageObj = new Image();
         imageObj.onload = function () {
@@ -78,11 +79,14 @@
             estrellas[1].setX(120);
             estrellas[1].setY(27);
 
+
             estrellas[2].setX(230);
             estrellas[2].setY(60);
 
             estrellas[3].setX(330);
             estrellas[3].setY(40);
+            
+            
 
             estrellas[4].setX(380);
             estrellas[4].setY(100);
@@ -92,9 +96,180 @@
 
             estrellas[6].setX(580);
             estrellas[6].setY(86);
+            //Animacion Fugaz --------------------------------------------
+
+            estrellas[0].on('mousedown', function () {
+                var animfugaz = new Kinetic.Animation(function (frame) {
+                    if (estrellas[0].getAttr("y") >= -50) {
+                        estrellas[0].setY(estrellas[0].getY() - Math.random() * (3) - 1);
+                        estrellas[0].setX(estrellas[0].getX() - Math.random() * (3) - 1);
+                    }
+                    else {
+                        estrellas[0].setX(50);
+                        estrellas[0].setY(70);
+                        animfugaz.stop();
+                    }
+                }, layerestrellas);
+
+                animfugaz.start();
+            });
+
+            estrellas[0].on('mouseover', function () {
+                document.body.style.cursor = 'url(cris.cur), pointer';
+
+            });
+            estrellas[0].on('mouseout', function () {
+                document.body.style.cursor = 'default';
+            });
+            estrellas[1].on('mousedown', function () {
+                var animfugaz = new Kinetic.Animation(function (frame) {
+                    if (estrellas[1].getAttr("y") >= -50) {
+                        estrellas[1].setY(estrellas[1].getY() - Math.random() * (3) - 1);
+                        estrellas[1].setX(estrellas[1].getX() - Math.random() * (3) - 1);
+                    }
+                    else {
+                        estrellas[1].setX(120);
+                        estrellas[1].setY(27);
+                        animfugaz.stop();
+                    }
+                }, layerestrellas);
+
+                animfugaz.start();
+            });
+
+            estrellas[1].on('mouseover', function () {
+                document.body.style.cursor = 'url(cris.cur), pointer';
+
+            });
+            estrellas[1].on('mouseout', function () {
+                document.body.style.cursor = 'default';
+
+            });
+            
+            estrellas[2].on('mousedown', function () {
+                var animfugaz = new Kinetic.Animation(function (frame) {
+                    if (estrellas[2].getAttr("y") >= -50) {
+                        estrellas[2].setY(estrellas[2].getY() - Math.random() * (3) - 1);
+                        estrellas[2].setX(estrellas[2].getX() - Math.random() * (3) - 1);
+                    }
+                    else {
+                        estrellas[2].setX(230);
+                        estrellas[2].setY(60);
+                        animfugaz.stop();
+                    }
+                }, layerestrellas);
+
+                animfugaz.start();
+            });
+
+            estrellas[2].on('mouseover', function () {
+                document.body.style.cursor = 'url(cris.cur), pointer';
+
+            });
+            estrellas[2].on('mouseout', function () {
+                document.body.style.cursor = 'default';
+
+            });
+            estrellas[3].on('mousedown', function () {
+                var animfugaz = new Kinetic.Animation(function (frame) {
+                    if (estrellas[3].getAttr("y") >= -50) {
+                        estrellas[3].setY(estrellas[3].getY() - Math.random() * (3) - 1);
+                        estrellas[3].setX(estrellas[3].getX() - Math.random() * (3) - 1);
+                    }
+                    else {
+                        estrellas[3].setX(330);
+                        estrellas[3].setY(40);
+                        animfugaz.stop();
+                    }
+                }, layerestrellas);
+
+                animfugaz.start();
+            });
+
+            estrellas[3].on('mouseover', function () {
+                document.body.style.cursor = 'url(cris.cur), pointer';
+
+            });
+            estrellas[3].on('mouseout', function () {
+                document.body.style.cursor = 'default';
+
+            });
+            estrellas[4].on('mousedown', function () {
+                var animfugaz = new Kinetic.Animation(function (frame) {
+                    if (estrellas[4].getAttr("y") >= -50) {
+                        estrellas[4].setY(estrellas[4].getY() - Math.random() * (3) - 1);
+                        estrellas[4].setX(estrellas[4].getX() - Math.random() * (3) - 1);
+                    }
+                    else {
+                        estrellas[4].setX(380);
+                        estrellas[4].setY(100);
+                        animfugaz.stop();
+                    }
+                }, layerestrellas);
+
+                animfugaz.start();
+            });
+
+            estrellas[4].on('mouseover', function () {
+                document.body.style.cursor = 'url(cris.cur), pointer';
+
+            });
+            estrellas[4].on('mouseout', function () {
+                document.body.style.cursor = 'default';
+
+            });
+            estrellas[5].on('mousedown', function () {
+                var animfugaz = new Kinetic.Animation(function (frame) {
+                    if (estrellas[5].getAttr("y") >= -50) {
+                        estrellas[5].setY(estrellas[5].getY() - Math.random() * (3) - 1);
+                        estrellas[5].setX(estrellas[5].getX() - Math.random() * (3) - 1);
+                    }
+                    else {
+                        estrellas[5].setX(470);
+                        estrellas[5].setY(30);
+                        animfugaz.stop();
+                    }
+                }, layerestrellas);
+
+                animfugaz.start();
+            });
+
+            estrellas[5].on('mouseover', function () {
+                document.body.style.cursor = 'url(cris.cur), pointer';
+
+            });
+            estrellas[5].on('mouseout', function () {
+                document.body.style.cursor = 'default';
+
+            });
+            estrellas[6].on('mousedown', function () {
+                var animfugaz = new Kinetic.Animation(function (frame) {
+                    if (estrellas[6].getAttr("y") >= -50) {
+                        estrellas[6].setY(estrellas[6].getY() - Math.random() * (3) - 1);
+                        estrellas[6].setX(estrellas[6].getX() - Math.random() * (3) - 1);
+                    }
+                    else {
+                        estrellas[6].setX(580);
+                        estrellas[6].setY(86);
+                        animfugaz.stop();
+                    }
+                }, layerestrellas);
+
+                animfugaz.start();
+            });
+
+            estrellas[6].on('mouseover', function () {
+                document.body.style.cursor = 'url(cris.cur), pointer';
+
+            });
+            estrellas[6].on('mouseout', function () {
+                document.body.style.cursor = 'default';
+
+            });
         };
         imageObj.src = "star.png";
-
+       
+        
         //animacion estrellas
         var scale = 0.8;
         var aumenta = true;
@@ -161,6 +336,8 @@
                 height: 66
             }]
         };
+        layermoon.add(circle);
+        
         var pararMoon = false;
         var imageObj2 = new Image();
         imageObj2.onload = function () {
@@ -189,11 +366,11 @@
                     circle.moveToTop();
                 });
                 circle.on('mouseover', function () {
-                    circle.setOpacity(0.5);
+                    document.body.style.cursor = 'url(cris.cur), pointer';
                     circle.moveToTop();
                 });
                 circle.on('mouseout', function () {
-                    circle.setOpacity(0);
+                    document.body.style.cursor = 'default';
                     circle.moveToTop();
                 });
 
@@ -201,9 +378,11 @@
             animcirculo.start();
 
         };
+        imageObj2.src = "moon.png";
         // Arbol ---------------------------------------------------
         var imageObj5 = new Image();
-        var parararbol = false;
+        var encendido = false;
+        var opacidad = 0.5;
         imageObj5.onload = function () {
             var arbolsombra = new Kinetic.Image({
                 x: 416,
@@ -214,31 +393,31 @@
             layermoon.add(arbolsombra);
             var animarbol = new Kinetic.Animation(function (frame) {
                 arbolsombra.moveToTop();
-                arbolsombra.on('mouseover', function () {
-                arbolsombra.moveToTop();
-                bolas[0].setOpacity(1);
-                bolas[1].setOpacity(1);
-                bolas[2].setOpacity(1);
-                bolas[3].setOpacity(1);
-                bolas[4].setOpacity(1);
-                bolas[5].setOpacity(1);
-                bolas[6].setOpacity(1);
-                bolas[7].setOpacity(1);
-                arbolsombra.moveToTop();
-                });
-            arbolsombra.on('mouseout', function () {
-                    bolas[0].setOpacity(0);
-                    bolas[1].setOpacity(0);
-                    bolas[2].setOpacity(0);
-                    bolas[3].setOpacity(0);
-                    bolas[4].setOpacity(0);
-                    bolas[5].setOpacity(0);
-                    bolas[6].setOpacity(0);
-                    bolas[7].setOpacity(0);
+                if (encendido == false) {
                     arbolsombra.moveToTop();
-                });
+                    for (i = 0; i < 8; i++) {
+                        bolasder[i].setOpacity(opacidad);
+                        bolasizq[i].setOpacity(opacidad);
+                    }
+                    opacidad = opacidad + 0.005;
+                    if (opacidad >= 1) {
+                        encendido = true;
+                    }
+                }
+                else {
+                    arbolsombra.moveToTop();
+                    for (i = 0; i < 8; i++) {
+                        bolasder[i].setOpacity(opacidad);
+                        bolasizq[i].setOpacity(opacidad);
+                    }
+                    opacidad = opacidad - 0.005;
+                    if (opacidad <= 0.01) {
+                        encendido = false;
+                    }
+                }
 
             }, layermoon);
+
             animarbol.start();
             arbolsombra.moveToTop();
         }
@@ -253,45 +432,80 @@
         colores[5] = "red";
         colores[6] = "yellow";
         colores[7] = "purple";
-        var bolas = new Array();
+        var bolasder = new Array();
         for (var i = 0; i <= 8; i++) {
-            bolas[i] = new Kinetic.Circle({
+            bolasder[i] = new Kinetic.Circle({
                 x: 20,
                 y: 20,
-                radius: 6,
+                radius: 8,
                 fill: colores[i],
                 stroke: 'black',
                 strokeWidth: 0.1,
-                opacity:0
+                opacity:0.5
             });
-            layermoon.add(bolas[i]);
+            layermoon.add(bolasder[i]);
         }
-        bolas[0].setX(460);
-        bolas[0].setY(184);
+        bolasder[0].setX(460);
+        bolasder[0].setY(184);
 
-        bolas[1].setX(530);
-        bolas[1].setY(175);
+        bolasder[1].setX(530);
+        bolasder[1].setY(175);
 
-        bolas[2].setX(550);
-        bolas[2].setY(230);
+        bolasder[2].setX(550);
+        bolasder[2].setY(230);
 
-        bolas[3].setX(500);
-        bolas[3].setY(189);
+        bolasder[3].setX(500);
+        bolasder[3].setY(189);
 
-        bolas[4].setX(500);
-        bolas[4].setY(120);
+        bolasder[4].setX(500);
+        bolasder[4].setY(120);
 
-        bolas[5].setX(500);
-        bolas[5].setY(300);
+        bolasder[5].setX(500);
+        bolasder[5].setY(300);
 
-        bolas[6].setX(480);
-        bolas[6].setY(250);
+        bolasder[6].setX(480);
+        bolasder[6].setY(250);
 
-        bolas[7].setX(550);
-        bolas[7].setY(280);
+        bolasder[7].setX(550);
+        bolasder[7].setY(280);
+        //------------------------------Bolas Izquierda
+        var bolasizq = new Array();
+        for (var i = 0; i <= 8; i++) {
+            bolasizq[i] = new Kinetic.Circle({
+                x: 20,
+                y: 20,
+                radius: 8,
+                fill: colores[i],
+                stroke: 'black',
+                strokeWidth: 0.1,
+                opacity: 0.5
+            });
+            layermoon.add(bolasizq[i]);
+        }
+        bolasizq[0].setX(120);
+        bolasizq[0].setY(184);
 
-        layermoon.add(circle);
-        imageObj2.src = "moon.png";
+        bolasizq[1].setX(180);
+        bolasizq[1].setY(175);
+
+        bolasizq[2].setX(150);
+        bolasizq[2].setY(100);
+
+        bolasizq[3].setX(130);
+        bolasizq[3].setY(230);
+
+        bolasizq[4].setX(150);
+        bolasizq[4].setY(160);
+
+        bolasizq[5].setX(130);
+        bolasizq[5].setY(310);
+
+        bolasizq[6].setX(160);
+        bolasizq[6].setY(280);
+
+        bolasizq[7].setX(100);
+        bolasizq[7].setY(280);
+
         stage.add(layermoon);
         stage.add(layerestrellas);
         stage.add(layercopos);
