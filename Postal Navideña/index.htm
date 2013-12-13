@@ -11,19 +11,29 @@
             height:478px;
         }
     </style>
-    <script src="http://d3lp1msu2r81bx.cloudfront.net/kjs/js/lib/kinetic-v4.7.4.min.js"></script>
+     <script src="http://d3lp1msu2r81bx.cloudfront.net/kjs/js/lib/kinetic-v4.7.4.min.js"></script>
 </head>
 <body>
     <div id="myCanvas">
     </div>
-    <button id="moon" onclick="moonStart();">Lluna</button>
-    <script>
+    <script defer="defer">
 
-
-        var layer = new Kinetic.Layer();
-        //Copos ------------------------------------
+        //Layers disponibles ---------------------------------------------
+        var layermoon = new Kinetic.Layer();
+        var layerestrellas = new Kinetic.Layer();
+        var layercopos = new Kinetic.Layer();
+        var layercircle = new Kinetic.Layer();
+        var moon;
+        //Stage ----------------------------------------------------------
+        var stage = new Kinetic.Stage({
+            container: 'myCanvas',
+            width: 626,
+            height: 468
+        });
+        //Copos ------------------------------------------------------------
         //array de copos
         var copos = new Array();
+        //Añadir copos
         for (var i = 0, x1 = 10; i < 51; i++) {
             copos[i] = new Kinetic.Circle({
                 x: x1,
@@ -33,26 +43,10 @@
                 stroke: 'black',
                 strokeWidth: 0.1
                 });
-//            var imageObj3 = new Image();
-//            imageObj3.src = "snow.png";
-//            imageObj3.onload = function () {
-//                for (var i = 0, x1 = 10; i < 51; i++) {
-//                    copos[i] = new Kinetic.Image({
-//                        x: x1,
-//                        y: Math.random() * (-500) - 1,
-//                        image: imageObj3,
-//                        index: 0
-//                    });
-//                }
-            layer.add(copos[i]);
+            layercopos.add(copos[i]);
             x1 = x1 + 17;
             };
-        
-        var stage = new Kinetic.Stage({
-            container: 'myCanvas',
-            width: 626,
-            height: 468
-        });
+       
         
 
         //animacion copos
@@ -63,19 +57,20 @@
                 else
                     copos[i].setY(Math.random() * (-500) - 1);
             }
-        }, layer);
+        }, layercopos);
         anim.start();
 
+        //Estrellas ---------------------------------------------------------
+        //array estrellas
         var estrellas = new Array();
-        var star;
+        //añadir estrellas
         var imageObj = new Image();
         imageObj.onload = function () {
             for (i = 0; i < 7; i++) {
                 estrellas[i] = new Kinetic.Image({
-                    image: imageObj,
-                    index:0
+                    image: imageObj
                 });
-                layer.add(estrellas[i]);
+                layerestrellas.add(estrellas[i]);
             }
             estrellas[0].setX(50);
             estrellas[0].setY(70);
@@ -97,12 +92,10 @@
 
             estrellas[6].setX(580);
             estrellas[6].setY(86);
-            // add the shape to the layer
-
-
-            // add the layer to the stage
         };
         imageObj.src = "star.png";
+
+        //animacion estrellas
         var scale = 0.8;
         var aumenta = true;
         var anim2 = new Kinetic.Animation(function (frame) {
@@ -121,12 +114,24 @@
                 estrellas[i].setScale(scale);
             }
 
-        }, layer);
-
+        }, layerestrellas);
         anim2.start();
 
-        // Luna --------------------------------
+        // Luna --------------------------------------------------------------
+        var moon;
+        //sombra luna
+        var circle = new Kinetic.Circle({
+            x: 540,
+            y: 47,
+            radius: 32,
+            fill: 'yellow',
+            stroke: 'yellow',
+            strokeWidth: 4,
+            opacity:0
+        });
 
+
+       //animacion luna
         var animations = {
             llenar: [{
                 x: 296,
@@ -156,25 +161,140 @@
                 height: 66
             }]
         };
-        function moonStart() {
-            var imageObj2 = new Image();
-            imageObj2.onload = function () {
-                var moon = new Kinetic.Sprite({
-                    x: 500,
-                    y: 15,
-                    image: imageObj2,
-                    animation: 'llenar',
-                    animations: animations,
-                    frameRate: 2
-                });
-                layer.add(moon);
-                moon.start();
-            };
-            imageObj2.src = "moon.png";
+        var pararMoon = false;
+        var imageObj2 = new Image();
+        imageObj2.onload = function () {
+            moon = new Kinetic.Sprite({
+                x: 500,
+                y: 15,
+                image: imageObj2,
+                animation: 'llenar',
+                animations: animations,
+                frameRate: 2
+            });
 
+            layermoon.add(moon);
+            var animcirculo = new Kinetic.Animation(function (frame) {
+                circle.moveToTop();
+                circle.on('mousedown', function () {
+                    if (pararMoon == false) {
+                        moon.start();
+                        pararMoon = true;
+                    }
+                    else {
+                        moon.stop();
+                        pararMoon = false;
+                    }
+
+                    circle.moveToTop();
+                });
+                circle.on('mouseover', function () {
+                    circle.setOpacity(0.5);
+                    circle.moveToTop();
+                });
+                circle.on('mouseout', function () {
+                    circle.setOpacity(0);
+                    circle.moveToTop();
+                });
+
+            }, layermoon);
+            animcirculo.start();
+
+        };
+        // Arbol ---------------------------------------------------
+        var imageObj5 = new Image();
+        var parararbol = false;
+        imageObj5.onload = function () {
+            var arbolsombra = new Kinetic.Image({
+                x: 416,
+                y: 94,
+                image: imageObj5,
+                opacity: 0
+            });
+            layermoon.add(arbolsombra);
+            var animarbol = new Kinetic.Animation(function (frame) {
+                arbolsombra.moveToTop();
+                arbolsombra.on('mouseover', function () {
+                arbolsombra.moveToTop();
+                bolas[0].setOpacity(1);
+                bolas[1].setOpacity(1);
+                bolas[2].setOpacity(1);
+                bolas[3].setOpacity(1);
+                bolas[4].setOpacity(1);
+                bolas[5].setOpacity(1);
+                bolas[6].setOpacity(1);
+                bolas[7].setOpacity(1);
+                arbolsombra.moveToTop();
+                });
+            arbolsombra.on('mouseout', function () {
+                    bolas[0].setOpacity(0);
+                    bolas[1].setOpacity(0);
+                    bolas[2].setOpacity(0);
+                    bolas[3].setOpacity(0);
+                    bolas[4].setOpacity(0);
+                    bolas[5].setOpacity(0);
+                    bolas[6].setOpacity(0);
+                    bolas[7].setOpacity(0);
+                    arbolsombra.moveToTop();
+                });
+
+            }, layermoon);
+            animarbol.start();
+            arbolsombra.moveToTop();
         }
-        stage.add(layer);
-       
+        imageObj5.src = "arbolsombra.png";
+        // Bolas Arbol -----------------------------------------------------------
+        var colores = new Array();
+        colores[0] = "yellow";
+        colores[1] = "purple";
+        colores[2] = "blue";
+        colores[3] = "blue";
+        colores[4] = "red";
+        colores[5] = "red";
+        colores[6] = "yellow";
+        colores[7] = "purple";
+        var bolas = new Array();
+        for (var i = 0; i <= 8; i++) {
+            bolas[i] = new Kinetic.Circle({
+                x: 20,
+                y: 20,
+                radius: 6,
+                fill: colores[i],
+                stroke: 'black',
+                strokeWidth: 0.1,
+                opacity:0
+            });
+            layermoon.add(bolas[i]);
+        }
+        bolas[0].setX(460);
+        bolas[0].setY(184);
+
+        bolas[1].setX(530);
+        bolas[1].setY(175);
+
+        bolas[2].setX(550);
+        bolas[2].setY(230);
+
+        bolas[3].setX(500);
+        bolas[3].setY(189);
+
+        bolas[4].setX(500);
+        bolas[4].setY(120);
+
+        bolas[5].setX(500);
+        bolas[5].setY(300);
+
+        bolas[6].setX(480);
+        bolas[6].setY(250);
+
+        bolas[7].setX(550);
+        bolas[7].setY(280);
+
+        layermoon.add(circle);
+        imageObj2.src = "moon.png";
+        stage.add(layermoon);
+        stage.add(layerestrellas);
+        stage.add(layercopos);
     </script>
 </body>
 </html>
