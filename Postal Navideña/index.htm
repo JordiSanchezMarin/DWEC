@@ -18,22 +18,25 @@
     </div>
     <script defer="defer">
 
-        //Layers disponibles ---------------------------------------------
+        //Layers disponibles -------------------------------------------------------------------------------------
+
         var layermoon = new Kinetic.Layer();
         var layerestrellas = new Kinetic.Layer();
         var layercopos = new Kinetic.Layer();
-        var layercircle = new Kinetic.Layer();
         var moon;
-        //Stage ----------------------------------------------------------
+
+        //Stage --------------------------------------------------------------------------------------------------
+
         var stage = new Kinetic.Stage({
             container: 'myCanvas',
             width: 626,
             height: 468
         });
-        //Copos ------------------------------------------------------------
-        //array de copos
+
+        //Copos --------------------------------------------------------------------------------------------------
+
         var copos = new Array();
-        //Añadir copos
+        //Añadir copos al Array
         for (var i = 0, x1 = 10; i < 51; i++) {
             copos[i] = new Kinetic.Circle({
                 x: x1,
@@ -42,15 +45,13 @@
                 fill: 'white',
                 stroke: 'black',
                 strokeWidth: 0.1
-                });
+            });
+            //Añadir copos al layer
             layercopos.add(copos[i]);
             x1 = x1 + 17;
             };
-       
-        
-
-        //animacion copos
-        var anim = new Kinetic.Animation(function (frame) {
+        //Creación de la animacion copos
+        var animacion_copos = new Kinetic.Animation(function (frame) {
             for (var i = 0; i < 51; i++) {
                 if (copos[i].getAttr("y") < 477) 
                     copos[i].setY(copos[i].getY() + 1);
@@ -58,21 +59,24 @@
                     copos[i].setY(Math.random() * (-500) - 1);
             }
         }, layercopos);
-        anim.start();
+        //lanzamiento de la animacion copos
+        animacion_copos.start();
 
-        //Estrellas ---------------------------------------------------------
-        //array estrellas
+        //Estrellas -----------------------------------------------------------------------------------------------
+
         var estrellas = new Array();
-        
-        //añadir estrellas
-        var imageObj = new Image();
-        imageObj.onload = function () {
+        //Creación de la imagen estrella
+        var imageObjEstrellas = new Image();
+        //Añadir las estrellas al array
+        imageObjEstrellas.onload = function () {
             for (i = 0; i < 7; i++) {
                 estrellas[i] = new Kinetic.Image({
-                    image: imageObj
+                    image: imageObjEstrellas
                 });
+                //Añadir estrellas al layer
                 layerestrellas.add(estrellas[i]);
             }
+            //Le damos posición a cada ua de las estrellas
             estrellas[0].setX(50);
             estrellas[0].setY(70);
 
@@ -86,8 +90,6 @@
             estrellas[3].setX(330);
             estrellas[3].setY(40);
             
-            
-
             estrellas[4].setX(380);
             estrellas[4].setY(100);
 
@@ -96,9 +98,12 @@
 
             estrellas[6].setX(580);
             estrellas[6].setY(86);
-            //Animacion Fugaz --------------------------------------------
 
+            //Animacion Estrella Fugaz --------------------------------------------
+            //A cada estrella le damos 3 enventos, mousedown, mouseover, mouseout
             estrellas[0].on('mousedown', function () {
+            //En el evento mousedown le asignamos una animacion: Cuando hacemos click en una estrella, 
+            //esta sale dispara para arriba, cuando sale de pantalla vuelve a la posicion inicial y la animacion se para
                 var animfugaz = new Kinetic.Animation(function (frame) {
                     if (estrellas[0].getAttr("y") >= -50) {
                         estrellas[0].setY(estrellas[0].getY() - Math.random() * (3) - 1);
@@ -113,14 +118,16 @@
 
                 animfugaz.start();
             });
-
+            //En el evento mouseover, el cursor cambia de diseño
             estrellas[0].on('mouseover', function () {
                 document.body.style.cursor = 'url(cris.cur), pointer';
 
             });
+            //En el evento mouseout, el cursor recupera su diseño por defecto
             estrellas[0].on('mouseout', function () {
                 document.body.style.cursor = 'default';
             });
+            //----------------------------------------------------------------
             estrellas[1].on('mousedown', function () {
                 var animfugaz = new Kinetic.Animation(function (frame) {
                     if (estrellas[1].getAttr("y") >= -50) {
@@ -145,7 +152,7 @@
                 document.body.style.cursor = 'default';
 
             });
-            
+            //----------------------------------------------------------------
             estrellas[2].on('mousedown', function () {
                 var animfugaz = new Kinetic.Animation(function (frame) {
                     if (estrellas[2].getAttr("y") >= -50) {
@@ -161,15 +168,13 @@
 
                 animfugaz.start();
             });
-
             estrellas[2].on('mouseover', function () {
                 document.body.style.cursor = 'url(cris.cur), pointer';
-
             });
             estrellas[2].on('mouseout', function () {
                 document.body.style.cursor = 'default';
-
             });
+            //----------------------------------------------------------------
             estrellas[3].on('mousedown', function () {
                 var animfugaz = new Kinetic.Animation(function (frame) {
                     if (estrellas[3].getAttr("y") >= -50) {
@@ -185,15 +190,13 @@
 
                 animfugaz.start();
             });
-
             estrellas[3].on('mouseover', function () {
                 document.body.style.cursor = 'url(cris.cur), pointer';
-
             });
             estrellas[3].on('mouseout', function () {
                 document.body.style.cursor = 'default';
-
             });
+            //----------------------------------------------------------------
             estrellas[4].on('mousedown', function () {
                 var animfugaz = new Kinetic.Animation(function (frame) {
                     if (estrellas[4].getAttr("y") >= -50) {
@@ -209,15 +212,13 @@
 
                 animfugaz.start();
             });
-
             estrellas[4].on('mouseover', function () {
                 document.body.style.cursor = 'url(cris.cur), pointer';
-
             });
             estrellas[4].on('mouseout', function () {
                 document.body.style.cursor = 'default';
-
             });
+            //----------------------------------------------------------------
             estrellas[5].on('mousedown', function () {
                 var animfugaz = new Kinetic.Animation(function (frame) {
                     if (estrellas[5].getAttr("y") >= -50) {
@@ -233,15 +234,13 @@
 
                 animfugaz.start();
             });
-
             estrellas[5].on('mouseover', function () {
                 document.body.style.cursor = 'url(cris.cur), pointer';
-
             });
             estrellas[5].on('mouseout', function () {
                 document.body.style.cursor = 'default';
-
             });
+            //----------------------------------------------------------------
             estrellas[6].on('mousedown', function () {
                 var animfugaz = new Kinetic.Animation(function (frame) {
                     if (estrellas[6].getAttr("y") >= -50) {
@@ -254,59 +253,49 @@
                         animfugaz.stop();
                     }
                 }, layerestrellas);
-
                 animfugaz.start();
             });
-
             estrellas[6].on('mouseover', function () {
                 document.body.style.cursor = 'url(cris.cur), pointer';
-
             });
             estrellas[6].on('mouseout', function () {
                 document.body.style.cursor = 'default';
-
             });
         };
-        imageObj.src = "star.png";
-       
-        
-        //animacion estrellas
+        //al objeto imagen se le asigna una direccion
+        imageObjEstrellas.src = "star.png";
+
+        /*Animacion estrellas normal: Se le asigna una animación que hace que las estrellas,
+        vayan disminuyendo y augmentando*/
+        //La variable scale sera la encargada de ir aumentando o disminuyendo la escala
         var scale = 0.8;
         var aumenta = true;
         var anim2 = new Kinetic.Animation(function (frame) {
-            // scale x and y
             for (i = 0; i < 7; i++) {
                 if (aumenta == true) {
+                    //si aumenta es = true, la variable scale augmente 0.001
                     scale = scale + 0.001;
+                    /*si scale es >= 1 la variable aumenta se iguala a false
+                    (Esto significa que la estrella pasara a disminuir)*/
                     if (scale >= 1)
                         aumenta = false;
                 }
+                //Si aumenta no es = true la estrella pasa a disminuir
                 else {
                     scale = scale - 0.001;
                     if (scale <= 0.8)
                         aumenta = true;
                 }
+                //se cambia la escala de la estrella
                 estrellas[i].setScale(scale);
             }
 
         }, layerestrellas);
+        //Se lanza la animación
         anim2.start();
 
-        // Luna --------------------------------------------------------------
-        var moon;
-        //sombra luna
-        var circle = new Kinetic.Circle({
-            x: 540,
-            y: 47,
-            radius: 32,
-            fill: 'yellow',
-            stroke: 'yellow',
-            strokeWidth: 4,
-            opacity:0
-        });
-
-
-       //animacion luna
+        // Luna --------------------------------------------------------------------------------------------------
+        //animacion luna: Cogemos trozos de una imagen
         var animations = {
             llenar: [{
                 x: 296,
@@ -336,92 +325,79 @@
                 height: 66
             }]
         };
-        layermoon.add(circle);
-        
+        //
+        //Variables de Luna
+        var moon;
         var pararMoon = false;
-        var imageObj2 = new Image();
-        imageObj2.onload = function () {
+        var imageObjLuna = new Image();
+        imageObjLuna.onload = function () {
+            //Creamos un sprite 
             moon = new Kinetic.Sprite({
                 x: 500,
                 y: 15,
-                image: imageObj2,
+                image: imageObjLuna,
                 animation: 'llenar',
                 animations: animations,
                 frameRate: 2
             });
-
+            //Añadimos el sprite al layer
             layermoon.add(moon);
-            var animcirculo = new Kinetic.Animation(function (frame) {
-                circle.moveToTop();
-                circle.on('mousedown', function () {
+            //Le asignamos una animacion al sprite que incluye 3 eventos: mousedown, mouseover y mouseout
+            var animluna = new Kinetic.Animation(function (frame) {
+                //El evento mousedow hara que se inicie la animación del sprite
+                moon.on('mousedown', function () {
                     if (pararMoon == false) {
                         moon.start();
                         pararMoon = true;
                     }
+                    //Cuando se vuelva a producir el evento mousedown la animación parará
                     else {
                         moon.stop();
                         pararMoon = false;
                     }
-
-                    circle.moveToTop();
                 });
-                circle.on('mouseover', function () {
+                //En el evento mouseover el cursor pasara a ser el de navidad
+                moon.on('mouseover', function () {
                     document.body.style.cursor = 'url(cris.cur), pointer';
-                    circle.moveToTop();
                 });
-                circle.on('mouseout', function () {
+                //En el evento mouseout el cursor pasara a ser el por defecto
+                moon.on('mouseout', function () {
                     document.body.style.cursor = 'default';
-                    circle.moveToTop();
                 });
-
             }, layermoon);
-            animcirculo.start();
-
+            //Se lanza la animación
+            animluna.start();
         };
-        imageObj2.src = "moon.png";
-        // Arbol ---------------------------------------------------
-        var imageObj5 = new Image();
+        //Al objecto imagen se le asigna una dirección
+        imageObjLuna.src = "moon.png";
+        // Arbol -------------------------------------------------------------------------------------------------
         var encendido = false;
         var opacidad = 0.5;
-        imageObj5.onload = function () {
-            var arbolsombra = new Kinetic.Image({
-                x: 416,
-                y: 94,
-                image: imageObj5,
-                opacity: 0
-            });
-            layermoon.add(arbolsombra);
-            var animarbol = new Kinetic.Animation(function (frame) {
-                arbolsombra.moveToTop();
-                if (encendido == false) {
-                    arbolsombra.moveToTop();
-                    for (i = 0; i < 8; i++) {
-                        bolasder[i].setOpacity(opacidad);
-                        bolasizq[i].setOpacity(opacidad);
-                    }
-                    opacidad = opacidad + 0.005;
-                    if (opacidad >= 1) {
-                        encendido = true;
-                    }
+        var animarbol = new Kinetic.Animation(function (frame) {
+            if (encendido == false) {
+                for (i = 0; i < 8; i++) {
+                    bolasder[i].setOpacity(opacidad);
+                    bolasizq[i].setOpacity(opacidad);
                 }
-                else {
-                    arbolsombra.moveToTop();
-                    for (i = 0; i < 8; i++) {
-                        bolasder[i].setOpacity(opacidad);
-                        bolasizq[i].setOpacity(opacidad);
-                    }
-                    opacidad = opacidad - 0.005;
-                    if (opacidad <= 0.01) {
-                        encendido = false;
-                    }
+                opacidad = opacidad + 0.005;
+                if (opacidad >= 1) {
+                    encendido = true;
                 }
+            }
+            else {
+                for (i = 0; i < 8; i++) {
+                    bolasder[i].setOpacity(opacidad);
+                    bolasizq[i].setOpacity(opacidad);
+                }
+                opacidad = opacidad - 0.005;
+                if (opacidad <= 0.01) {
+                    encendido = false;
+                }
+            }
 
-            }, layermoon);
+        }, layermoon);
 
-            animarbol.start();
-            arbolsombra.moveToTop();
-        }
-        imageObj5.src = "arbolsombra.png";
+        animarbol.start();
         // Bolas Arbol -----------------------------------------------------------
         var colores = new Array();
         colores[0] = "yellow";
