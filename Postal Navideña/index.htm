@@ -15,7 +15,9 @@
 </head>
 <body>
     <div id="myCanvas">
+    <embed src="sound.wav" autostart="true" hidden="true" loop="false">
     </div>
+
     <script defer="defer">
 
         //Layers disponibles -------------------------------------------------------------------------------------
@@ -262,7 +264,7 @@
                 document.body.style.cursor = 'default';
             });
         };
-        //al objeto imagen se le asigna una direccion
+        //al objeto imagen de la estrella se le asigna una direccion
         imageObjEstrellas.src = "star.png";
 
         /*Animacion estrellas normal: Se le asigna una animación que hace que las estrellas,
@@ -368,11 +370,12 @@
             //Se lanza la animación
             animluna.start();
         };
-        //Al objecto imagen se le asigna una dirección
+        //Al objecto imagen de la luna se le asigna una dirección
         imageObjLuna.src = "moon.png";
         // Arbol -------------------------------------------------------------------------------------------------
         var encendido = false;
         var opacidad = 0.5;
+        // Creamos una animación para los dos arboles, con todas las bombillas apagandose y encendiendo
         var animarbol = new Kinetic.Animation(function (frame) {
             if (encendido == false) {
                 for (i = 0; i < 8; i++) {
@@ -399,6 +402,7 @@
 
         animarbol.start();
         // Bolas Arbol -----------------------------------------------------------
+        // creamos el array para los colores de las bolas
         var colores = new Array();
         colores[0] = "yellow";
         colores[1] = "purple";
@@ -408,8 +412,10 @@
         colores[5] = "red";
         colores[6] = "yellow";
         colores[7] = "purple";
+        //Creamos el array de pelotas (para el arbol de la derecha)
         var bolasder = new Array();
-        for (var i = 0; i <= 8; i++) {
+        for (var i = 0; i <= 7; i++) {
+            // creamos 8 bolas
             bolasder[i] = new Kinetic.Circle({
                 x: 20,
                 y: 20,
@@ -421,6 +427,7 @@
             });
             layermoon.add(bolasder[i]);
         }
+        //Posicionamos las bolas en el arbol
         bolasder[0].setX(460);
         bolasder[0].setY(184);
 
@@ -445,6 +452,7 @@
         bolasder[7].setX(550);
         bolasder[7].setY(280);
         //------------------------------Bolas Izquierda
+        // Hacemos lo mismo para el arbol de la izquierda
         var bolasizq = new Array();
         for (var i = 0; i <= 8; i++) {
             bolasizq[i] = new Kinetic.Circle({
@@ -481,10 +489,38 @@
 
         bolasizq[7].setX(100);
         bolasizq[7].setY(280);
+        //Imagen de la familia con canticos
 
+        var imageObjFamilia = new Image();
+        imageObjFamilia.onload = function () {
+            var family = new Kinetic.Image({
+                image: imageObjFamilia
+            });
+            //Añadir faimilia al layer
+            layermoon.add(family);
+            family.setX(150);
+            family.setY(250);
+
+            family.on('mousedown', function () {
+                //En el evento mousedown le asignamos una animacion: Cuando hacemos click en una estrella, 
+                //esta sale dispara para arriba, cuando sale de pantalla vuelve a la posicion inicial y la animacion se para
+            });
+            //En el evento mouseover, el cursor cambia de diseño
+            family.on('mouseover', function () {
+                document.body.style.cursor = 'url(cris.cur), pointer';
+
+            });
+            //En el evento mouseout, el cursor recupera su diseño por defecto
+            family.on('mouseout', function () {
+                document.body.style.cursor = 'default';
+            });
+        }
+        imageObjFamilia.src = "familia.png";
+        // Se añaden los layers creados en todo el programa
         stage.add(layermoon);
         stage.add(layerestrellas);
         stage.add(layercopos);
     </script>
+
 </body>
 </html>
