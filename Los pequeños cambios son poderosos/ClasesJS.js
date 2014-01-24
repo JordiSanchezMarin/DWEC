@@ -1,87 +1,84 @@
 function Persona(id, color, ok) {
-    this.id = id;
-    this.color = color;
-    this.ok = ok;
+    var id = id;
+    var color = color;
+    var ok = ok;
+    var img = document.createElement("img");
 
-    function comportamiento(callback){
+    this.comportamiento = function(callback){
         callback();
     }
 
-    function getId() {
-        return this.id;
+    this.getId = function() {
+        return id;
     }
 
-    function getColor() {
-        return this.color;
+    this.getColor= function(){
+        return color;
     }
 
-    function getOk() {
-        return this.ok;
+    this.getOk = function(){
+        return ok;
     }
 
-    function setColor(color) {
+    this.setColor = function(color) {
         this.color = color;
+    }
+
+    this.setImg = function (img) {
+        this.img= img;
     }
 }
 
 function Casilla(id, persona, ocupada, fila, columna) {
-    this.id = id;
-    this.persona = persona;
-    this.ocupada = ocupada;
-    this.fila = fila;
-    this.columna = columna;
+    var id = id;
+    var persona = persona;
+    var ocupada = ocupada;
+    var fila = fila;
+    var columna = columna;
 
-    function getId() {
-        return this.id;
+    this.getId = function(){
+        return id;
     }
 
-    function getPersona() {
-        return this.persona;;
+    this.getPersona = function(){
+        return persona;;
     }
 
-    function getOcupada() {
-        return this.ocupada;
+    this.getOcupada = function() {
+        return ocupada;
     }
 
-    function getFila() {
-        return this.fila;
+    this.getFila = function() {
+        return fila;
     }
 
-    function getColumna() {
-        return this.columna;
+    this.getColumna = function() {
+        return columna;
     }
 
-    function setPersona(persona) {
-        this.persona = persona;
+    this.setPersona = function(persona) {
+        persona = persona;
     }
 
-    function setOcupada(ocupada) {
-        this.ocupada = ocupada;
+    this.setOcupada = function(ocupada) {
+        ocupada = ocupada;
     }
 
-    function borrarPersona() {
-        if (this.persona != null) {
-            this.persona = null;
-            this.ocupada = false;
+    this.borrarPersona = function () {
+        if (persona != null) {
+            persona = null;
+            ocupada = false;
         }
     }
 }
 
 function Tablero() {
     this.Casillas = new Array();
-
-    function llenarTablero() {
-        for (var ca in this.Casillas) {
-           
-            pe = new Persona();
-            ca.setPersona();
-        }
-    }
-
+    this.Personas = new Array();
     this.crear = function () {
         fila = 0;
         columna = 0;
-        for (var i = 0; i < 90; i++, fila++) {
+        for (var i = 0; i < 100; i++, fila++) {
             div = document.createElement("div");
             div.setAttribute("id", i);
             div.setAttribute("style", "width:50px;height:50px;float:left;border:1px solid Black;margin:2px");
@@ -90,8 +87,41 @@ function Tablero() {
                 fila = 0;
                 columna++;
             }
-            this.Casillas[i] = Casilla(i, null, false, fila, columna);
+            this.Casillas[i] = new Casilla(i, null, false, fila, columna);
         }
 
     };
+
+    this.llenarTablero = function () {
+        tipoFicha = "blanca";
+        for (i = 0; i < 34; i++) {
+            this.Personas[i] = new Persona(i, tipoFicha, true);
+            if (i == 16) {
+                tipoFicha = "negra";
+            }
+            rnd = Math.round(Math.random() * 99);
+            if (this.Casillas[rnd].getPersona() == null) {
+                this.Casillas[rnd].setPersona(this.Personas[i]);
+                this.Casillas[rnd].setOcupada(true);
+                img = document.createElement("img");
+                if (this.Personas[i].getColor() == "negra") {
+                    img.setAttribute("src", "FichaNegra.png");
+                }
+                else if (this.Personas[i].getColor() == "blanca") {
+                    img.setAttribute("src", "FichaBlanca.png");
+                }
+                img.setAttribute("width", "48px");
+                img.setAttribute("height", "48px");
+                this.Personas[i].setImg(img);
+                $("#" + rnd).append(img);
+            }
+            else {
+                i--;
+            }
+        }
+        console.log(this.Personas);
+        console.log(this.Casillas);
+    }
+
+   
 }
