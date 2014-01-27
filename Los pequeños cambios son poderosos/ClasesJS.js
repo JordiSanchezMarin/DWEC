@@ -136,6 +136,7 @@ function Tablero() {
     this.comprobarFichas = function () {
         for (var i = 0; i <= 99; i++) {
             if (this.Casillas[i].getPersona() != null) {
+                
                 vecinas = new Array();
                 if (this.Casillas[i].getColumna() == 0 && this.Casillas[i].getFila() == 0) {
                     vecinas[0] = tablero.Casillas[i + 10];
@@ -208,11 +209,11 @@ function Tablero() {
                         $("#" + this.Casillas[i].getId()).empty();
                         $("#" + this.Casillas[i].getId()).append(this.Casillas[i].getPersona().getImg());
                     }
+                    
                 }
                 else {
                     this.Casillas[i].getPersona().setOk(false);
                 }
-
             }
         }
     }
@@ -237,13 +238,13 @@ function Norma(id, nombre) {
                     }
                 }
             }
-
+            if (ve > 2) {
+                return true;
+            }
+            else {
+                return false;
+            }
         }
-        if (ve > 3 || ve == 3) {
-            return true;
-        }
-        else {
-            return false;
-        }
+      
     };
 }
