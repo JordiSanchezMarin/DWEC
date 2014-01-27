@@ -89,14 +89,14 @@ function Tablero() {
     this.crear = function () {
         fila = 0;
         columna = 0;
-        for (var i = 0; i < 100; i++, fila++) {
+        for (var i = 0; i < 100; i++, columna++) {
             div = document.createElement("div");
             div.setAttribute("id", i);
             div.setAttribute("style", "width:50px;height:50px;float:left;border:1px solid Black;margin:2px");
             $("#total").append(div);
-            if (fila >= 10) {
-                fila = 0;
-                columna++;
+            if (columna == 10) {
+                columna = 0;
+                fila++;
             }
             this.Casillas[i] = new Casilla(i, null, false, fila, columna);
         }
@@ -105,13 +105,13 @@ function Tablero() {
 
     this.llenarTablero = function () {
         tipoFicha = "blanca";
-        for (i = 0; i < 80; i++) {
+        for (i = 0; i < 60; i++) {
             this.Personas[i] = new Persona(i, tipoFicha, false);
-            if (i == 40) {
+            if (i == 30) {
                 tipoFicha = "negra";
             }
             rnd = Math.round(Math.random() * 99);
-            
+
             if (this.Casillas[rnd].getOcupada() == false) {
                 this.Casillas[rnd].setPersona(this.Personas[i]);
                 this.Casillas[rnd].setOcupada(true);
@@ -124,7 +124,7 @@ function Tablero() {
                 }
                 img.setAttribute("width", "48px");
                 img.setAttribute("height", "48px");
-                this.Personas[i].setImg(img);
+                this.Personas[i].setImg(img.getAttribute("src"));
                 $("#" + rnd).append(img);
             }
             else {
@@ -137,48 +137,48 @@ function Tablero() {
         for (var i = 0; i <= 99; i++) {
             if (this.Casillas[i].getPersona() != null) {
                 vecinas = new Array();
-                if (this.Casillas[i].getFila() == 0 && this.Casillas[i].getColumna() == 0) {
+                if (this.Casillas[i].getColumna() == 0 && this.Casillas[i].getFila() == 0) {
                     vecinas[0] = tablero.Casillas[i + 10];
                     vecinas[1] = tablero.Casillas[i + 11];
                     vecinas[2] = tablero.Casillas[i + 1];
                 }
-                else if (this.Casillas[i].getFila() == 9 && this.Casillas[i].getColumna() == 0) {
+                else if (this.Casillas[i].getColumna() == 9 && this.Casillas[i].getFila() == 0) {
                     vecinas[0] = tablero.Casillas[i + 10];
                     vecinas[1] = tablero.Casillas[i + 9];
                     vecinas[2] = tablero.Casillas[i - 1];
                 }
-                else if (this.Casillas[i].getFila() == 0 && this.Casillas[i].getColumna() == 9) {
+                else if (this.Casillas[i].getColumna() == 0 && this.Casillas[i].getFila() == 9) {
                     vecinas[0] = tablero.Casillas[i - 10];
                     vecinas[1] = tablero.Casillas[i - 9];
                     vecinas[2] = tablero.Casillas[i + 1];
                 }
-                else if (this.Casillas[i].getFila() == 9 && this.Casillas[i].getColumna() == 9) {
+                else if (this.Casillas[i].getColumna() == 9 && this.Casillas[i].getFila() == 9) {
                     vecinas[0] = tablero.Casillas[i - 10];
                     vecinas[1] = tablero.Casillas[i - 11];
                     vecinas[2] = tablero.Casillas[i - 1];
                 }
-                else if (this.Casillas[i].getFila() == 0) {
+                else if (this.Casillas[i].getColumna() == 0) {
                     vecinas[0] = tablero.Casillas[i - 10];
                     vecinas[1] = tablero.Casillas[i - 9];
                     vecinas[2] = tablero.Casillas[i + 1];
                     vecinas[3] = tablero.Casillas[rnd + 10];
                     vecinas[4] = tablero.Casillas[rnd + 11];
                 }
-                else if (this.Casillas[i].getFila() == 9) {
+                else if (this.Casillas[i].getColumna() == 9) {
                     vecinas[0] = tablero.Casillas[i - 10];
                     vecinas[1] = tablero.Casillas[i - 11];
                     vecinas[2] = tablero.Casillas[i - 1];
                     vecinas[3] = tablero.Casillas[i + 10];
                     vecinas[4] = tablero.Casillas[i + 9];
                 }
-                else if (this.Casillas[i].getColumna() == 0) {
+                else if (this.Casillas[i].getFila() == 0) {
                     vecinas[0] = tablero.Casillas[i + 10];
                     vecinas[1] = tablero.Casillas[i + 1];
                     vecinas[2] = tablero.Casillas[i + 11];
                     vecinas[3] = tablero.Casillas[i + 9]
                     vecinas[4] = tablero.Casillas[i - 1];
                 }
-                else if (this.Casillas[i].getColumna() == 9) {
+                else if (this.Casillas[i].getFila() == 9) {
                     vecinas[0] = tablero.Casillas[i - 10];
                     vecinas[1] = tablero.Casillas[i + 1];
                     vecinas[2] = tablero.Casillas[i - 11];
@@ -239,7 +239,7 @@ function Norma(id, nombre) {
             }
 
         }
-        if (ve >= 3) {
+        if (ve > 3 || ve == 3) {
             return true;
         }
         else {
