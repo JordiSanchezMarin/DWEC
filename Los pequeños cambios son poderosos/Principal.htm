@@ -10,12 +10,24 @@
     <div id="total" style="width:600px;height:580px">
     
     </div>
+    <div>
+            <input id="rd1" type="radio" value="1" name="norma" checked="checked"/> Norma1 <br />
+            <input id="rd2" type="radio" value="2" name="norma" /> Norma2 <br />
+            <input type="button" value="Empezar" onclick="go();"/>
+    </div>
        <script type="text/javascript">
-           tablero = new Tablero();
-           tablero.crear();
-           tablero.llenarTablero();
-           tablero.comprobarFichas();
-           
+           function go() {
+               juego = new Juego();
+               juego.preparar();
+               if ($('input:radio[id=rd1]:checked').val() == true) {
+                   juego.defNorma(1);
+               }
+               else {
+                   juego.defNorma(2);
+               }
+              
+           }
+                      
     </script>
 </body>
 </html>

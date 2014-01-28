@@ -92,7 +92,7 @@ function Tablero() {
         for (var i = 0; i < 100; i++, columna++) {
             div = document.createElement("div");
             div.setAttribute("id", i);
-            div.setAttribute("style", "width:50px;height:50px;float:left;border:1px solid Black;margin:2px");
+            div.setAttribute("style", "width:50px;height:50px;float:left;border:1px solid Black;margin:2px;background-color:#F98E8E;text-align:center");
             $("#total").append(div);
             if (columna == 10) {
                 columna = 0;
@@ -139,65 +139,65 @@ function Tablero() {
                 
                 vecinas = new Array();
                 if (this.Casillas[i].getColumna() == 0 && this.Casillas[i].getFila() == 0) {
-                    vecinas[0] = tablero.Casillas[i + 10];
-                    vecinas[1] = tablero.Casillas[i + 11];
-                    vecinas[2] = tablero.Casillas[i + 1];
+                    vecinas[0] = this.Casillas[i + 10];
+                    vecinas[1] = this.Casillas[i + 11];
+                    vecinas[2] = this.Casillas[i + 1];
                 }
                 else if (this.Casillas[i].getColumna() == 9 && this.Casillas[i].getFila() == 0) {
-                    vecinas[0] = tablero.Casillas[i + 10];
-                    vecinas[1] = tablero.Casillas[i + 9];
-                    vecinas[2] = tablero.Casillas[i - 1];
+                    vecinas[0] = this.Casillas[i + 10];
+                    vecinas[1] = this.Casillas[i + 9];
+                    vecinas[2] = this.Casillas[i - 1];
                 }
                 else if (this.Casillas[i].getColumna() == 0 && this.Casillas[i].getFila() == 9) {
-                    vecinas[0] = tablero.Casillas[i - 10];
-                    vecinas[1] = tablero.Casillas[i - 9];
-                    vecinas[2] = tablero.Casillas[i + 1];
+                    vecinas[0] = this.Casillas[i - 10];
+                    vecinas[1] = this.Casillas[i - 9];
+                    vecinas[2] = this.Casillas[i + 1];
                 }
                 else if (this.Casillas[i].getColumna() == 9 && this.Casillas[i].getFila() == 9) {
-                    vecinas[0] = tablero.Casillas[i - 10];
-                    vecinas[1] = tablero.Casillas[i - 11];
-                    vecinas[2] = tablero.Casillas[i - 1];
+                    vecinas[0] = this.Casillas[i - 10];
+                    vecinas[1] = this.Casillas[i - 11];
+                    vecinas[2] = this.Casillas[i - 1];
                 }
                 else if (this.Casillas[i].getColumna() == 0) {
-                    vecinas[0] = tablero.Casillas[i - 10];
-                    vecinas[1] = tablero.Casillas[i - 9];
-                    vecinas[2] = tablero.Casillas[i + 1];
-                    vecinas[3] = tablero.Casillas[i + 10];
-                    vecinas[4] = tablero.Casillas[i + 11];
+                    vecinas[0] = this.Casillas[i - 10];
+                    vecinas[1] = this.Casillas[i - 9];
+                    vecinas[2] = this.Casillas[i + 1];
+                    vecinas[3] = this.Casillas[i + 10];
+                    vecinas[4] = this.Casillas[i + 11];
                 }
                 else if (this.Casillas[i].getColumna() == 9) {
-                    vecinas[0] = tablero.Casillas[i - 10];
-                    vecinas[1] = tablero.Casillas[i - 11];
-                    vecinas[2] = tablero.Casillas[i - 1];
-                    vecinas[3] = tablero.Casillas[i + 10];
-                    vecinas[4] = tablero.Casillas[i + 9];
+                    vecinas[0] = this.Casillas[i - 10];
+                    vecinas[1] = this.Casillas[i - 11];
+                    vecinas[2] = this.Casillas[i - 1];
+                    vecinas[3] = this.Casillas[i + 10];
+                    vecinas[4] = this.Casillas[i + 9];
                 }
                 else if (this.Casillas[i].getFila() == 0) {
-                    vecinas[0] = tablero.Casillas[i + 10];
-                    vecinas[1] = tablero.Casillas[i + 1];
-                    vecinas[2] = tablero.Casillas[i + 11];
-                    vecinas[3] = tablero.Casillas[i + 9]
-                    vecinas[4] = tablero.Casillas[i - 1];
+                    vecinas[0] = this.Casillas[i + 10];
+                    vecinas[1] = this.Casillas[i + 1];
+                    vecinas[2] = this.Casillas[i + 11];
+                    vecinas[3] = this.Casillas[i + 9]
+                    vecinas[4] = this.Casillas[i - 1];
                 }
                 else if (this.Casillas[i].getFila() == 9) {
-                    vecinas[0] = tablero.Casillas[i - 10];
-                    vecinas[1] = tablero.Casillas[i + 1];
-                    vecinas[2] = tablero.Casillas[i - 11];
-                    vecinas[3] = tablero.Casillas[i - 9]
-                    vecinas[4] = tablero.Casillas[i - 1];
+                    vecinas[0] = this.Casillas[i - 10];
+                    vecinas[1] = this.Casillas[i + 1];
+                    vecinas[2] = this.Casillas[i - 11];
+                    vecinas[3] = this.Casillas[i - 9]
+                    vecinas[4] = this.Casillas[i - 1];
                 }
                 else {
-                    vecinas[0] = tablero.Casillas[i - 11];
-                    vecinas[1] = tablero.Casillas[i - 10];
-                    vecinas[2] = tablero.Casillas[i - 9];
-                    vecinas[3] = tablero.Casillas[i - 1];
-                    vecinas[4] = tablero.Casillas[i + 1];
-                    vecinas[5] = tablero.Casillas[i + 9];
-                    vecinas[6] = tablero.Casillas[i + 10];
-                    vecinas[7] = tablero.Casillas[i + 11];
+                    vecinas[0] = this.Casillas[i - 11];
+                    vecinas[1] = this.Casillas[i - 10];
+                    vecinas[2] = this.Casillas[i - 9];
+                    vecinas[3] = this.Casillas[i - 1];
+                    vecinas[4] = this.Casillas[i + 1];
+                    vecinas[5] = this.Casillas[i + 9];
+                    vecinas[6] = this.Casillas[i + 10];
+                    vecinas[7] = this.Casillas[i + 11];
 
                 }
-                if (this.Norma1.ComprobarVecinos(this.Casillas[i], vecinas) == true) {
+                if (this.Norma1.ComprobarVecinos1  (this.Casillas[i], vecinas) == true) {
                     this.Casillas[i].getPersona().setOk(true);
                     if (this.Casillas[i].getPersona().getColor() == "blanca") {
                         this.Casillas[i].getPersona().setImg("FichaBlancaOk.png");
@@ -221,14 +221,36 @@ function Tablero() {
 
 function Juego() {
     this.tablero = new Tablero();
-    this.normaActual = new Norma;
+    this.normaActual = new Norma(1, "Norma1");
+    this.idNorma = 1;
+    this.preparar = function () {
+        this.tablero.crear();
+        this.tablero.llenarTablero();
+        this.tablero.comprobarFichas();
+    };
+
+    this.setNormaActual = function (norma) {
+        this.normaActual = norma;
+    };
+
+    this.getNormaActual = function () {
+        return this.normaActual;
+    };
+
+    this.defNorma = function (num) {
+        this.idNorma = num;
+    };
+
+    this.getIdNorma = function () {
+        return this.idNorma;
+    };
 }
 
 function Norma(id, nombre) {
     this.id = id;
     this.nombre = nombre;
 
-    this.ComprobarVecinos = function (casilla1, vecinas) {
+    this.ComprobarVecinos1 = function (casilla1, vecinas) {
         var ve = 0;
         if (casilla1.getPersona() != null) {
             for (y = 0; y < vecinas.length ; y++) {
