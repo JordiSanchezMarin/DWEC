@@ -162,8 +162,8 @@ function Tablero() {
                     vecinas[0] = tablero.Casillas[i - 10];
                     vecinas[1] = tablero.Casillas[i - 9];
                     vecinas[2] = tablero.Casillas[i + 1];
-                    vecinas[3] = tablero.Casillas[rnd + 10];
-                    vecinas[4] = tablero.Casillas[rnd + 11];
+                    vecinas[3] = tablero.Casillas[i + 10];
+                    vecinas[4] = tablero.Casillas[i + 11];
                 }
                 else if (this.Casillas[i].getColumna() == 9) {
                     vecinas[0] = tablero.Casillas[i - 10];
