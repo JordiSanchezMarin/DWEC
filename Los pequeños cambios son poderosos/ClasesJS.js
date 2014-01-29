@@ -3,7 +3,6 @@ function Persona(id, colo, ok) {
     this.color = colo;
     this.ok = ok;
     this.img = document.createElement("img");
-
     this.comportamiento = function (callback) {
         callback();
     };
@@ -32,6 +31,7 @@ function Persona(id, colo, ok) {
         this.img.setAttribute("src", img);
         this.img.setAttribute("width", "48px");
         this.img.setAttribute("height", "48px");
+        this.img.setAttribute("id", "img" + this.id);
     };
 
     this.setOk = function (ok) {
@@ -116,6 +116,7 @@ function Tablero() {
                 this.Casillas[rnd].setPersona(this.Personas[i]);
                 this.Casillas[rnd].setOcupada(true);
                 img = document.createElement("img");
+                img.setAttribute("id", "img" + this.Personas[i].getId());
                 if (this.Personas[i].getColor() == "negra") {
                     img.setAttribute("src", "FichaNegra.png");
                 }
@@ -132,11 +133,17 @@ function Tablero() {
             }
         }
     };
-
-    this.comprobarFichas = function () {
+    this.casillasDisponibles = function (color) {
+        for (var i = 0; i <= 99; i++) {
+            if (this.Casillas[i].getPersona() != null) { 
+                
+            }
+        }
+    };
+    this.comprobarFichas = function (idNorma) {
         for (var i = 0; i <= 99; i++) {
             if (this.Casillas[i].getPersona() != null) {
-                
+
                 vecinas = new Array();
                 if (this.Casillas[i].getColumna() == 0 && this.Casillas[i].getFila() == 0) {
                     vecinas[0] = this.Casillas[i + 10];
@@ -197,22 +204,43 @@ function Tablero() {
                     vecinas[7] = this.Casillas[i + 11];
 
                 }
-                if (this.Norma1.ComprobarVecinos1  (this.Casillas[i], vecinas) == true) {
-                    this.Casillas[i].getPersona().setOk(true);
-                    if (this.Casillas[i].getPersona().getColor() == "blanca") {
-                        this.Casillas[i].getPersona().setImg("FichaBlancaOk.png");
-                        $("#" + this.Casillas[i].getId()).empty();
-                        $("#" + this.Casillas[i].getId()).append(this.Casillas[i].getPersona().getImg());
+                if (idNorma == 1) {
+                    if (this.Norma1.ComprobarVecinos1(this.Casillas[i], vecinas) == true) {
+                        this.Casillas[i].getPersona().setOk(true);
+                        if (this.Casillas[i].getPersona().getColor() == "blanca") {
+                            this.Casillas[i].getPersona().setImg("FichaBlancaOk.png");
+                            $("#" + this.Casillas[i].getId()).empty();
+                            $("#" + this.Casillas[i].getId()).append(this.Casillas[i].getPersona().getImg());
+                        }
+                        else {
+                            this.Casillas[i].getPersona().setImg("FichaNegraOk.png");
+                            $("#" + this.Casillas[i].getId()).empty();
+                            $("#" + this.Casillas[i].getId()).append(this.Casillas[i].getPersona().getImg());
+                        }
+
                     }
                     else {
-                        this.Casillas[i].getPersona().setImg("FichaNegraOk.png");
-                        $("#" + this.Casillas[i].getId()).empty();
-                        $("#" + this.Casillas[i].getId()).append(this.Casillas[i].getPersona().getImg());
+                        this.Casillas[i].getPersona().setOk(false);
                     }
-                    
                 }
-                else {
-                    this.Casillas[i].getPersona().setOk(false);
+                else if (idNorma == 2) {
+                    if (this.Norma1.ComprobarVecinos2(this.Casillas[i], vecinas) == true) {
+                        this.Casillas[i].getPersona().setOk(true);
+                        if (this.Casillas[i].getPersona().getColor() == "blanca") {
+                            this.Casillas[i].getPersona().setImg("FichaBlancaOk.png");
+                            $("#" + this.Casillas[i].getId()).empty();
+                            $("#" + this.Casillas[i].getId()).append(this.Casillas[i].getPersona().getImg());
+                        }
+                        else {
+                            this.Casillas[i].getPersona().setImg("FichaNegraOk.png");
+                            $("#" + this.Casillas[i].getId()).empty();
+                            $("#" + this.Casillas[i].getId()).append(this.Casillas[i].getPersona().getImg());
+                        }
+
+                    }
+                    else {
+                        this.Casillas[i].getPersona().setOk(false);
+                    }
                 }
             }
         }
@@ -226,7 +254,7 @@ function Juego() {
     this.preparar = function () {
         this.tablero.crear();
         this.tablero.llenarTablero();
-        this.tablero.comprobarFichas();
+        this.tablero.comprobarFichas(this.idNorma);
     };
 
     this.setNormaActual = function (norma) {
@@ -267,6 +295,25 @@ function Norma(id, nombre) {
                 return false;
             }
         }
-      
+
+    };
+
+    this.ComprobarVecinos2 = function (casilla1, vecinas) {
+        var ve = false;
+        if (casilla1.getPersona() != null) {
+            for (y = 0; y < vecinas.length; y++) {
+                if (vecinas[y].getPersona() != null) {
+                    if (casilla1.getPersona().getColor() != vecinas[y].getPersona().getColor()) {
+                        ve = true;
+                    }
+                }
+            }
+            if (ve == true) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
     };
 }

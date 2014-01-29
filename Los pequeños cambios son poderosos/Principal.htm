@@ -13,19 +13,22 @@
     <div>
             <input id="rd1" type="radio" value="1" name="norma" checked="checked"/> Norma1 <br />
             <input id="rd2" type="radio" value="2" name="norma" /> Norma2 <br />
-            <input type="button" value="Empezar" onclick="go();"/>
+            <input id="empezar" type="button" value="Empezar" onclick="go();"/>
     </div>
        <script type="text/javascript">
            function go() {
+               $('#total').empty();
                juego = new Juego();
-               juego.preparar();
                if ($('input:radio[id=rd1]:checked').val() == true) {
                    juego.defNorma(1);
                }
                else {
                    juego.defNorma(2);
                }
-              
+               juego.preparar();
+               $("img").click(function () {
+                   
+               });
            }
                       
     </script>
