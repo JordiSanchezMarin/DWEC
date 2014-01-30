@@ -3,10 +3,11 @@ function Persona(id, colo, ok) {
     this.color = colo;
     this.ok = ok;
     this.img = document.createElement("img");
+    
     this.comportamiento = function (callback) {
         callback();
     };
-
+        
     this.getId = function () {
         return this.id;
     };
@@ -26,12 +27,17 @@ function Persona(id, colo, ok) {
     this.setColor = function (col) {
         this.color = col;
     };
-
     this.setImg = function (img) {
         this.img.setAttribute("src", img);
         this.img.setAttribute("width", "48px");
         this.img.setAttribute("height", "48px");
         this.img.setAttribute("id", "img" + this.id);
+        if (this.ok == false) {
+            $(this.img).click(function () {
+                console.log("a");
+            });
+        }
+       
     };
 
     this.setOk = function (ok) {
@@ -132,6 +138,8 @@ function Tablero() {
             }
         }
     };
+
+ 
     this.devolverVecinos = function (casilla) {
                     vecinas = new Array();
                     if (casilla.getColumna() == 0 && casilla.getFila() == 0) {
@@ -193,11 +201,13 @@ function Tablero() {
                         vecinas[7] = this.Casillas[casilla.getId() + 11];
                     }
                     return vecinas;
-            
+           
     };
+
     this.comprobarEstadoTablero = function (idNorma) {
         for (var i = 0; i <= 99; i++) {
             if (this.Casillas[i].getPersona() != null) {
+
                 var vecinas = new Array();
                 vecinas = this.devolverVecinos(this.Casillas[i]);
                 if (idNorma == 1) {
@@ -242,44 +252,59 @@ function Tablero() {
 
         }
     };
-    this.comprobarEstadoVacias = function (idNorma) {
-        for (i = 0; i <= 99; i++) {
+    this.comprobarEstadoVacias = function (p, idNorma, norma) {
+        for (var i = 0; i <= 99; i++) {
             if (this.Casillas[i].getPersona() == null) {
+
                 var vecinas = new Array();
                 vecinas = this.devolverVecinos(this.Casillas[i]);
                 if (idNorma == 1) {
-                    if (this.Norma1.ComprobarVecinos1(this.Casillas[i], vecinas) == true) {
-                        $("#i").attr("style", "background-color:white");
+                    if (norma.ComprobarVecinosVacia1(p, this.Casillas[i], vecinas) == true) {
+                        $("#" + i).attr({
+                            style: "background-color:Black"
+                        });
+                        //$("#" + i).setAttribute("style", "background-color:Black");
+                        console.log("n1");
                     }
                 }
                 else if (idNorma == 2) {
-                    if (this.Norma1.ComprobarVecinos2(this.Casillas[i], vecinas) == true) {
-                        $("#i").attr("style", "background-color:white");
+                    if (norma.ComprobarVecinosVacia2(p, this.Casillas[i], vecinas) == true) {
+                        $("#" + i).setAttribute("style", "background-color:Black");
+                        console.log("n2");
                     }
+
                 }
 
             }
         }
     };
+    
 }
 
 function Juego() {
     this.tablero = new Tablero();
-    this.normaActual = new Norma(1, "Norma1");
+    this.normaActual = new Norma("Norma1");
     this.idNorma = 1;
     this.preparar = function () {
         this.tablero.crear();
         this.tablero.llenarTablero();
         this.tablero.comprobarEstadoTablero(this.idNorma);
-        $("img").click(function () {
-            this.tablero.comprobarEstadoVacias(this.idNorma);
-        });
+        var tab = this.tablero;
+        var norma = this.normaActual;
+        var idnorma = this.idNorma;
+        /*$("img").click(function () {
+            console.log(document.getElementById(this).attributes.item);
+            persona = new Persona(100, "blanca", false);
+            tab.comprobarEstadoVacias(persona, idnorma, norma);
+        });*/
     };
 
     this.setNormaActual = function (norma) {
         this.normaActual = norma;
     };
-
+    this.getTablero = function () {
+        return this.tablero;
+    };
     this.getNormaActual = function () {
         return this.normaActual;
     };
@@ -293,13 +318,11 @@ function Juego() {
     };
 }
 
-function Norma(id, nombre) {
-    this.id = id;
+function Norma(nombre) {
     this.nombre = nombre;
-
+    
     this.ComprobarVecinos1 = function (casilla1, vecinas) {
         var ve = 0;
-        if (casilla1.getPersona() != null) {
             for (y = 0; y < vecinas.length ; y++) {
                 if (vecinas[y].getPersona() != null) {
                     if (casilla1.getPersona().getColor() == vecinas[y].getPersona().getColor()) {
@@ -313,13 +336,10 @@ function Norma(id, nombre) {
             else {
                 return false;
             }
-        }
-
     };
 
     this.ComprobarVecinos2 = function (casilla1, vecinas) {
         var ve = false;
-        if (casilla1.getPersona() != null) {
             for (y = 0; y < vecinas.length; y++) {
                 if (vecinas[y].getPersona() != null) {
                     if (casilla1.getPersona().getColor() != vecinas[y].getPersona().getColor()) {
@@ -333,6 +353,40 @@ function Norma(id, nombre) {
             else {
                 return false;
             }
-        }
+
     };
+    this.ComprobarVecinosVacia2 = function (persona, casilla1, vecinas) {
+        var ve = false;
+        for (y = 0; y < vecinas.length; y++) {
+            if (vecinas[y].getPersona() != null) {
+                if (persona.getColor() != vecinas[y].getPersona().getColor()) {
+                    ve = true;
+                }
+            }
+        }
+        if (ve == true) {
+            return true;
+        }
+        else {
+            return false;
+        }
+
+    };
+
+    this.ComprobarVecinosVacia1 = function (persona, casilla1, vecinas) {
+        var ve = 0;
+        for (y = 0; y < vecinas.length; y++) {
+            if (vecinas[y].getPersona() != null) {
+                if (persona.getColor() == vecinas[y].getPersona().getColor()) {
+                    ve++;
+                }
+            }
+        }
+        if (ve > 2) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }
