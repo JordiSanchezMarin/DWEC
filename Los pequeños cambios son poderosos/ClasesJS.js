@@ -32,12 +32,6 @@ function Persona(id, colo, ok) {
         this.img.setAttribute("width", "48px");
         this.img.setAttribute("height", "48px");
         this.img.setAttribute("id", "img" + this.id);
-        if (this.ok == false) {
-            $(this.img).click(function () {
-                console.log("a");
-            });
-        }
-       
     };
 
     this.setOk = function (ok) {
@@ -86,12 +80,26 @@ function Casilla(id, persona, ocupada, fila, columna) {
             this.ocupada = false;
         }
     };
+
+    this.hayPersona = function () {
+        if (this.persona != null) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    };
 }
 
 function Tablero() {
     this.Casillas = new Array();
     this.Personas = new Array();
     this.Norma1 = new Norma(1, "Norma1");
+
+    this.getCasillas = function () {
+        return this.Casillas;
+    };
+
     this.crear = function () {
         fila = 0;
         columna = 0;
@@ -139,69 +147,73 @@ function Tablero() {
         }
     };
 
- 
+
     this.devolverVecinos = function (casilla) {
-                    vecinas = new Array();
-                    if (casilla.getColumna() == 0 && casilla.getFila() == 0) {
-                        vecinas[0] = this.Casillas[casilla.getId() + 10];
-                        vecinas[1] = this.Casillas[casilla.getId() + 11];
-                        vecinas[2] = this.Casillas[casilla.getId() + 1];
-                    }
-                    else if (casilla.getColumna() == 9 && casilla.getFila() == 0) {
-                        vecinas[0] = this.Casillas[casilla.getId() + 10];
-                        vecinas[1] = this.Casillas[casilla.getId() + 9];
-                        vecinas[2] = this.Casillas[casilla.getId() - 1];
-                    }
-                    else if (casilla.getColumna() == 0 && casilla.getFila() == 9) {
-                        vecinas[0] = this.Casillas[casilla.getId() - 10];
-                        vecinas[1] = this.Casillas[casilla.getId() - 9];
-                        vecinas[2] = this.Casillas[casilla.getId() + 1];
-                    }
-                    else if (casilla.getColumna() == 9 && casilla.getFila() == 9) {
-                        vecinas[0] = this.Casillas[casilla.getId() - 10];
-                        vecinas[1] = this.Casillas[casilla.getId() - 11];
-                        vecinas[2] = this.Casillas[casilla.getId() - 1];
-                    }
-                    else if (casilla.getColumna() == 0) {
-                        vecinas[0] = this.Casillas[casilla.getId() - 10];
-                        vecinas[1] = this.Casillas[casilla.getId() - 9];
-                        vecinas[2] = this.Casillas[casilla.getId() + 1];
-                        vecinas[3] = this.Casillas[casilla.getId() + 10];
-                        vecinas[4] = this.Casillas[casilla.getId() + 11];
-                    }
-                    else if (casilla.getColumna() == 9) {
-                        vecinas[0] = this.Casillas[casilla.getId() - 10];
-                        vecinas[1] = this.Casillas[casilla.getId() - 11];
-                        vecinas[2] = this.Casillas[casilla.getId() - 1];
-                        vecinas[3] = this.Casillas[casilla.getId() + 10];
-                        vecinas[4] = this.Casillas[casilla.getId() + 9];
-                    }
-                    else if (casilla.getFila() == 0) {
-                        vecinas[0] = this.Casillas[casilla.getId() + 10];
-                        vecinas[1] = this.Casillas[casilla.getId() + 1];
-                        vecinas[2] = this.Casillas[casilla.getId() + 11];
-                        vecinas[3] = this.Casillas[casilla.getId() + 9]
-                        vecinas[4] = this.Casillas[casilla.getId() - 1];
-                    }
-                    else if (casilla.getFila() == 9) {
-                        vecinas[0] = this.Casillas[casilla.getId() - 10];
-                        vecinas[1] = this.Casillas[casilla.getId() + 1];
-                        vecinas[2] = this.Casillas[casilla.getId() - 11];
-                        vecinas[3] = this.Casillas[casilla.getId() - 9]
-                        vecinas[4] = this.Casillas[casilla.getId() - 1];
-                    }
-                    else {
-                        vecinas[0] = this.Casillas[casilla.getId() - 11];
-                        vecinas[1] = this.Casillas[casilla.getId() - 10];
-                        vecinas[2] = this.Casillas[casilla.getId() - 9];
-                        vecinas[3] = this.Casillas[casilla.getId() - 1];
-                        vecinas[4] = this.Casillas[casilla.getId() + 1];
-                        vecinas[5] = this.Casillas[casilla.getId() + 9];
-                        vecinas[6] = this.Casillas[casilla.getId() + 10];
-                        vecinas[7] = this.Casillas[casilla.getId() + 11];
-                    }
-                    return vecinas;
-           
+        vecinas = new Array();
+        casillas = new Array();
+        casillas = this.getCasillas();
+        if (casilla.getColumna() == 0 && casilla.getFila() == 0) {
+            vecinas[0] = casillas[casilla.getId() + 10];
+            vecinas[1] = casillas[casilla.getId() + 11];
+            vecinas[2] = casillas[casilla.getId() + 1];
+        }
+        else if (casilla.getColumna() == 9 && casilla.getFila() == 0) {
+            vecinas[0] = casillas[casilla.getId() + 10];
+            vecinas[1] = casillas[casilla.getId() + 9];
+            vecinas[2] = casillas[casilla.getId() - 1];
+        }
+        else if (casilla.getColumna() == 0 && casilla.getFila() == 9) {
+            vecinas[0] = casillas[casilla.getId() - 10];
+            vecinas[1] = casillas[casilla.getId() - 9];
+            vecinas[2] = casillas[casilla.getId() + 1];
+        }
+        else if (casilla.getColumna() == 9 && casilla.getFila() == 9) {
+            vecinas[0] = casillas[casilla.getId() - 10];
+            vecinas[1] = casillas[casilla.getId() - 11];
+            vecinas[2] = casillas[casilla.getId() - 1];
+        }
+        else if (casilla.getColumna() == 0) {
+            vecinas[0] = casillas[casilla.getId() - 10];
+            vecinas[1] = casillas[casilla.getId() - 9];
+            vecinas[2] = casillas[casilla.getId() + 1];
+            vecinas[3] = casillas[casilla.getId() + 10];
+            vecinas[4] = casillas[casilla.getId() + 11];
+        }
+        else if (casilla.getColumna() == 9) {
+            vecinas[0] = casillas[casilla.getId() - 10];
+            vecinas[1] = casillas[casilla.getId() - 11];
+            vecinas[2] = casillas[casilla.getId() - 1];
+            vecinas[3] = casillas[casilla.getId() + 10];
+            vecinas[4] = casillas[casilla.getId() + 9];
+        }
+        else if (casilla.getFila() == 0) {
+            vecinas[0] = casillas[casilla.getId() + 10];
+            vecinas[1] = casillas[casilla.getId() + 1];
+            vecinas[2] = casillas[casilla.getId() + 11];
+            vecinas[3] = casillas[casilla.getId() + 9]
+            vecinas[4] = casillas[casilla.getId() - 1];
+        }
+        else if (casilla.getFila() == 9) {
+            vecinas[0] = casillas[casilla.getId() - 10];
+            vecinas[1] = casillas[casilla.getId() + 1];
+            vecinas[2] = casillas[casilla.getId() - 11];
+            vecinas[3] = casillas[casilla.getId() - 9]
+            vecinas[4] = casillas[casilla.getId() - 1];
+        }
+        else {
+            vecinas[0] = casillas[casilla.getId() - 11];
+            vecinas[1] = casillas[casilla.getId() - 10];
+            vecinas[2] = casillas[casilla.getId() - 9];
+            vecinas[3] = casillas[casilla.getId() - 1];
+            vecinas[4] = casillas[casilla.getId() + 1];
+            vecinas[5] = casillas[casilla.getId() + 9];
+            vecinas[6] = casillas[casilla.getId() + 10];
+            vecinas[7] = casillas[casilla.getId() + 11];
+            
+        }
+        
+        return vecinas;
+
     };
 
     this.comprobarEstadoTablero = function (idNorma) {
@@ -223,9 +235,15 @@ function Tablero() {
                             $("#" + this.Casillas[i].getId()).empty();
                             $("#" + this.Casillas[i].getId()).append(this.Casillas[i].getPersona().getImg());
                         }
-
                     }
                     else {
+                        person = this.Casillas[i].getPersona();
+                        tab = this;
+                        norm = this.Norma1;
+                        casillas = this.Casillas;
+                        $("#img" + person.getId()).click(function () {
+                            tab.comprobarEstadoVacias(person, idNorma, norm, casillas);
+                        });
                         this.Casillas[i].getPersona().setOk(false);
                     }
                 }
@@ -245,6 +263,9 @@ function Tablero() {
 
                     }
                     else {
+                        $("#img" + this.Casillas[i].getPersona().getId()).click(function () {
+                            comprobarEstadoVacias(this.Casillas[i].getPersona(), idNorma, this.Norma1);
+                        });
                         this.Casillas[i].getPersona().setOk(false);
                     }
                 }
@@ -252,24 +273,19 @@ function Tablero() {
 
         }
     };
-    this.comprobarEstadoVacias = function (p, idNorma, norma) {
+    this.comprobarEstadoVacias = function (p, idNorma, norma, casillas) {
         for (var i = 0; i <= 99; i++) {
-            if (this.Casillas[i].getPersona() == null) {
-
+            if (casillas[i].hayPersona() == false) {
                 var vecinas = new Array();
-                vecinas = this.devolverVecinos(this.Casillas[i]);
+                vecinas = this.devolverVecinos(casillas[i]);
                 if (idNorma == 1) {
-                    if (norma.ComprobarVecinosVacia1(p, this.Casillas[i], vecinas) == true) {
-                        $("#" + i).attr({
-                            style: "background-color:Black"
-                        });
-                        //$("#" + i).setAttribute("style", "background-color:Black");
-                        console.log("n1");
+                    if (norma.ComprobarVecinosVacia1(p, casillas[i], vecinas) == true) {
+                        $("#" + casillas[i].getId()).attr("style", "width:50px;height:50px;float:left;border:1px solid Black;margin:2px;text-align:center;background-color:Black");
                     }
                 }
                 else if (idNorma == 2) {
-                    if (norma.ComprobarVecinosVacia2(p, this.Casillas[i], vecinas) == true) {
-                        $("#" + i).setAttribute("style", "background-color:Black");
+                    if (norma.ComprobarVecinosVacia2(p, casillas[i], vecinas) == true) {
+                        $("#" + i).setAttribute("style", "");
                         console.log("n2");
                     }
 
@@ -312,7 +328,7 @@ function Juego() {
     this.defNorma = function (num) {
         this.idNorma = num;
     };
-
+    
     this.getIdNorma = function () {
         return this.idNorma;
     };
@@ -320,7 +336,6 @@ function Juego() {
 
 function Norma(nombre) {
     this.nombre = nombre;
-    
     this.ComprobarVecinos1 = function (casilla1, vecinas) {
         var ve = 0;
             for (y = 0; y < vecinas.length ; y++) {
@@ -375,8 +390,9 @@ function Norma(nombre) {
 
     this.ComprobarVecinosVacia1 = function (persona, casilla1, vecinas) {
         var ve = 0;
+        
         for (y = 0; y < vecinas.length; y++) {
-            if (vecinas[y].getPersona() != null) {
+            if (vecinas[y].hayPersona() == true) {
                 if (persona.getColor() == vecinas[y].getPersona().getColor()) {
                     ve++;
                 }
