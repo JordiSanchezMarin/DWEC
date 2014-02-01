@@ -95,19 +95,51 @@ function Tablero() {
     this.Casillas = new Array();
     this.Personas = new Array();
     this.Norma1 = new Norma(1, "Norma1");
-
+    this.casillaSeleccionada = null;
     this.getCasillas = function () {
         return this.Casillas;
     };
     //>>>>>>>>>>>>>>>>>>>>>>>
-    this.crear = function () {
+    this.crear = function (idnorma, norma) {
         fila = 0;
         columna = 0;
+        casillas = this.Casillas;
+        posibles = new Array();
         for (var i = 0; i < 100; i++, columna++) {
             div = document.createElement("div");
             div.setAttribute("id", i);
             div.setAttribute("style", "width:50px;height:50px;float:left;border:1px solid Black;margin:2px;background-color:#F98E8E;text-align:center");
+
             $("#total").append(div);
+            $(div).click({ id: i, tab: this }, function (evento) {
+                tab = evento.data.tab;
+                if (casillas[evento.data.id].hayPersona() == true && casillas[evento.data.id].getPersona().getOk() == false) {
+                    tab.casillaSeleccionada = casillas[evento.data.id];
+                    posibles = tab.comprobarEstadoVacias(tab.casillaSeleccionada.getPersona(), idnorma, norma, tab.Casillas);
+                }
+                else if (tab.estadoSeleccionada() == true && casillas[evento.data.id].hayPersona() == false) {
+                    var ok = false;
+                    var direccion;
+                    
+                    for (a = 0; a < posibles.length; a++) {
+                        $("#" + posibles[a].getId()).attr("style", "width:50px;height:50px;float:left;border:1px solid Black;margin:2px;text-align:center;background-color:#F98E8E");
+                        if (posibles[a].getId() == casillas[evento.data.id].getId()) {
+                            ok = true;
+                            direccion = posibles[a];
+                        }
+                    }
+                    if (ok == true) {
+                        $("#" + direccion.getId()).append(tab.casillaSeleccionada.getPersona().getImg());
+                        direccion.setPersona(tab.casillaSeleccionada.getPersona());
+                        direccion.getPersona().setOk(true);
+                        tab.casillaSeleccionada.borrarPersona();
+                        tab.comprobarEstadoTablero("1");
+                        $("#" + tab.casillaSeleccionada.getId()).empty();
+                        
+                    }
+
+                }
+            });
             if (columna == 10) {
                 columna = 0;
                 fila++;
@@ -129,9 +161,6 @@ function Tablero() {
                 this.Casillas[rnd].setPersona(this.Personas[i]);
                 this.Casillas[rnd].setOcupada(true);
                 img = document.createElement("img");
-                img.click(function () {
-                    comprobarEstadoVacias(person, idNorma, norm, casillas);
-                });
                 img.setAttribute("id", "img" + this.Personas[i].getId());
                 if (this.Personas[i].getColor() == "negra") {
                     img.setAttribute("src", "FichaNegra.png");
@@ -150,6 +179,17 @@ function Tablero() {
         }
     };
 
+    this.estadoSeleccionada = function () {
+        if (this.casillaSeleccionada != null && this.casillaSeleccionada.getPersona() != null) {
+            return true;
+        }
+        else if (this.casillaSeleccionada != null && this.casillaSeleccionada.getPersona() == null) {
+            return false;
+        }
+        else {
+            return false;
+        }
+    };
 
     this.devolverVecinos = function (casilla) {
         vecinas = new Array();
@@ -229,43 +269,45 @@ function Tablero() {
                 if (idNorma == 1) {
                     if (this.Norma1.ComprobarVecinos1(this.Casillas[i], vecinas) == true) {
                         this.Casillas[i].getPersona().setOk(true);
+                        $("#" + this.Casillas[i].getId()).empty();
                         if (this.Casillas[i].getPersona().getColor() == "blanca") {
                             this.Casillas[i].getPersona().setImg("FichaBlancaOk.png");
-                            $("#" + this.Casillas[i].getId()).empty();
                             $("#" + this.Casillas[i].getId()).append(this.Casillas[i].getPersona().getImg());
                         }
                         else {
                             this.Casillas[i].getPersona().setImg("FichaNegraOk.png");
-                            $("#" + this.Casillas[i].getId()).empty();
                             $("#" + this.Casillas[i].getId()).append(this.Casillas[i].getPersona().getImg());
                         }
                     }
                     else {
-                        
-                        
                         this.Casillas[i].getPersona().setOk(false);
                     }
                 }
                 else if (idNorma == 2) {
                     if (this.Norma1.ComprobarVecinos2(this.Casillas[i], vecinas) == true) {
                         this.Casillas[i].getPersona().setOk(true);
+                        $("#" + this.Casillas[i].getId()).empty();
                         if (this.Casillas[i].getPersona().getColor() == "blanca") {
                             this.Casillas[i].getPersona().setImg("FichaBlancaOk.png");
-                            $("#" + this.Casillas[i].getId()).empty();
                             $("#" + this.Casillas[i].getId()).append(this.Casillas[i].getPersona().getImg());
                         }
                         else {
                             this.Casillas[i].getPersona().setImg("FichaNegraOk.png");
-                            $("#" + this.Casillas[i].getId()).empty();
                             $("#" + this.Casillas[i].getId()).append(this.Casillas[i].getPersona().getImg());
                         }
 
                     }
                     else {
-                        $("#img" + person.getId()).click(function () {
-                            tab.comprobarEstadoVacias(person, idNorma, norm, casillas);
-                        });
                         this.Casillas[i].getPersona().setOk(false);
+                        $("#" + this.Casillas[i].getId()).empty();
+                        if (this.Casillas[i].getPersona().getColor() == "blanca") {
+                            this.Casillas[i].getPersona().setImg("FichaBlanca.png");
+                            $("#" + this.Casillas[i].getId()).append(this.Casillas[i].getPersona().getImg());
+                        }
+                        else {
+                            this.Casillas[i].getPersona().setImg("FichaNegra.png");
+                            $("#" + this.Casillas[i].getId()).append(this.Casillas[i].getPersona().getImg());
+                        }
                     }
                 }
             }
@@ -273,24 +315,31 @@ function Tablero() {
         }
     };
     this.comprobarEstadoVacias = function (p, idNorma, norma, casillas) {
+        var posibles = new Array();
+        var y = 0;
         for (var i = 0; i <= 99; i++) {
-            if (casillas[i].hayPersona() == false) {
+            if (casillas[i].hayPersona() != true) {
                 var vecinas = new Array();
                 vecinas = this.devolverVecinos(casillas[i]);
                 if (idNorma == 1) {
                     if (norma.ComprobarVecinosVacia1(p, casillas[i], vecinas) == true) {
                         $("#" + casillas[i].getId()).attr("style", "width:50px;height:50px;float:left;border:1px solid Black;margin:2px;text-align:center;background-color:Black");
+                        posibles[y] = casillas[i];
+                        y++;
                     }
                 }
                 else if (idNorma == 2) {
                     if (norma.ComprobarVecinosVacia2(p, casillas[i], vecinas) == true) {
                         $("#" + casillas[i].getId()).attr("style", "width:50px;height:50px;float:left;border:1px solid Black;margin:2px;text-align:center;background-color:Black");
+                        posibles[y] = casillas[i];
+                        y++;
                     }
 
                 }
 
             }
         }
+        return posibles;
     };
     
 }
@@ -300,17 +349,9 @@ function Juego() {
     this.normaActual = new Norma("Norma1");
     this.idNorma = 1;
     this.preparar = function () {
-        this.tablero.crear();
+        this.tablero.crear(this.idNorma, this.normaActual);
         this.tablero.llenarTablero();
         this.tablero.comprobarEstadoTablero(this.idNorma);
-        var tab = this.tablero;
-        var norma = this.normaActual;
-        var idnorma = this.idNorma;
-        /*$("img").click(function () {
-            console.log(document.getElementById(this).attributes.item);
-            persona = new Persona(100, "blanca", false);
-            tab.comprobarEstadoVacias(persona, idnorma, norma);
-        });*/
     };
 
     this.setNormaActual = function (norma) {
