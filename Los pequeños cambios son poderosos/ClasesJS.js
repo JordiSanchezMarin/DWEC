@@ -108,21 +108,32 @@ function Tablero() {
         for (var i = 0; i < 100; i++, columna++) {
             div = document.createElement("div");
             div.setAttribute("id", i);
-            div.setAttribute("style", "width:50px;height:50px;float:left;border:1px solid Black;margin:2px;background-color:#F98E8E;text-align:center");
+            div.setAttribute("style", "width:50px;height:50px;float:left;border:1px solid Black;margin:2px;background-color:#A9BCF5;text-align:center");
 
             $("#total").append(div);
             $(div).click({ id: i, tab: this }, function (evento) {
                 tab = evento.data.tab;
                 if (casillas[evento.data.id].hayPersona() == true && casillas[evento.data.id].getPersona().getOk() == false) {
                     tab.casillaSeleccionada = casillas[evento.data.id];
-                    posibles = tab.comprobarEstadoVacias(tab.casillaSeleccionada.getPersona(), idnorma, norma, tab.Casillas);
+                    if (posibles == null)
+                        posibles = tab.comprobarEstadoVacias(tab.casillaSeleccionada, idnorma, norma, tab.Casillas);
+                    else {
+                        for (a = 0; a < posibles.length; a++) {
+                            $("#" + posibles[a].getId()).attr("style", "width:50px;height:50px;float:left;border:1px solid Black;margin:2px;text-align:center;background-color:#A9BCF5");
+                            if (posibles[a].getId() == casillas[evento.data.id].getId()) {
+                                ok = true;
+                                direccion = posibles[a];
+                            }
+                        }
+                        posibles = tab.comprobarEstadoVacias(tab.casillaSeleccionada, idnorma, norma, tab.Casillas);
+                    }
                 }
                 else if (tab.estadoSeleccionada() == true && casillas[evento.data.id].hayPersona() == false) {
                     var ok = false;
                     var direccion;
-                    
+
                     for (a = 0; a < posibles.length; a++) {
-                        $("#" + posibles[a].getId()).attr("style", "width:50px;height:50px;float:left;border:1px solid Black;margin:2px;text-align:center;background-color:#F98E8E");
+                        $("#" + posibles[a].getId()).attr("style", "width:50px;height:50px;float:left;border:1px solid Black;margin:2px;text-align:center;background-color:#A9BCF5");
                         if (posibles[a].getId() == casillas[evento.data.id].getId()) {
                             ok = true;
                             direccion = posibles[a];
@@ -133,9 +144,9 @@ function Tablero() {
                         direccion.setPersona(tab.casillaSeleccionada.getPersona());
                         direccion.getPersona().setOk(true);
                         tab.casillaSeleccionada.borrarPersona();
-                        tab.comprobarEstadoTablero("1");
+                        tab.comprobarEstadoTablero(idnorma);
                         $("#" + tab.casillaSeleccionada.getId()).empty();
-                        
+
                     }
 
                 }
@@ -258,7 +269,7 @@ function Tablero() {
 
     this.comprobarEstadoTablero = function (idNorma) {
         for (var i = 0; i <= 99; i++) {
-           
+
             if (this.Casillas[i].getPersona() != null) {
                 var vecinas = new Array();
                 vecinas = this.devolverVecinos(this.Casillas[i]);
@@ -281,10 +292,20 @@ function Tablero() {
                     }
                     else {
                         this.Casillas[i].getPersona().setOk(false);
+                        $("#" + this.Casillas[i].getId()).empty();
+                        if (this.Casillas[i].getPersona().getColor() == "blanca") {
+                            this.Casillas[i].getPersona().setImg("FichaBlanca.png");
+                            $("#" + this.Casillas[i].getId()).append(this.Casillas[i].getPersona().getImg());
+                        }
+                        else {
+                            this.Casillas[i].getPersona().setImg("FichaNegra.png");
+                            $("#" + this.Casillas[i].getId()).append(this.Casillas[i].getPersona().getImg());
+                        }
                     }
                 }
                 else if (idNorma == 2) {
                     if (this.Norma1.ComprobarVecinos2(this.Casillas[i], vecinas) == true) {
+                        console.log("a");
                         this.Casillas[i].getPersona().setOk(true);
                         $("#" + this.Casillas[i].getId()).empty();
                         if (this.Casillas[i].getPersona().getColor() == "blanca") {
@@ -314,29 +335,37 @@ function Tablero() {
 
         }
     };
-    this.comprobarEstadoVacias = function (p, idNorma, norma, casillas) {
+    this.comprobarEstadoVacias = function (casillaSelec, idNorma, norma, casillas) {
         var posibles = new Array();
         var y = 0;
         for (var i = 0; i <= 99; i++) {
             if (casillas[i].hayPersona() != true) {
-                var vecinas = new Array();
-                vecinas = this.devolverVecinos(casillas[i]);
-                if (idNorma == 1) {
-                    if (norma.ComprobarVecinosVacia1(p, casillas[i], vecinas) == true) {
-                        $("#" + casillas[i].getId()).attr("style", "width:50px;height:50px;float:left;border:1px solid Black;margin:2px;text-align:center;background-color:Black");
-                        posibles[y] = casillas[i];
-                        y++;
+                var comprobacion = this.devolverVecinos(casillaSelec);
+                var no = false;
+                /*for (x = 0; x < comprobacion.length; x++) {
+                    if (comprobacion[x].getId() == casillas[i].getId()) {
+                        no = true;
+                    }
+                }*/
+                if (no == false) {
+                    var vecinas = new Array();
+                    vecinas = this.devolverVecinos(casillas[i]);
+                    if (idNorma == 1) {
+                        if (norma.ComprobarVecinosVacia1(casillaSelec.getPersona(), casillaSelec, vecinas) == true) {
+                            $("#" + casillas[i].getId()).attr("style", "width:50px;height:50px;float:left;border:1px solid Black;margin:2px;text-align:center;background-color:#5858FA");
+                            posibles[y] = casillas[i];
+                            y++;
+                        }
+                    }
+                    else if (idNorma == 2) {
+                        if (norma.ComprobarVecinosVacia2(casillaSelec.getPersona(), casillaSelec, vecinas) == true) {
+                            $("#" + casillas[i].getId()).attr("style", "width:50px;height:50px;float:left;border:1px solid Black;margin:2px;text-align:center;background-color:#5858FA");
+                            posibles[y] = casillas[i];
+                            y++;
+                        }
+
                     }
                 }
-                else if (idNorma == 2) {
-                    if (norma.ComprobarVecinosVacia2(p, casillas[i], vecinas) == true) {
-                        $("#" + casillas[i].getId()).attr("style", "width:50px;height:50px;float:left;border:1px solid Black;margin:2px;text-align:center;background-color:Black");
-                        posibles[y] = casillas[i];
-                        y++;
-                    }
-
-                }
-
             }
         }
         return posibles;
@@ -413,7 +442,7 @@ function Norma(nombre) {
         var ve = false;
         for (y = 0; y < vecinas.length; y++) {
             if (vecinas[y].hayPersona() == true) {
-                if (persona.getColor() != vecinas[y].getPersona().getColor()) {
+                if (persona.getColor() != vecinas[y].getPersona().getColor() ) {
                     ve = true;
                 }
             }
@@ -431,7 +460,7 @@ function Norma(nombre) {
         var ve = 0;
         for (y = 0; y < vecinas.length; y++) {
             if (vecinas[y].hayPersona() == true) {
-                if (persona.getColor() == vecinas[y].getPersona().getColor()) {
+                if (persona.getColor() == vecinas[y].getPersona().getColor() && vecinas[y].getId() != casilla1.getId()) {
                     ve++;
                 }
             }
