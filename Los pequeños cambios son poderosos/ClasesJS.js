@@ -36,6 +36,23 @@ function Persona(id, colo, ok) {
 
     this.setOk = function (ok2) {
         ok = ok2;
+        if (ok2 == true) {
+            if (this.getColor() == "blanca") {
+                this.setImg("FichaBlancaOk.png");
+            }
+            else {
+                this.setImg("FichaNegraOk.png");
+            }
+        }
+        else {
+            if (this.getColor() == "blanca") {
+                this.setImg("FichaBlanca.png");
+            }
+            else {
+                this.setImg("FichaNegra.png");
+            }
+        }
+
     };
 }
 
@@ -131,7 +148,6 @@ function Tablero() {
                 else if (tab.estadoSeleccionada() == true && casillas[evento.data.id].hayPersona() == false) {
                     var ok = false;
                     var direccion;
-
                     for (a = 0; a < posibles.length; a++) {
                         $("#" + posibles[a].getId()).attr("style", "width:50px;height:50px;float:left;border:1px solid Black;margin:2px;text-align:center;background-color:#A9BCF5");
                         if (posibles[a].getId() == casillas[evento.data.id].getId()) {
@@ -146,9 +162,7 @@ function Tablero() {
                         tab.casillaSeleccionada.borrarPersona();
                         tab.comprobarEstadoTablero(idnorma);
                         $("#" + tab.casillaSeleccionada.getId()).empty();
-
                     }
-
                 }
             });
             if (columna == 10) {
@@ -167,7 +181,6 @@ function Tablero() {
                 tipoFicha = "negra";
             }
             rnd = Math.round(Math.random() * 99);
-
             if (this.Casillas[rnd].getOcupada() == false) {
                 this.Casillas[rnd].setPersona(this.Personas[i]);
                 this.Casillas[rnd].setOcupada(true);
@@ -280,57 +293,21 @@ function Tablero() {
                 if (idNorma == 1) {
                     if (this.Norma1.ComprobarVecinos1(this.Casillas[i], vecinas) == true) {
                         this.Casillas[i].getPersona().setOk(true);
-                        $("#" + this.Casillas[i].getId()).empty();
-                        if (this.Casillas[i].getPersona().getColor() == "blanca") {
-                            this.Casillas[i].getPersona().setImg("FichaBlancaOk.png");
-                            $("#" + this.Casillas[i].getId()).append(this.Casillas[i].getPersona().getImg());
-                        }
-                        else {
-                            this.Casillas[i].getPersona().setImg("FichaNegraOk.png");
-                            $("#" + this.Casillas[i].getId()).append(this.Casillas[i].getPersona().getImg());
-                        }
                     }
                     else {
                         this.Casillas[i].getPersona().setOk(false);
-                        $("#" + this.Casillas[i].getId()).empty();
-                        if (this.Casillas[i].getPersona().getColor() == "blanca") {
-                            this.Casillas[i].getPersona().setImg("FichaBlanca.png");
-                            $("#" + this.Casillas[i].getId()).append(this.Casillas[i].getPersona().getImg());
-                        }
-                        else {
-                            this.Casillas[i].getPersona().setImg("FichaNegra.png");
-                            $("#" + this.Casillas[i].getId()).append(this.Casillas[i].getPersona().getImg());
-                        }
                     }
                 }
                 else if (idNorma == 2) {
                     if (this.Norma1.ComprobarVecinos2(this.Casillas[i], vecinas) == true) {
-                        console.log("a");
                         this.Casillas[i].getPersona().setOk(true);
-                        $("#" + this.Casillas[i].getId()).empty();
-                        if (this.Casillas[i].getPersona().getColor() == "blanca") {
-                            this.Casillas[i].getPersona().setImg("FichaBlancaOk.png");
-                            $("#" + this.Casillas[i].getId()).append(this.Casillas[i].getPersona().getImg());
-                        }
-                        else {
-                            this.Casillas[i].getPersona().setImg("FichaNegraOk.png");
-                            $("#" + this.Casillas[i].getId()).append(this.Casillas[i].getPersona().getImg());
-                        }
-
                     }
                     else {
                         this.Casillas[i].getPersona().setOk(false);
-                        $("#" + this.Casillas[i].getId()).empty();
-                        if (this.Casillas[i].getPersona().getColor() == "blanca") {
-                            this.Casillas[i].getPersona().setImg("FichaBlanca.png");
-                            $("#" + this.Casillas[i].getId()).append(this.Casillas[i].getPersona().getImg());
-                        }
-                        else {
-                            this.Casillas[i].getPersona().setImg("FichaNegra.png");
-                            $("#" + this.Casillas[i].getId()).append(this.Casillas[i].getPersona().getImg());
-                        }
                     }
                 }
+                $("#" + this.Casillas[i].getId()).empty();
+                $("#" + this.Casillas[i].getId()).append(this.Casillas[i].getPersona().getImg());
             }
 
         }
@@ -341,13 +318,6 @@ function Tablero() {
         for (var i = 0; i <= 99; i++) {
             if (casillas[i].hayPersona() != true) {
                 var comprobacion = this.devolverVecinos(casillaSelec);
-                var no = false;
-                /*for (x = 0; x < comprobacion.length; x++) {
-                    if (comprobacion[x].getId() == casillas[i].getId()) {
-                        no = true;
-                    }
-                }*/
-                if (no == false) {
                     var vecinas = new Array();
                     vecinas = this.devolverVecinos(casillas[i]);
                     if (idNorma == 1) {
@@ -363,9 +333,7 @@ function Tablero() {
                             posibles[y] = casillas[i];
                             y++;
                         }
-
                     }
-                }
             }
         }
         return posibles;
