@@ -1,13 +1,14 @@
-function Persona(id, colo, ok) {
+function Persona(id, colo, ok, callback2) {
     var id = id;
     var color = colo;
     var ok = ok;
     var img = document.createElement("img");
-    
-    this.comportamiento = function (callback) {
+    var callback = callback2;
+
+    this.comportamiento = function () {
         callback();
     };
-        
+
     this.getId = function () {
         return id;
     };
@@ -117,7 +118,7 @@ function Tablero() {
         return this.Casillas;
     };
     //>>>>>>>>>>>>>>>>>>>>>>>
-    this.crear = function (idnorma, norma) {
+    this.crear = function (idnorma) {
         fila = 0;
         columna = 0;
         casillas = this.Casillas;
@@ -126,7 +127,6 @@ function Tablero() {
             div = document.createElement("div");
             div.setAttribute("id", i);
             div.setAttribute("style", "width:50px;height:50px;float:left;border:1px solid Black;margin:2px;background-color:#A9BCF5;text-align:center");
-
             $("#total").append(div);
             $(div).click({ id: i, tab: this }, function (evento) {
                 tab = evento.data.tab;
@@ -160,7 +160,7 @@ function Tablero() {
                         direccion.setPersona(tab.casillaSeleccionada.getPersona());
                         direccion.getPersona().setOk(true);
                         tab.casillaSeleccionada.borrarPersona();
-                        tab.comprobarEstadoTablero(idnorma);
+                        tab.comprobarEstadoTablero();
                         $("#" + tab.casillaSeleccionada.getId()).empty();
                     }
                 }
@@ -173,19 +173,25 @@ function Tablero() {
         }
     };
     //>>>>>>>>>>>>>>>>
-    this.llenarTablero = function () {
+    this.llenarTablero = function (idNorma) {
         tipoFicha = "blanca";
         for (i = 0; i < 60; i++) {
-            this.Personas[i] = new Persona(i, tipoFicha, false);
+           
             if (i == 30) {
                 tipoFicha = "negra";
             }
             rnd = Math.round(Math.random() * 99);
             if (this.Casillas[rnd].getOcupada() == false) {
+                 if (idNorma == 1) {
+                this.Personas[i] = new Persona(i, tipoFicha, false,this.Norma1.ComprobarVecinos1(this.devolverVecinos(this.Casillas[rnd])));
+                }
+                else {
+                    this.Personas[i] = new Persona(i, tipoFicha, false, this.Norma1.ComprobarVecinos2(this.devolverVecinos(this.Casillas[rnd])));
+                }
                 this.Casillas[rnd].setPersona(this.Personas[i]);
                 this.Casillas[rnd].setOcupada(true);
                 img = document.createElement("img");
-                img.setAttribute("id", "img" + this.Personas[i].getId());
+                img.setAttribute("id", "img" + rnd);
                 if (this.Personas[i].getColor() == "negra") {
                     img.setAttribute("src", "FichaNegra.png");
                 }
@@ -290,22 +296,28 @@ function Tablero() {
                 tab = this;
                 norm = this.Norma1;
                 casillas = this.Casillas;
-                if (idNorma == 1) {
-                    if (this.Norma1.ComprobarVecinos1(this.Casillas[i], vecinas) == true) {
-                        this.Casillas[i].getPersona().setOk(true);
-                    }
-                    else {
-                        this.Casillas[i].getPersona().setOk(false);
-                    }
+                if (this.Casillas[i].getPersona().comportamiento() == true) {
+                    this.Casillas[i].getPersona().setOk(true);
+                }
+                else {
+                    this.Casillas[i].getPersona().setOk(false);
+                }
+                /*if (idNorma == 1) {
+                if (this.Norma1.ComprobarVecinos1(this.Casillas[i], vecinas) == true) {
+                this.Casillas[i].getPersona().setOk(true);
+                }
+                else {
+                this.Casillas[i].getPersona().setOk(false);
+                }
                 }
                 else if (idNorma == 2) {
-                    if (this.Norma1.ComprobarVecinos2(this.Casillas[i], vecinas) == true) {
-                        this.Casillas[i].getPersona().setOk(true);
-                    }
-                    else {
-                        this.Casillas[i].getPersona().setOk(false);
-                    }
+                if (this.Norma1.ComprobarVecinos2(this.Casillas[i], vecinas) == true) {
+                this.Casillas[i].getPersona().setOk(true);
                 }
+                else {
+                this.Casillas[i].getPersona().setOk(false);
+                }
+                }*/
                 $("#" + this.Casillas[i].getId()).empty();
                 $("#" + this.Casillas[i].getId()).append(this.Casillas[i].getPersona().getImg());
             }
@@ -343,22 +355,15 @@ function Tablero() {
 
 function Juego() {
     this.tablero = new Tablero();
-    this.normaActual = new Norma("Norma1");
     this.idNorma = 1;
     this.preparar = function () {
-        this.tablero.crear(this.idNorma, this.normaActual);
+        this.tablero.crear(this.idNorma);
         this.tablero.llenarTablero();
         this.tablero.comprobarEstadoTablero(this.idNorma);
     };
 
-    this.setNormaActual = function (norma) {
-        this.normaActual = norma;
-    };
     this.getTablero = function () {
         return this.tablero;
-    };
-    this.getNormaActual = function () {
-        return this.normaActual;
     };
 
     this.defNorma = function (num) {
@@ -372,11 +377,11 @@ function Juego() {
 
 function Norma(nombre) {
     this.nombre = nombre;
-    this.ComprobarVecinos1 = function (casilla1, vecinas) {
+    this.ComprobarVecinos1 = function (vecinas) {
         var ve = 0;
             for (y = 0; y < vecinas.length ; y++) {
                 if (vecinas[y].getPersona() != null) {
-                    if (casilla1.getPersona().getColor() == vecinas[y].getPersona().getColor()) {
+                    if (getColor() == vecinas[y].getPersona().getColor()) {
                         ve++;
                     }
                 }
@@ -389,11 +394,11 @@ function Norma(nombre) {
             }
     };
 
-    this.ComprobarVecinos2 = function (casilla1, vecinas) {
+    this.ComprobarVecinos2 = function (vecinas) {
         var ve = false;
             for (y = 0; y < vecinas.length; y++) {
                 if (vecinas[y].getPersona() != null) {
-                    if (casilla1.getPersona().getColor() != vecinas[y].getPersona().getColor()) {
+                    if (getColor() != vecinas[y].getPersona().getColor()) {
                         ve = true;
                     }
                 }
