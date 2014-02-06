@@ -134,8 +134,15 @@ function Tablero() {
 
     this.winner = function () {
         var bol = false;
+        var cont = 0;
         for (i = 0; i < this.Personas.length && bol == false; i++) {
-            
+            if (this.Personas[i].getOk() == true) {
+                cont++;
+            }
+        }
+        if (cont >= 59) {
+            $('#total').empty();
+            this.final("Juego finalizado con exito!");
         }
     }
 
@@ -202,7 +209,6 @@ function Tablero() {
     this.llenarTablero = function (idNorma) {
         tipoFicha = "blanca";
         for (i = 0; i < 60; i++) {
-           
             if (i == 30) {
                 tipoFicha = "negra";
             }
@@ -326,6 +332,7 @@ function Tablero() {
             }
 
         }
+        this.winner();
     };
     this.comprobarEstadoVacias = function (casillaSelec, casillas) {
         var posibles = new Array();
