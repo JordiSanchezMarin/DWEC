@@ -1,4 +1,5 @@
 var tableroGlobal;
+var idNormaGlobal;
 function Persona(id, colo, ok, comprobarVecinos, devolverVecinos, casilla2) {
     var id = id;
     var color = colo;
@@ -58,17 +59,20 @@ function Persona(id, colo, ok, comprobarVecinos, devolverVecinos, casilla2) {
                 this.setImg("FichaNegra.png");
             }
         }
-
     };
 }
 
-function Casilla(id, persona, ocupada, fila, columna) {
+function Casilla(id, persona, ocupada, fila, columna, comprobarVecinosVacia, devolverVecinos) {
     var id = id;
     var persona = persona;
     var ocupada = ocupada;
     var fila = fila;
     var columna = columna;
-
+    var callback1 = comprobarVecinosVacia;
+    var callback2 = devolverVecinos;
+    this.comportamiento = function () {
+        return callback1(tableroGlobal.casillaSeleccionada.getPersona(), this, callback2(this));
+    };
     this.getId = function () {
         return id;
     };
@@ -117,12 +121,12 @@ function Casilla(id, persona, ocupada, fila, columna) {
 function Tablero() {
     this.Casillas = new Array();
     this.Personas = new Array();
-    this.Norma1 = new Norma(1, "Norma1");
+    this.Norma1 = new Norma();
     this.casillaSeleccionada = null;
     this.getCasillas = function () {
         return this.Casillas;
     };
-    //>>>>>>>>>>>>>>>>>>>>>>>
+
     this.crear = function (idnorma) {
         fila = 0;
         columna = 0;
@@ -137,8 +141,8 @@ function Tablero() {
                 tab = evento.data.tab;
                 if (casillas[evento.data.id].hayPersona() == true && casillas[evento.data.id].getPersona().getOk() == false) {
                     tab.casillaSeleccionada = casillas[evento.data.id];
-                    if (posibles == null)
-                        posibles = tab.comprobarEstadoVacias(tab.casillaSeleccionada, idnorma, norma, tab.Casillas);
+                    if (posibles.length == 0)
+                        posibles = tab.comprobarEstadoVacias(tab.casillaSeleccionada, tab.Casillas);
                     else {
                         for (a = 0; a < posibles.length; a++) {
                             $("#" + posibles[a].getId()).attr("style", "width:50px;height:50px;float:left;border:1px solid Black;margin:2px;text-align:center;background-color:#A9BCF5");
@@ -147,7 +151,7 @@ function Tablero() {
                                 direccion = posibles[a];
                             }
                         }
-                        posibles = tab.comprobarEstadoVacias(tab.casillaSeleccionada, idnorma, tab.Norma1, tab.Casillas);
+                        posibles = tab.comprobarEstadoVacias(tab.casillaSeleccionada, tab.Casillas);
                     }
                 }
                 else if (tab.estadoSeleccionada() == true && casillas[evento.data.id].hayPersona() == false) {
@@ -174,10 +178,16 @@ function Tablero() {
                 columna = 0;
                 fila++;
             }
-            this.Casillas[i] = new Casilla(i, null, false, fila, columna);
+            if (idNormaGlobal == 2) {
+                this.Casillas[i] = new Casilla(i, null, false, fila, columna, this.Norma1.ComprobarVecinosVacia2, this.devolverVecinos);
+            }
+            else {
+                this.Casillas[i] = new Casilla(i, null, false, fila, columna, this.Norma1.ComprobarVecinosVacia1 , this.devolverVecinos);
+            }
+            
         }
     };
-    //>>>>>>>>>>>>>>>>
+
     this.llenarTablero = function (idNorma) {
         tipoFicha = "blanca";
         for (i = 0; i < 60; i++) {
@@ -189,7 +199,7 @@ function Tablero() {
             if (this.Casillas[rnd].getOcupada() == false) {
                  if (idNorma == 1) {
                      this.Personas[i] = new Persona(i, tipoFicha, false, this.Norma1.ComprobarVecinos1, this.devolverVecinos, this.Casillas[rnd], this);
-                }
+                  }
                 else {
                     this.Personas[i] = new Persona(i, tipoFicha, false, this.Norma1.ComprobarVecinos2, this.devolverVecinos, this.Casillas[rnd], this);
                 }
@@ -293,7 +303,6 @@ function Tablero() {
 
     this.comprobarEstadoTablero = function () {
         for (var i = 0; i <= 99; i++) {
-
             if (this.Casillas[i].getPersona() != null) {
                 if (this.Casillas[i].getPersona().comportamiento() == true) {
                     this.Casillas[i].getPersona().setOk(true);
@@ -307,27 +316,15 @@ function Tablero() {
 
         }
     };
-    this.comprobarEstadoVacias = function (casillaSelec, idNorma, norma, casillas) {
+    this.comprobarEstadoVacias = function (casillaSelec, casillas) {
         var posibles = new Array();
         var y = 0;
         for (var i = 0; i <= 99; i++) {
             if (casillas[i].hayPersona() != true) {
-                var comprobacion = this.devolverVecinos(casillaSelec);
-                    var vecinas = new Array();
-                    vecinas = this.devolverVecinos(casillas[i]);
-                    if (idNorma == 1) {
-                        if (norma.ComprobarVecinosVacia1(casillaSelec.getPersona(), casillaSelec, vecinas) == true) {
-                            $("#" + casillas[i].getId()).attr("style", "width:50px;height:50px;float:left;border:1px solid Black;margin:2px;text-align:center;background-color:#5858FA");
-                            posibles[y] = casillas[i];
-                            y++;
-                        }
-                    }
-                    else if (idNorma == 2) {
-                        if (norma.ComprobarVecinosVacia2(casillaSelec.getPersona(), casillaSelec, vecinas) == true) {
-                            $("#" + casillas[i].getId()).attr("style", "width:50px;height:50px;float:left;border:1px solid Black;margin:2px;text-align:center;background-color:#5858FA");
-                            posibles[y] = casillas[i];
-                            y++;
-                        }
+                    if (casillas[i].comportamiento() == true) {
+                        $("#" + casillas[i].getId()).attr("style", "width:50px;height:50px;float:left;border:1px solid Black;margin:2px;text-align:center;background-color:#5858FA");
+                        posibles[y] = casillas[i];
+                        y++;
                     }
             }
         }
@@ -338,10 +335,9 @@ function Tablero() {
 
 function Juego() {
     this.tablero = new Tablero();
-    this.idNorma = 1;
     this.preparar = function () {
-        this.tablero.crear(this.idNorma);
-        this.tablero.llenarTablero(this.idNorma);
+        this.tablero.crear(idNormaGlobal);
+        this.tablero.llenarTablero(idNormaGlobal);
         tableroGlobal = this.tablero;
         this.tablero.comprobarEstadoTablero();
     };
@@ -359,8 +355,7 @@ function Juego() {
     };
 }
 
-function Norma(nombre) {
-    this.nombre = nombre;
+function Norma() {
     this.ComprobarVecinos1 = function (vecinas, p) {
         var ve = 0;
             for (y = 0; y < vecinas.length ; y++) {
@@ -393,7 +388,6 @@ function Norma(nombre) {
             else {
                 return false;
             }
-
     };
     this.ComprobarVecinosVacia2 = function (persona, casilla1, vecinas) {
         var ve = false;
@@ -410,14 +404,13 @@ function Norma(nombre) {
         else {
             return false;
         }
-
     };
 
     this.ComprobarVecinosVacia1 = function (persona, casilla1, vecinas) {
         var ve = 0;
         for (y = 0; y < vecinas.length; y++) {
             if (vecinas[y].hayPersona() == true) {
-                if (persona.getColor() == vecinas[y].getPersona().getColor() && vecinas[y].getId() != casilla1.getId()) {
+                if (persona.getColor() == vecinas[y].getPersona().getColor() && vecinas[y].getId() != tableroGlobal.casillaSeleccionada.getId()) {
                     ve++;
                 }
             }

@@ -21,10 +21,10 @@
                $('#total').empty();
                juego = new Juego();
                if ($('input:radio[id=rd1]:checked').val() == true) {
-                   juego.defNorma(1);
+                   idNormaGlobal = 1;
                }
                else {
-                   juego.defNorma(2);
+                   idNormaGlobal = 2;
                }
                juego.preparar();
               
