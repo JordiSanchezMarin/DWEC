@@ -73,6 +73,7 @@ function Casilla(id, persona, ocupada, fila, columna, comprobarVecinosVacia, dev
     this.comportamiento = function () {
         return callback1(tableroGlobal.casillaSeleccionada.getPersona(), this, callback2(this));
     };
+
     this.getId = function () {
         return id;
     };
@@ -126,6 +127,17 @@ function Tablero() {
     this.getCasillas = function () {
         return this.Casillas;
     };
+
+    this.final = function (mensaje) {
+        alert(mensaje);
+    };
+
+    this.winner = function () {
+        var bol = false;
+        for (i = 0; i < this.Personas.length && bol == false; i++) {
+            
+        }
+    }
 
     this.crear = function (idnorma) {
         fila = 0;
@@ -184,7 +196,6 @@ function Tablero() {
             else {
                 this.Casillas[i] = new Casilla(i, null, false, fila, columna, this.Norma1.ComprobarVecinosVacia1 , this.devolverVecinos);
             }
-            
         }
     };
 
