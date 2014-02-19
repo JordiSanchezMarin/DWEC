@@ -15,6 +15,7 @@
             <input id="rd1" type="radio" value="1" name="norma" checked="checked"/> Norma1 <br />
             <input id="rd2" type="radio" value="2" name="norma" /> Norma2 <br />
             <input id="empezar" type="button" value="Empezar" onclick="go();"/>
+            <input id="guardar" type="button" value="Guardar" />
     </div>
        <script type="text/javascript">
            function go() {
@@ -27,9 +28,12 @@
                    idNormaGlobal = 2;
                }
                juego.preparar();
-              
+               $("#guardar").click({ jg: juego }, function (evento) {
+                   joc = evento.data.jg;
+                    joc.guardarPartidaJsoon();
+               });
            }
-                      
+            
     </script>
 </body>
 </html>

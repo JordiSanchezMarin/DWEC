@@ -128,6 +128,8 @@ function Tablero() {
         return this.Casillas;
     };
 
+      
+
     this.final = function (mensaje) {
         alert(mensaje);
     };
@@ -140,7 +142,7 @@ function Tablero() {
                 cont++;
             }
         }
-        if (cont >= 59) {
+        if (cont >= 60) {
             $('#total').empty();
             this.final("Juego finalizado con exito!");
         }
@@ -371,6 +373,17 @@ function Juego() {
     this.getIdNorma = function () {
         return this.idNorma;
     };
+
+    this.guardarPartidaJsoon = function () {
+        if (!!window.localStorage) {
+            var tab = { TableroGlobal: tableroGlobal }; // Create a JavaScript object literal.
+            window.localStorage.tablero = JSON.stringify(tab.Casillas); // Convert the object to a string.
+            //person = JSON.parse(window.localStorage.tab); // Convert the object string back to a JavaScript object.
+        }
+        else {
+            document.querySelector('body').innerHTML = "<h2>Local storage is not supported by this browser.</h2><p>To use this application, upgrade your browser to the latest version.</p>";
+        }
+    }   
 }
 
 function Norma() {
