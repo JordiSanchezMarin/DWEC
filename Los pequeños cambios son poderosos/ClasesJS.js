@@ -15,6 +15,9 @@ function Persona(id, colo, ok, comprobarVecinos, devolverVecinos, casilla2) {
     this.setCasilla = function (c) {
         casilla = c;
     }
+    this.getCasilla = function () {
+        return casilla;
+    }
     this.getId = function () {
         return id;
     };
@@ -376,8 +379,21 @@ function Juego() {
 
     this.guardarPartidaJsoon = function () {
         if (!!window.localStorage) {
-            var tab = { TableroGlobal: tableroGlobal }; // Create a JavaScript object literal.
-            window.localStorage.tablero = JSON.stringify(tab.Casillas); // Convert the object to a string.
+
+            var casillas = new Array();
+            var result = new Array();
+            casillas = this.tablero.getCasillas();
+            for (i = 0; i < casillas.length; i++) {
+                result[i] = {
+                    "id": casillas[i].getId()
+                };
+
+                
+
+
+            }
+            // Create a JavaScript object literal.
+            window.localStorage.casillas = JSON.stringify(result); // Convert the object to a string.
             //person = JSON.parse(window.localStorage.tab); // Convert the object string back to a JavaScript object.
         }
         else {
