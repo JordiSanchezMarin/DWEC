@@ -246,6 +246,32 @@ function Tablero() {
         }
     };
 
+    this.cargarTablero = function (idNorma) {
+        for (i = 0; i < 60; i++) {
+            if (idNorma == 1) {
+                this.Personas[i] = new Persona(i, tipoFicha, false, this.Norma1.ComprobarVecinos1, this.devolverVecinos, this.Casillas[rnd], this);
+            }
+            else {
+                this.Personas[i] = new Persona(i, tipoFicha, false, this.Norma1.ComprobarVecinos2, this.devolverVecinos, this.Casillas[rnd], this);
+            }
+            this.Casillas[rnd].setPersona(this.Personas[i]);
+            this.Casillas[rnd].setOcupada(true);
+            img = document.createElement("img");
+            img.setAttribute("id", "img" + rnd);
+            if (this.Personas[i].getColor() == "negra") {
+                img.setAttribute("src", "FichaNegra.png");
+            }
+            else if (this.Personas[i].getColor() == "blanca") {
+                img.setAttribute("src", "FichaBlanca.png");
+            }
+            img.setAttribute("width", "48px");
+            img.setAttribute("height", "48px");
+            this.Personas[i].setImg(img.getAttribute("src"));
+            $("#" + rnd).append(img);
+           
+        }
+    };
+
     this.estadoSeleccionada = function () {
         if (this.casillaSeleccionada != null && this.casillaSeleccionada.getPersona() != null) {
             return true;
@@ -378,27 +404,23 @@ function Juego() {
     };
 
     this.guardarPartidaJsoon = function () {
-        if (!!window.localStorage) {
-
-            var casillas = new Array();
-            var result = new Array();
-            casillas = this.tablero.getCasillas();
-            for (i = 0; i < casillas.length; i++) {
-                result[i] = {
-                    "id": casillas[i].getId()
+        var casillas = new Array();
+        var result = new Array();
+        casillas = this.tablero.getCasillas();
+        for (i = 0, y = 0; i < casillas.length; i++) {
+            if (casillas[i].hayPersona() == true) {
+                var persona = casillas[i].getPersona();
+                result[y] = {
+                    "id": persona.getId(),
+                    "color": persona.getColor(),
+                    "ok": persona.getOk(),
+                    "idcasilla": persona.getCasilla().getId()
                 };
-
-                
-
-
+                y++;
             }
-            // Create a JavaScript object literal.
-            window.localStorage.casillas = JSON.stringify(result); // Convert the object to a string.
-            //person = JSON.parse(window.localStorage.tab); // Convert the object string back to a JavaScript object.
         }
-        else {
-            document.querySelector('body').innerHTML = "<h2>Local storage is not supported by this browser.</h2><p>To use this application, upgrade your browser to the latest version.</p>";
-        }
+        var data = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(result));
+        $('a').attr("href","data:" + data);
     }   
 }
 

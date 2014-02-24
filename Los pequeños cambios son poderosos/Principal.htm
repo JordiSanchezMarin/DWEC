@@ -15,11 +15,15 @@
             <input id="rd1" type="radio" value="1" name="norma" checked="checked"/> Norma1 <br />
             <input id="rd2" type="radio" value="2" name="norma" /> Norma2 <br />
             <input id="empezar" type="button" value="Empezar" onclick="go();"/>
-            <input id="guardar" type="button" value="Guardar" />
+            <input type="file" id="files" name="file"/>
+            <button id="btn_cargar">Cargar</button>
+            <div id="byte_content"></div>
+
     </div>
        <script type="text/javascript">
            function go() {
                $('#total').empty();
+               $('<a download="data.json"> <input id="guardar" type="button" value="Guardar" /> </a>').appendTo('body');
                juego = new Juego();
                if ($('input:radio[id=rd1]:checked').val() == true) {
                    idNormaGlobal = 1;
@@ -31,9 +35,48 @@
                $("#guardar").click({ jg: juego }, function (evento) {
                    joc = evento.data.jg;
                     joc.guardarPartidaJsoon();
-               });
+                });
+
            }
-            
+           function readBlob(opt_startByte, opt_stopByte) {
+
+               var files = document.getElementById('files').files;
+               if (!files.length) {
+                   alert('Please select a file!');
+                   return;
+               }
+
+               var file = files[0];
+               var start = parseInt(opt_startByte) || 0;
+               var stop = parseInt(opt_stopByte) || file.size - 1;
+
+               var reader = new FileReader();
+
+               // If we use onloadend, we need to check the readyState.
+               reader.onloadend = function (evt) {
+                   if (evt.target.readyState == FileReader.DONE) { // DONE == 2
+                       var result = evt.target.result.split("},{");
+                       result[0] = result[0].replace('[{"', '"');
+                       result[59] = result[59].replace('}]', '');
+                       // document.getElementById('byte_content').textContent = result[59];
+                       for (i = 0; result.length > i; i++) {
+                           document.getElementById('byte_content').textContent += result[i] ;
+                           
+                       }
+                   }
+               };
+
+               var blob = file.slice(start, stop + 1);
+               reader.readAsBinaryString(blob);
+           }
+
+           document.querySelector('#btn_cargar').addEventListener('click', function (evt) {
+               if (evt.target.tagName.toLowerCase() == 'button') {
+                   var startByte = evt.target.getAttribute('data-startbyte');
+                   var endByte = evt.target.getAttribute('data-endbyte');
+                   readBlob(startByte, endByte);
+               }
+           }, false);
     </script>
 </body>
 </html>
