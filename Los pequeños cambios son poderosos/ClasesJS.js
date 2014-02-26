@@ -1,5 +1,6 @@
 var tableroGlobal;
 var idNormaGlobal;
+var personasGlobal;
 function Persona(id, colo, ok, comprobarVecinos, devolverVecinos, casilla2) {
     var id = id;
     var color = colo;
@@ -246,31 +247,31 @@ function Tablero() {
         }
     };
 
-    this.cargarTablero = function (idNorma) {
-        for (i = 0; i < 60; i++) {
-            if (idNorma == 1) {
-                this.Personas[i] = new Persona(i, tipoFicha, false, this.Norma1.ComprobarVecinos1, this.devolverVecinos, this.Casillas[rnd], this);
-            }
-            else {
-                this.Personas[i] = new Persona(i, tipoFicha, false, this.Norma1.ComprobarVecinos2, this.devolverVecinos, this.Casillas[rnd], this);
-            }
-            this.Casillas[rnd].setPersona(this.Personas[i]);
-            this.Casillas[rnd].setOcupada(true);
-            img = document.createElement("img");
-            img.setAttribute("id", "img" + rnd);
-            if (this.Personas[i].getColor() == "negra") {
-                img.setAttribute("src", "FichaNegra.png");
-            }
-            else if (this.Personas[i].getColor() == "blanca") {
-                img.setAttribute("src", "FichaBlanca.png");
-            }
-            img.setAttribute("width", "48px");
-            img.setAttribute("height", "48px");
-            this.Personas[i].setImg(img.getAttribute("src"));
-            $("#" + rnd).append(img);
+    //this.cargarTablero = function (idNorma) {
+    //    for (i = 0; i < 60; i++) {
+    //        if (idNorma == 1) {
+    //            this.Personas[i] = new Persona(i, tipoFicha, false, this.Norma1.ComprobarVecinos1, this.devolverVecinos, this.Casillas[rnd], this);
+    //        }
+    //        else {
+    //            this.Personas[i] = new Persona(i, tipoFicha, false, this.Norma1.ComprobarVecinos2, this.devolverVecinos, this.Casillas[rnd], this);
+    //        }
+    //        this.Casillas[rnd].setPersona(this.Personas[i]);
+    //        this.Casillas[rnd].setOcupada(true);
+    //        img = document.createElement("img");
+    //        img.setAttribute("id", "img" + rnd);
+    //        if (this.Personas[i].getColor() == "negra") {
+    //            img.setAttribute("src", "FichaNegra.png");
+    //        }
+    //        else if (this.Personas[i].getColor() == "blanca") {
+    //            img.setAttribute("src", "FichaBlanca.png");
+    //        }
+    //        img.setAttribute("width", "48px");
+    //        img.setAttribute("height", "48px");
+    //        this.Personas[i].setImg(img.getAttribute("src"));
+    //        $("#" + rnd).append(img);
            
-        }
-    };
+    //    }
+    //};
 
     this.estadoSeleccionada = function () {
         if (this.casillaSeleccionada != null && this.casillaSeleccionada.getPersona() != null) {
@@ -391,6 +392,33 @@ function Juego() {
         this.tablero.comprobarEstadoTablero();
     };
 
+    this.cargar = function (result) {
+        tableroGlobal = this.tablero;
+        var nor = new Norma();
+        this.tablero.crear(idNormaGlobal);
+        for (i = 0; result.length > i; i++) {
+            //if (idNormaGlobal == 1) {
+                personasGlobal[i] = new Persona(result[i].id, result[i].color, result[i].ok, nor.ComprobarVecinos1, tableroGlobal.devolverVecinos, tableroGlobal.getCasillas()[result[i].idcasilla]);
+            //}
+            //else {
+                //this.Personas[i] = new Persona(i, tipoFicha, false, this.Norma1.ComprobarVecinos2, this.devolverVecinos, this.Casillas[rnd], this);
+            }
+            tableroGlobal.getCasillas()[result[i].idcasilla].setPersona(personasGlobal[i]);
+            tableroGlobal.getCasillas()[result[i].idcasilla].setOcupada(true);
+            var img = document.createElement("img");
+            img.setAttribute("width", "48px");
+            img.setAttribute("height", "48px");
+            img.setAttribute("id", "img" + result[i].id);
+            if (result[i].color == "negra") {
+                img.setAttribute("src", "FichaNegra.png");
+            }
+            else {
+                img.setAttribute("src", "FichaBlanca.png");
+            }
+            this.Personas[i].setImg(img.getAttribute("src"));
+            $("#" + result[i].idcasilla).append(img);
+        
+    }
     this.getTablero = function () {
         return this.tablero;
     };
@@ -444,19 +472,19 @@ function Norma() {
 
     this.ComprobarVecinos2 = function (vecinas, p) {
         var ve = false;
-            for (y = 0; y < vecinas.length; y++) {
-                if (this.vecinas[y].getPersona() != null) {
-                    if (p.getColor() != vecinas[y].getPersona().getColor()) {
-                        ve = true;
-                    }
+        for (y = 0; y < vecinas.length; y++) {
+            if (this.vecinas[y].getPersona() != null) {
+                if (p.getColor() != vecinas[y].getPersona().getColor()) {
+                    ve = true;
                 }
             }
-            if (ve == true) {
-                return true;
-            }
-            else {
-                return false;
-            }
+        }
+        if (ve == true) {
+            return true;
+        }
+        else {
+            return false;
+        }
     };
     this.ComprobarVecinosVacia2 = function (persona, casilla1, vecinas) {
         var ve = false;
