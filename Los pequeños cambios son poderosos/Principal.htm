@@ -2,9 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head>
     <title>Juego de la vida</title>
-    
+    <link rel="stylesheet type="text/css" href="index.css"/>
     <script type="text/javascript" src="jquery-1.3.2.js"></script>
     <script src="ClasesJS.js" type="text/javascript"></script>
+    
 </head>
 <body>
  
@@ -22,10 +23,9 @@
     </div>
        <script type="text/javascript">
            juego = new Juego();
+           $('<a download="data.json"> <input id="guardar" type="button" value="Guardar" /> </a>').appendTo('body');
            function go() {
                $('#total').empty();
-               $('<a download="data.json"> <input id="guardar" type="button" value="Guardar" /> </a>').appendTo('body');
-              
                if ($('input:radio[id=rd1]:checked').val() == true) {
                    idNormaGlobal = 1;
                }
@@ -58,6 +58,16 @@
                    if (evt.target.readyState == FileReader.DONE) { // DONE == 2
                        var result = JSON.parse(evt.target.result);
                        $('#total').empty();
+                       if ($('input:radio[id=rd1]:checked').val() == true) {
+                           idNormaGlobal = 1;
+                       }
+                       else {
+                           idNormaGlobal = 2;
+                       }
+                       $("#guardar").click({ jg: juego }, function (evento) {
+                           joc = evento.data.jg;
+                           joc.guardarPartidaJsoon();
+                       });
                        juego.cargar(result);
                    }
                };
