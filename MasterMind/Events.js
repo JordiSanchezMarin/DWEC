@@ -7,28 +7,46 @@
                 var id = $(this).attr('id');
                 var array = new Array();
                 id = id.split("_");
-                $("#r" + id[1]).removeAttr('class');
-                $("#r" + id[1]).addClass("circulo");
-                $("#r" + id[1]).addClass(clase);
-                $("#r" + id[1]).removeClass("cuadrado");
+                $("#r_" + id[1]).removeAttr('class');
+                $("#r_" + id[1]).addClass("circulo");
+                $("#r_" + id[1]).addClass(clase);
+                $("#r_" + id[1]).removeClass("cuadrado");
         });
     },
-
-    colorHover: function(id){
-        $("#" + id).hover(
-          function () {
-              //al pasar por encima de un cuadrado de color se hace una sombra --> CSS
-          }, function () {
-             //al salir de encima del cuadrado de color la sombra desaparece --> CSS
-          }
-        );
-        
-    },
-
     comprobarClick: function () {
         // Al hacer click en el boton comprobar se recorrera el array de colores introducidos y los irá comparando
+        if(config.intentos >= 2){
+        	master.comprobarCodigo();
+        	config.intentos --;
+        	config.intentosNow++;
+        	utils.comprobarCodigoHTML();
+        	masterui.añadirPista();
+        	if(master.codigoFinal.getCorrecto() == true){
+        		alert("Enhorabuena ha acertado el codigo secreto");
+        		utils.resetHTML();
+        		utils.resetVariables();
+        		$( ".cuadrado").unbind( "click" );
+        	}
+        }
+        else{
+        	master.comprobarCodigo();
+        	if(master.codigoFinal.getCorrecto() == true){
+        		alert("Enhorabuena ha acertado el codigo secreto");
+        	}
+        	else{
+        		alert("Se le han acabado los intentos, vuelva a intentarlo...");
+        	}
+        	utils.resetHTML();
+        	utils.resetVariables();
+        	$( ".cuadrado").unbind( "click" );
+        }
     },
-
+	empezarClick: function (){
+		utils.preparacionVariables();
+		utils.preparacionHTML();
+		master.generar();
+		eventos.colorClick();
+	},
     sliderClick: function () {
         // Antes de iniciar el juego se debe indicar el numero de intentos en una slider bar
     },

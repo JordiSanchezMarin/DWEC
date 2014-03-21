@@ -10,15 +10,17 @@
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="js/scripts.js"></script>
 	<script type="text/javascript" src="codigo.js"></script>
-	<script type="text/javascript" src="Events.js"></script>
 	<script type="text/javascript" src="master.js"></script>
 	<script type="text/javascript" src="masterui.js"></script>
 	<script type="text/javascript" src="config.js"></script>
 	<script type="text/javascript" src="utils.js"></script>
+	<script type="text/javascript" src="Events.js"></script>
 	<script>
-		master.generar();
+	$(document).ready(function(){
+		
 		utils.cambiarDebug(true); 
 		utils.mostrarDebug();
+	});
 	</script>
 </head>
 
@@ -29,23 +31,25 @@
 				MasterMind
 		</div>
 		<div class="col-md-6 column" style="text-align:right">
-            <input type="range" min="1" max="10" value="5" step="1" onchange="rangevalue.value=value" />
+			<p id="p_intentos">Maximo numero de intentos</p>
+            <input id="max_value"  type="range" min="1" max="10" value="5" step="1" onchange="rangevalue.value=value;" />
             <output id="rangevalue">5</output>
 		</div>
 	</div>
 	<div class="row clearfix">
-		<div class="col-md-8 column" id="div_intento">
+		<div class="col-md-8 column" id="div_intento" >
 			<div class="row clearfix">
 				<script>masterui.añadirResultado("div_intento");</script>
 			</div>
 			<div class="row clearfix" id="div_colores">
 				<script>masterui.añadirColores("div_colores");</script>
-				<div class="col-md-2 column">
+				<div class="col-md-2 column pistas" id="pistas">
 				</div>
 			</div>
 		</div>
 		<div class="col-md-4 column">
-			<input type="button" id="btn_comprobar" value=" Comprobar codigo "/>
+			<button id="btn_empezar" value="Empezar partida" onclick="eventos.empezarClick();"> Empezar Partida</button>
+			<button id="btn_comprobar" style="visibility: hidden" value=" Comprobar codigo" onclick="eventos.comprobarClick();"> Comprobar codigo</button>
 		</div>
 	</div>
 	<div class="row clearfix">

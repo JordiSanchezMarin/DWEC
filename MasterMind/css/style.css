@@ -1,4 +1,10 @@
-﻿input[type='range'] {
+﻿p{
+	font-size:20px;
+}
+#rangevalue{
+	font-size:60px;
+}
+input[type='range'] {
 		-webkit-appearance: none;
 		border-radius: 5px;
 		box-shadow: inset 0 0 5px #333;
@@ -49,6 +55,11 @@
         border:1px solid black;
         height:75px;
         text-align:center;
+    }
+    .pistas{
+    	border:1px solid black;
+        height:50px;
+        text-align:left;
     }
     .cuadrado {
         width:25px;
