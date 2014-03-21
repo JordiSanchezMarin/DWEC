@@ -1,8 +1,13 @@
 ﻿var eventos = {
 
-    colorClick: function (id) {
-        $("#" + id).click(function () {
+    colorClick: function () {
+        $(".cuadrado").click(function () {
                 //al hacer click en un cuadrado de color se añade a la redonda como resultado
+                var clase = $(this).attr('class');
+                var id = $(this).attr('id');
+               // $("#r" + id).removeAttr('class');
+                $("#r" + id).addClass("circulo");
+                $("#r" + id).addClass(clase);
         });
     },
 

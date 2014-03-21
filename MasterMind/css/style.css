@@ -60,3 +60,22 @@
         opacity:0.6;
         filter:alpha(opacity=60); 
     }
+    
+	.blue{
+		background-color:blue;
+	}
+	.red{
+		background-color:red;
+	}
+	.green{
+		background-color:green;
+	}
+	.gold{
+		background-color:gold;
+	}
+	.blueviolet{
+		background-color:blueviolet;
+	}
+	.black{
+		background-color:black;
+	}

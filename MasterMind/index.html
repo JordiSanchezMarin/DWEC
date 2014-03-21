@@ -9,6 +9,10 @@
 	<script type="text/javascript" src="js/jquery.min.js"></script>
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="js/scripts.js"></script>
+	<script type="text/javascript" src="Events.js"></script>
+	<script type="text/javascript" src="masterui.js"></script>
+	
+	
 </head>
 
 <body>
@@ -25,56 +29,10 @@
 	<div class="row clearfix">
 		<div class="col-md-8 column" id="div_intento">
 			<div class="row clearfix">
-				<div class="col-md-2 column">
-                        <div class="circulo">
-
-                        </div>
-				</div>
-				<div class="col-md-2 column">
-                    <div class="circulo">
-
-                    </div>
-				</div>
-				<div class="col-md-2 column">
-                    <div class="circulo">
-
-                    </div>
-				</div>
-				<div class="col-md-2 column">
-                    <div class="circulo">
-
-                    </div>
-				</div>
-				<div class="col-md-2 column">
-                    <div class="circulo">
-
-                    </div>
-				</div>
-				<div class="col-md-2 column" id="n_intentos" >
-                    
-				</div>
+				<script>masterui.añadirResultado("div_intento");</script>
 			</div>
-			<div class="row clearfix">
-				<div class="col-md-2 column" style="text-align:center;padding-top:4px">
-                    <div class="cuadrado" style="background-color:blue"></div><div class="cuadrado" style="background-color:green"></div><div class="cuadrado" style="background-color:red"></div>
-                    <div class="cuadrado" style="background-color:gold"></div><div class="cuadrado" style="background-color:blueviolet"></div><div class="cuadrado" style="background-color:black"></div>
-				</div>
-				<div class="col-md-2 column" style="text-align:center;padding-top:4px">
-                    <div class="cuadrado" style="background-color:blue"></div><div class="cuadrado" style="background-color:green"></div><div class="cuadrado" style="background-color:red"></div>
-                    <div class="cuadrado" style="background-color:gold"></div><div class="cuadrado" style="background-color:blueviolet"></div><div class="cuadrado" style="background-color:black"></div>
-				</div>
-				<div class="col-md-2 column" style="text-align:center;padding-top:4px">
-                    <div class="cuadrado" style="background-color:blue"></div><div class="cuadrado" style="background-color:green"></div><div class="cuadrado" style="background-color:red"></div>
-                    <div class="cuadrado" style="background-color:gold"></div><div class="cuadrado" style="background-color:blueviolet"></div><div class="cuadrado" style="background-color:black"></div>
-				</div>
-				<div class="col-md-2 column" style="text-align:center;padding-top:4px">
-                    <div class="cuadrado" style="background-color:blue"></div><div class="cuadrado" style="background-color:green"></div><div class="cuadrado" style="background-color:red"></div>
-                    <div class="cuadrado" style="background-color:gold"></div><div class="cuadrado" style="background-color:blueviolet"></div><div class="cuadrado" style="background-color:black"></div>
-				</div>
-				<div class="col-md-2 column" style="text-align:center;padding-top:4px">
-                    <div class="cuadrado" style="background-color:blue"></div><div class="cuadrado" style="background-color:green"></div><div class="cuadrado" style="background-color:red"></div>
-                    <div class="cuadrado" style="background-color:gold"></div><div class="cuadrado" style="background-color:blueviolet"></div><div class="cuadrado" style="background-color:black"></div>
-				</div>
+			<div class="row clearfix" id="div_colores">
+				<script>masterui.añadirColores("div_colores");</script>
 				<div class="col-md-2 column">
 				</div>
 			</div>
