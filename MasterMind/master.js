@@ -1,7 +1,7 @@
 ﻿var master = {
-
-    generarCodigo: function () {
-        // se genera el codigo ha adivinar de manera aleatoria, cuando se inicie partida
+	codigoFinal: new codigo(true, null),
+    generar: function () {
+    	master.codigoFinal.generarCodigo();
     },
 
     comprobarCodigo: function () {

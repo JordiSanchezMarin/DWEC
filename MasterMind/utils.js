@@ -1,13 +1,17 @@
-﻿var master = {
+﻿var utils = {
 
-    cambiarDebug: function () {
+    cambiarDebug: function (bol) {
         // canvia el estado del debug
+        config.debug = bol;
     },
-
-    estadoDebug: function () {
-        // devueleve true/false segun el debug
-    },
-
+	
+	mostrarDebug: function(){
+		//depende de la variable muestra por debug o no
+		if(config.debug  == true){
+			console.log(config.debug);
+			console.log(master.codigoFinal.getArrayColor());
+		}
+	},
     cambiarTheme: function () {
         // cambia el css segun el establecido
     }

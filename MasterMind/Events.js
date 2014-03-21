@@ -5,9 +5,12 @@
                 //al hacer click en un cuadrado de color se añade a la redonda como resultado
                 var clase = $(this).attr('class');
                 var id = $(this).attr('id');
-               // $("#r" + id).removeAttr('class');
-                $("#r" + id).addClass("circulo");
-                $("#r" + id).addClass(clase);
+                var array = new Array();
+                id = id.split("_");
+                $("#r" + id[1]).removeAttr('class');
+                $("#r" + id[1]).addClass("circulo");
+                $("#r" + id[1]).addClass(clase);
+                $("#r" + id[1]).removeClass("cuadrado");
         });
     },
 
