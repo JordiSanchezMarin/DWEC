@@ -4,14 +4,25 @@
 	casillasOk: 0,
 	casillasKo: 0,
 	coloresOk: new Array(),
+    coloresTotal: new Array(),
     generar: function () {
+    	master.generarTodosColores();
     	master.codigoFinal.generarCodigo();
+    	eventos.comprobarEnter();
     },
 	getCasillasOk: function(){
 		return master.casillasOk;
 	},
 	getCasillasKo: function(){
 		return master.casillasKo;
+	},
+	generarTodosColores: function(){
+		master.coloresTotal[0] = "blue";
+		master.coloresTotal[1] = "green";
+		master.coloresTotal[2] = "red";
+		master.coloresTotal[3] = "gold";
+		master.coloresTotal[4] = "blueviolet";
+		master.coloresTotal[5] = "black"; 
 	},
     comprobarCodigo: function () {
        //comprueba el ultimo codigo introducido y devuelve true/false

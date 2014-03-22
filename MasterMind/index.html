@@ -17,9 +17,7 @@
 	<script type="text/javascript" src="Events.js"></script>
 	<script>
 	$(document).ready(function(){
-		
-		utils.cambiarDebug(true); 
-		utils.mostrarDebug();
+		utils.cambiarDebug(false); 
 	});
 	</script>
 </head>
@@ -53,7 +51,12 @@
 		</div>
 	</div>
 	<div class="row clearfix">
-		<div class="col-md-12 column">
+		<div class="col-md-12 column" >
+			<input type="text" id="codigo_enter"/>
+		</div>
+	</div>
+	<div class="row clearfix">
+		<div class="col-md-12 column" id="historial_pistas">
 		</div>
 	</div>
 </div>

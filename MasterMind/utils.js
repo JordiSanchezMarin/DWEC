@@ -16,7 +16,6 @@
 			console.log("Intentos restantes -->" + parseInt(config.intentos - 1));
 			console.log("casillas ok -->" + master.getCasillasOk());
 			console.log("Correcto -->" + master.codigoFinal.getCorrecto());
-			
 		}
 	},
     cambiarTheme: function () {
@@ -32,7 +31,7 @@
 		master.codigoFinal.setCorrecto(false);
     },
     preparacionHTML: function(){
-    	//edita el codigo html5 para empezar a jugar
+    	//edita el codigo html para empezar a jugar
 		$("#btn_comprobar").css({visibility : "visible"});
 		$("#btn_empezar").css({visibility : "hidden"});
 		$("#max_value").attr("disabled","disabled");
@@ -56,6 +55,7 @@
         $("#n_intentos").append(config.intentosNow);
 	},
 	resetHTML: function(){
+		//preapara los elementos html para poder volver a jugar una vez finalizada la partida
 		$("#p_intentos").empty();
 		$("#p_intentos").text("Maximo numero de intentos");
 		$("#max_value").attr("disabled",false);
@@ -64,8 +64,11 @@
 		$("#max_value").val(5);
 		$("#rangevalue").val(5);
 		$(".pistas").empty();
+		$("#n_intentos").empty();
+		$("#codigo_enter").val("");
 	},
 	resetVariables: function(){
+		//preapara las variables para poder volver a jugar una vez finalizada la partida
 		master.casillasKo = 0;
 		master.casillasOk = 0;
 		master.codigoPrueba=null;
@@ -73,5 +76,15 @@
 		config.intentos=0;
 		config.intentosNow=0;
 		config.maxIntentos = 0;
+	},
+	comprobarCodigoEnter: function(codigo){
+		//comprueba que el codigo introducido tenga el formato correcto
+		correcto=true;
+		for(i=0;i<codigo.length;i++){
+			if(!$.isNumeric(codigo[i]) || codigo[i] > 5 ){
+				correcto = false;
+			}
+		}
+		return correcto;
 	}
 };

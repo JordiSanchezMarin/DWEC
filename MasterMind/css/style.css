@@ -66,6 +66,9 @@ input[type='range'] {
         height:25px;
         float:left;
         margin:1px;
+        font-size:18px;
+        font-weight: bold;
+        color:Argent ;
     }
     .cuadrado:hover {
         opacity:0.6;

@@ -26,6 +26,7 @@
         		utils.resetHTML();
         		utils.resetVariables();
         		$( ".cuadrado").unbind( "click" );
+        		masterui.borrarPistas();
         	}
         }
         else{
@@ -36,6 +37,7 @@
         	else{
         		alert("Se le han acabado los intentos, vuelva a intentarlo...");
         	}
+        	masterui.borrarPistas();
         	utils.resetHTML();
         	utils.resetVariables();
         	$( ".cuadrado").unbind( "click" );
@@ -53,6 +55,26 @@
 
     comprobarEnter: function () {
         // Se puede comprobar el codigo poniendo en un textbox el codigo y presionando la tecla ENTER
+        $( "#codigo_enter" ).keypress(function( event ) {
+		  if ( event.which == 13 ) {
+		  	 event.preventDefault();
+		     array =  new Array();
+		     array = $(this).val().split("");
+		  	if($(this).val() == "" || array.length < 5 || array.length > 5 || utils.comprobarCodigoEnter(array) == false){
+		  		alert("Debe introducir bien el codigo");
+		  	}
+		  	else{
+		  		for(i=0;i<array.length;i++){
+		     	$("#r_" + i).removeAttr('class');
+                $("#r_" + i).addClass("circulo");
+                $("#r_" + i).addClass(master.coloresTotal[array[i]]);
+                $("#r_" + i).removeClass("cuadrado");
+		     }
+		      eventos.comprobarClick();
+		  	}
+		  }
+		  
+		});
     }
 
 };
