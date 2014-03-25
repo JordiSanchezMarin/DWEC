@@ -52,12 +52,15 @@ input[type='range'] {
         text-align:center;
     }
     #n_intentos {
-        border:1px solid black;
         height:75px;
         text-align:center;
     }
+    #div_intento{
+    	padding: 2px;
+    	background-color: Gray;
+    }
     .pistas{
-    	border:1px solid black;
+    	
         height:50px;
         text-align:left;
     }
@@ -69,6 +72,7 @@ input[type='range'] {
         font-size:18px;
         font-weight: bold;
         color:Argent ;
+        cursor: pointer;
     }
     .cuadrado:hover {
         opacity:0.6;

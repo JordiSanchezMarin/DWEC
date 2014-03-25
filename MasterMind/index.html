@@ -17,7 +17,7 @@
 	<script type="text/javascript" src="Events.js"></script>
 	<script>
 	$(document).ready(function(){
-		utils.cambiarDebug(false); 
+		utils.cambiarDebug(true); 
 	});
 	</script>
 </head>
@@ -37,7 +37,9 @@
 	<div class="row clearfix">
 		<div class="col-md-8 column" id="div_intento" >
 			<div class="row clearfix">
+				<div class="col-md-12 column">
 				<script>masterui.añadirResultado("div_intento");</script>
+				</div>
 			</div>
 			<div class="row clearfix" id="div_colores">
 				<script>masterui.añadirColores("div_colores");</script>

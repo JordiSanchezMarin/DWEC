@@ -66,6 +66,7 @@
 		$(".pistas").empty();
 		$("#n_intentos").empty();
 		$("#codigo_enter").val("");
+		$( "#codigo_enter" ).unbind('keypress');
 	},
 	resetVariables: function(){
 		//preapara las variables para poder volver a jugar una vez finalizada la partida

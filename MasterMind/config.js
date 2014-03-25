@@ -7,5 +7,4 @@
     intentosNow: new Number(),
     finish: new Boolean(),
 	partidaCurso : false
-	
 };

@@ -8,7 +8,6 @@
     generar: function () {
     	master.generarTodosColores();
     	master.codigoFinal.generarCodigo();
-    	eventos.comprobarEnter();
     },
 	getCasillasOk: function(){
 		return master.casillasOk;
@@ -61,12 +60,20 @@
         	return false;
         }
     },
-
+	colorCorrecto: function(color){
+		correcto = false;
+		for(y=0;y<master.coloresOk.length;y++){
+			if(color == master.coloresOk[y] ){
+				correcto = true;
+			}
+		}
+		return correcto;
+	},
     campoKo: function (color, color2) {
         // devuelve true/false segun si el color existe en la combinación final
         ok = false;
 		for(x=0 ; x <5 ; x++){
-	    	if(color == color2[x]){
+	    	if(color == color2[x] && master.colorCorrecto(color) == false){
 	    		ok=true;
 	    	}
 	    }
