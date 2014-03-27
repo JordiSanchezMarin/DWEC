@@ -26,7 +26,7 @@
 <div class="container">
 	<div class="row clearfix">
 		<div class="col-md-6 column">
-				MasterMind
+				<img src="img/logo.png" id="img_logo" alt=2logo />
 		</div>
 		<div class="col-md-6 column" style="text-align:right">
 			<p id="p_intentos">Maximo numero de intentos</p>
@@ -35,11 +35,9 @@
 		</div>
 	</div>
 	<div class="row clearfix">
-		<div class="col-md-8 column" id="div_intento" >
-			<div class="row clearfix">
-				<div class="col-md-12 column">
+		<div class="col-md-8 column" id="div_intentNow"  >
+			<div class="row clearfix" id="div_intento">
 				<script>masterui.añadirResultado("div_intento");</script>
-				</div>
 			</div>
 			<div class="row clearfix" id="div_colores">
 				<script>masterui.añadirColores("div_colores");</script>
@@ -49,12 +47,12 @@
 		</div>
 		<div class="col-md-4 column">
 			<button id="btn_empezar" value="Empezar partida" onclick="eventos.empezarClick();"> Empezar Partida</button>
-			<button id="btn_comprobar" style="visibility: hidden" value=" Comprobar codigo" onclick="eventos.comprobarClick();"> Comprobar codigo</button>
+			<button id="btn_comprobar" style="visibility: hidden" value=" Comprobar codigo" onclick="eventos.comprobarClick();"> Comprobar</button>
 		</div>
 	</div>
 	<div class="row clearfix">
-		<div class="col-md-12 column" >
-			<input type="text" id="codigo_enter"/>
+		<div class="col-md-12 column" style="padding-left:0px">
+			<input type="text" id="codigo_enter" maxlength="5" min="5"/>
 		</div>
 	</div>
 	<div class="row clearfix">
