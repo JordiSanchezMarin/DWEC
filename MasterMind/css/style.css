@@ -2,28 +2,28 @@
 	font-size:20px;
 }
 #rangevalue{
-	font-size:60px;
+	font-size:35px;
 	color:Black;
 }
 input[type='range'] {
 		-webkit-appearance: none;
 		border-radius: 5px;
-		box-shadow: inset 0 0 5px #333;
-		background-color: #999;
-		height: 10px;
-		vertical-align: middle;
+		box-shadow: inset 0 0 5px black;
+		background-color: red;
+		height: 5px;
+		vertical-align: 10px;
 	}
 	input[type='range']::-moz-range-track {
 		-moz-appearance: none;
 		border-radius: 5px;
-		box-shadow: inset 0 0 5px #333;
-		background-color: #999;
-		height: 10px;
+		box-shadow: inset 0 0 5px black;
+		background-color: #31617a;
+		height: 5px;
 	}
 	input[type='range']::-webkit-slider-thumb {
 		-webkit-appearance: none !important;
 		border-radius: 20px;
-		background-color: #3c72aa;
+		background-color: #31617a;
 		box-shadow:inset 0 0 10px rgba(122,166,210,0.7);
 		border: 0px solid #7aa6d2;
 		height: 20px;
@@ -39,31 +39,32 @@ input[type='range'] {
 		width: 20px;
 	}
     input[type='range'] {
-        width:50%;
+        width:100%;
     }
     body {
         font-size:40px;
-        font-family:Rockwell ;
-        background-color: #7aa6d2;
+        font-family:Helvetica ;
         color:Black;
+        background-image: url('../img/background.jpg');
     }
     .circulo {
         width:75px;
         height:75px;
         border-radius:100%;
-        border:2px solid black;
+        background-color:#f7f9fa;
         text-align:center;
         margin-left:3px;
     }
     #p_intentos{
-    	font-size: 30px;
+    	font-size: 20px;
+    	margin-top:18px;
     }
     #codigo_enter{
     	width: 150px;
     	height: 50px;
     	margin: 10px 0px;
-    	background-color: #d9d9d9;
-    	border: 1px Solid Black;
+    	background-color: #f7f9fa;
+    	
     	border-radius:10px;
     	padding:6px;
     	font-size: x-large;
@@ -72,22 +73,21 @@ input[type='range'] {
     #n_intentos {
         height:75px;
         text-align:center;
+        visibility: hidden;
     }
     
     #div_intentNow{
-    	padding: 2px;
-    	background-color: #3c72aa;
-    	border-radius: 10px;
     	padding:10px;
-    	border:2px solid Black;
     }
     #img_logo{
     	width: 100%;
-    	margin-top:10px;
+    	
+    	margin: 10px 295px;
     }
     .pistas{
         height:50px;
         text-align:left;
+        visibility: hidden;
     }
     .cuadrado {
         width:25px;
@@ -108,42 +108,57 @@ input[type='range'] {
         filter:alpha(opacity=60); 
     }
     .historial{
-		border: 2px solid Black;
 		padding:5px;
 		margin:4px 0px;
-		background-color:#3c72aa;
 		border-radius: 10px;
 	}
 	#historial_pistas{
 		padding: 0px;
+	}
+	#btn_empezar{
+		z-index: 2;
+	}
+	#btn_comprobar{
+		z-index: 1;
+		top:1px;
 	}
 	button{
 		border-radius:10px;	
 		background-color: #3c72aa;
 		border: 2px double Black;
 		width :350px;
-	}
-	button:hover{
-		background-color: #558cc4;
+		height: 40px;
+		position: absolute;
 	}
 	.blue{
-		background-color:blue;
+		background-color:#69abc4;
+		color:snow;
 	}
 	.red{
-		background-color:red;
+		background-color:#c75850;
+		color:snow;
 	}
 	.green{
-		background-color:green;
+		background-color:#55c65e;
+		color:snow;
 	}
 	.gold{
-		background-color:gold;
+		background-color:#FEF970;
+		color:black;
 	}
 	.blueviolet{
-		background-color:blueviolet;
+		color:snow;
+		background-color:#9d6ec8;
 	}
 	.black{
-		background-color:black;
+		color:snow;
+		background-color:#484848;
 	}
 	.column{
 		padding: 0px 20px;
+	}
+	
+	hr
+	{
+		margin: 5px 0px;	
 	}
