@@ -4,9 +4,11 @@ function codigo(resultado,correcto)
 	var resultado = resultado;
 	var correcto = correcto;
 	
+	//funcion que cambiara la array a correcta/incorrecta
 	this.setCorrecto = function (cor){
 		correcto = cor;
 	},
+	//funcion que sirve para recibir la variable correcto
 	this.getCorrecto = function(){
 		return correcto;
 	},
@@ -24,6 +26,7 @@ function codigo(resultado,correcto)
     			arrayColor[i] = array[Math.floor((Math.random()*5) + 1)];
     		}
         }
+        //se genera cada vez que hagas un intento para poder compararla con la final
         else if(resultado == false){
         	for(i=0; i<5 ; i++){
         		arrayColor[i] = $("#r_" + i).attr("class");
@@ -31,6 +34,7 @@ function codigo(resultado,correcto)
         }
      
  };
+ //funcion que recuperra el array de colores del codigo
    this.getArrayColor = function(){
    		return arrayColor;
    };

@@ -13,11 +13,10 @@
 
     añadirPista: function () {
         // añade la ultima pista al array de pistas
-        $("#historial_pistas").append("<hr><div class='row clearfix historial' id='his_"+ config.intentosNow +"'></div>");
+        $("#historial_pistas").prepend("<hr><div class='row clearfix historial' id='his_"+ config.intentosNow +"'></div>");
         for( i = 0 ; i<5 ; i++){
 			$("#his_" + config.intentosNow).append("<div class='col-md-1 column'>" +
                         "<div class='circulo " + master.codigoPrueba.getArrayColor()[i] +"'>" +
-
                         "</div>" +
 				"</div>");	
 		}
@@ -44,11 +43,9 @@
 	
 	añadirResultado: function(id_div){
 		//añade los 5 circulos que varian segun la opcion elegida
-		
 		for( i = 0 ; i<5 ; i++){
 			$("#" + id_div).append("<div class='col-md-2 column'>" +
                         "<div id='r_" + i + "' class='circulo'>" +
-
                         "</div>" +
 				"</div>");	
 		}

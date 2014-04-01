@@ -1,5 +1,4 @@
 ﻿var utils = {
-
     cambiarDebug: function (bol) {
         // canvia el estado del debug
         config.debug = bol;

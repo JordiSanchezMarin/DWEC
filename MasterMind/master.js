@@ -5,16 +5,20 @@
 	casillasKo: 0,
 	coloresOk: new Array(),
     coloresTotal: new Array(),
+    //esta funcion genera el codigo al principio del juego
     generar: function () {
     	master.generarTodosColores();
     	master.codigoFinal.generarCodigo();
     },
+    //devuelve todas las casillas correctas
 	getCasillasOk: function(){
 		return master.casillasOk;
 	},
+	//devuelve todas las casillas semicorrectas
 	getCasillasKo: function(){
 		return master.casillasKo;
 	},
+	//genera una array que contiene todos los colores posibles
 	generarTodosColores: function(){
 		master.coloresTotal[0] = "blue";
 		master.coloresTotal[1] = "green";
@@ -22,7 +26,7 @@
 		master.coloresTotal[3] = "gold";
 		master.coloresTotal[4] = "blueviolet";
 		master.coloresTotal[5] = "black"; 
-	},
+	},	
     comprobarCodigo: function () {
        //comprueba el ultimo codigo introducido y devuelve true/false
        utils.comprobarCodigoVariables();
@@ -60,6 +64,7 @@
         	return false;
         }
     },
+    //comprueba si un color ya es correcto
 	colorCorrecto: function(color){
 		correcto = false;
 		for(y=0;y<master.coloresOk.length;y++){

@@ -43,34 +43,32 @@
         }
     },
 	empezarClick: function (){
+		//prepara las variables necesarias para empezar y añade los eventos de click y presskey, que sirven para comprobar el codigo
 		utils.preparacionVariables();
 		utils.preparacionHTML();
 		master.generar();
 		eventos.colorClick();
 		eventos.comprobarEnter();
 	},
-    sliderClick: function () {
-        // Antes de iniciar el juego se debe indicar el numero de intentos en una slider bar
-    },
 
     comprobarEnter: function () {
         // Se puede comprobar el codigo poniendo en un textbox el codigo y presionando la tecla ENTER
         $( "#codigo_enter" ).unbind('keypress').keypress(function( event ) {
 		  if ( event.which == 13 ) {
-		  	 //event.preventDefault();
 		     array =  new Array();
 		     array = $(this).val().split("");
-		  	if($(this).val() == "" || array.length < 5 || array.length > 5 || utils.comprobarCodigoEnter(array) == false){
+		     /[1-4]/
+		  	if( !$(this).val().match(/[0-5]{5}/) || utils.comprobarCodigoEnter(array) == false){
 		  		alert("Debe introducir bien el codigo");
 		  	} 
 		  	else{
 		  		for(i=0;i<array.length;i++){
-		     	$("#r_" + i).removeAttr('class');
-                $("#r_" + i).addClass("circulo");
-                $("#r_" + i).addClass(master.coloresTotal[array[i]]);
-                $("#r_" + i).removeClass("cuadrado");
-		     }
-		      eventos.comprobarClick();
+			     	$("#r_" + i).removeAttr('class');
+	                $("#r_" + i).addClass("circulo");
+	                $("#r_" + i).addClass(master.coloresTotal[array[i]]);
+	                $("#r_" + i).removeClass("cuadrado");
+		     	}
+		    eventos.comprobarClick();
 		  	}
 		  }
 		});
