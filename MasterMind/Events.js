@@ -49,6 +49,7 @@
 		master.generar();
 		eventos.colorClick();
 		eventos.comprobarEnter();
+		master.guardarCookie(config.maxIntentos);
 	},
 
     comprobarEnter: function () {

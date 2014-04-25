@@ -83,6 +83,18 @@
 	    	}
 	    }
         return ok;
+    },
+    guardarCookie: function(cookie){
+    	$.cookie('tiradas_maxima', cookie);
+    },
+    extraerCookie: function(){
+    	if ($.cookie('tiradas_maxima') == null){
+    		alert("No hay cookies disponibles");
+    	}else{
+    		config.maxIntentos = $.cookie('tiradas_maxima');
+    		alert(config.maxIntentos);
+    	}
+    	
     }
 
 };
