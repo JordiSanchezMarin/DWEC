@@ -1,19 +1,66 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 	<head>
 		<script src="jquery-2.1.0.js" type="text/javascript"></script>
 		<script src="eventos.js" type="text/javascript"></script>
-		<script src="ajax.js" type="text/javascript"></script>
+		<script src="js/bootstrap.js" type="text/javascript"></script>
 		<link rel="stylesheet" href="index.css" type="text/css">
+		<link rel="stylesheet" href="css/bootstrap.css" type="text/css">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	</head>
 	<body>
-		<div>
-			<input type="text" id="txtId" />
-			<input type="text" id="txtTag" />
-			<input type="button" id="btn_enviar" value="Enviar">
+		<div class="row clearfix" style="margin-bottom: 2%; width: 101.1%" id="cabecera">
+			<div class="col-lg-4" >
+				<img id="img_logo" src="logo_flickr.png" alt="logo_flickr"><img id="img_logo2" src="logo2.png" alt="logo_flickr">
+			</div>
+			<div class="col-lg-8">
+				<h1>Búsqueda de imágenes públicas</h1>
+			</div>
 		</div>
-		<div id="div_imagenes">
-			
+		<div class="container">
+			<div class="row clearfix">
+				<div class="col-lg-12">
+					<div class="form-inline" role="form">
+						<div class="form-group">
+							<input type="text" id="txtId" class="form-control" placeholder="Búsqueda por Id de usuario" />
+							<input type="text" id="txtTag" class="form-control" placeholder="Búsqueda por etiquetas" />
+							<input type="button" id="btn_enviar" value="Buscar" class="btn btn-primary" />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row clearfix">
+				<div class="col-lg-4" >
+					<div id="div_error">
+						
+					</div>
+				</div>
+			</div>
+			<div class="row clearfix">
+				<div id="div_imagenes" class="col-lg-12">
+					
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="modal_img" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		        <div id="div_carousel_busqueda" class="carousel slide" data-ride="carousel">
+				  <ol class="carousel-indicators">
+				  </ol>
+				  <div class="carousel-inner">
+				  </div>
+				
+				  <!-- Controls -->
+				  <a class="left carousel-control" href="#div_carousel_busqueda" data-slide="prev">
+				    <span class="glyphicon glyphicon-chevron-left"></span>
+				  </a>
+				  <a class="right carousel-control" href="#div_carousel_busqueda" data-slide="next">
+				    <span class="glyphicon glyphicon-chevron-right"></span>
+				  </a>
+				</div>
+		    </div>
+		  </div>
 		</div>
 	</body>
 </html>

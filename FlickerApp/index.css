@@ -1,16 +1,82 @@
+body{
+	background-color: #42C451 !important;
+}
 .div_imagen{
-	width: 29%;
+	height: 400px;
 	max-width: 29%;
 	float: left;
 	font-size: 15px;
 	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
-	color: blue;
-	font-weight: bold;
+	color: black;
 	text-align: center;
 	overflow-x: hidden;
 	overflow-y: auto;
 	margin: 5px 10px;
-	border: 1px solid black;
-	border-radius: 20px;
+	border-radius: 5px;
 	padding: 10px;
+	background-color: #354EC1;
+}
+label{
+	font-weight: normal !important;
+}
+.div_imagen>img{
+	cursor: pointer;
+}
+input{
+	margin: 10px 5px !important;
+	width: 240px !important;
+}
+img{
+	border-radius: 5px;
+	margin: 10% 0%;
+	width: 60%;
+	border: 1px solid black !important;
+}
+#div_error{
+	background-color: #DCA7A7;
+	padding: 10px;
+	margin: 10px;
+	border-radius:5px;
+	visibility: hidden;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 15px;
+}
+.item>img{
+	min-height: 100px !important;
+	max-height: 550px !important;
+	width: 100% !important;
+	margin: 0px;
+}
+.modal-dialog{
+	max-width:800px !important;
+	min-width:100px !important;
+	max-height: 550px !important;
+	margin:3% 25% !important;
+}
+#cabecera{
+	height: 100px;
+	background-color: #3F3C3C;
+	padding: 10px 10%;
+	color: white;
+}
+#img_logo{
+	width: 75px;
+	margin: 0px;
+	border: none !important;
+}
+#img_logo2{
+	width: 100px;
+	margin: 0px;
+	border: none !important;
+	margin-left: 2%;
+}
+::-webkit-scrollbar
+{
+  width: 12px;  /* for vertical scrollbars */
+ padding-bottom:0px;
+}
+::-webkit-scrollbar-thumb
+{
+  background-color:#202020;
+  border-radius:5px;
 }
