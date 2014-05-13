@@ -1,0 +1,16 @@
+.div_imagen{
+	width: 29%;
+	max-width: 29%;
+	float: left;
+	font-size: 15px;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	color: blue;
+	font-weight: bold;
+	text-align: center;
+	overflow-x: hidden;
+	overflow-y: auto;
+	margin: 5px 10px;
+	border: 1px solid black;
+	border-radius: 20px;
+	padding: 10px;
+}
