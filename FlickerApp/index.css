@@ -1,5 +1,5 @@
 body{
-	background-color: #5EA766 !important;
+	background-color: #42C451 !important;
 }
 .div_imagen{
 	height: 400px;
@@ -14,7 +14,7 @@ body{
 	margin: 5px 10px;
 	border-radius: 5px;
 	padding: 10px;
-	background-color: #428bca;
+	background-color: #354EC1;
 }
 label{
 	font-weight: normal !important;
@@ -69,6 +69,24 @@ img{
 	margin: 0px;
 	border: none !important;
 	margin-left: 2%;
+}
+.btn-danger{
+	background-color: #fc007e !important;
+	border-color: #fc007e;
+}
+#btn_enviar{
+	font-weight: bold;
+}
+.btn-group{
+	width: 240px !important;
+	margin: 10px 5px !important;
+	visibility: hidden;
+}
+.busqueda:hover{
+	cursor: pointer;
+	background-color: #fc007e !important;
+	font-weight: bold;
+	border-color: #fc007e;
 }
 ::-webkit-scrollbar
 {

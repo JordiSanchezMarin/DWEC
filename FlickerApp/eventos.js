@@ -1,6 +1,9 @@
 $(document).ready(function(){
+	
 	//se añade el evento click en el boton Enviar, para que se mande una petición ajax a flickr para que devuelva un json
 	$("#btn_enviar").click(function(){
+		$("#ul_tags_user").empty();
+		$("#ul_users").empty();
 		$(this).attr("disabled", "disabled");
 		var vartag = "";
 		var varid = "";
@@ -11,6 +14,7 @@ $(document).ready(function(){
 		if($("#txtId").val()!=""){
 		    varid=$("#txtId").val().trim();
 		}
+		$(".btn-group").attr("style", "visibility:hidden");
 		//vaciamos las imagenes para volver a cargar las otras
 		$("#div_imagenes").fadeOut(function() {
 		    $( this ).empty();
@@ -55,7 +59,10 @@ $(document).ready(function(){
 	            success: function(data) {
 	            	//se muestra el div que contiene las imaganes
 	            	$( "#div_imagenes" ).fadeIn( 1000, function() {
+	            		$(".btn-group").attr("style", "visibility:visible");
 				    });
+				    var tags_user = new Array();
+				    var users = new Array();
 				    //se realiza un for el cual sirve para recorrer el jsoon recibido en forma de objeto
 	            	for (var i=0 ;i<data.items.length;i++) {
 	            		//cada tres imagenes se crea una fila de divs
@@ -78,15 +85,35 @@ $(document).ready(function(){
 								'</div>'	            	
 				            );
 	            		}
+	            		var autor = data.items[i].author.split("(")[1];
+	            		autor = autor.replace(/[)]/g, "");
 	            		//se añade todo el contenido de las imagenes en el div_imaganes
 	            		$("#div_imagenes:last-child").append("<div class='div_imagen col-lg-4' id='img_"+i+"'></div>");
 						$("#img_"+i).append("<img src='"+data.items[i].media.m+"' data-toggle='modal' data-target='#modal_img' /><br>");
-			            $("#img_"+i).append("<label> <strong>Id</strong> <span class='glyphicon glyphicon-arrow-right'></span> </label><label>"+data.items[i].author_id+"</label> <br />");
+			            $("#img_"+i).append("<label> <strong>Id Usuario</strong> <span class='glyphicon glyphicon-arrow-right'></span> </label><label>"+data.items[i].author_id+"</label> <br />");
+			             $("#img_"+i).append("<label> <strong>Usuario</strong> <span class='glyphicon glyphicon-arrow-right'></span> </label><label>"+autor+"</label> <br />");
 			            $("#img_"+i).append("<label><strong>Tags</strong> <span class='glyphicon glyphicon-arrow-right'></span>"+data.items[i].tags+"</label>");
 			            $("#div_carousel_busqueda>.carousel-indicators").append(
 								'<li id="bolita_slide_'+i+'" data-target="#div_carousel_busqueda" data-slide-to="'+i+'"></li>'		            	
 			            );
+			            //gardamos todos los tags en un array
+			            var t = data.items[i].tags.split(" ");
+			            //recorremos el array de tags, pra crear un dropdown, donde el usuario podra elegir algun tipo de tag
+			            for(y=0;y<t.length;y++){
+			            	if(existeTag(t[y], tags_user) == false){
+			            		tags_user.push(t[y]);
+			            		$("#ul_tags_user").append('<li><a class="a_tag_user busqueda">'+t[y]+'</a></li>');
+			            	}
+			            }
+			            //se añaden los elementos li al dropwdown de los usuarios
+			            if(existeUsuario(autor,users) == false){
+			            	users.push(autor);
+			            	$("#ul_users").append('<li><a class="a_users busqueda" idautor="'+data.items[i].author_id+'">'+autor+'</a></li>');
+			            }
 					}
+					//añadimos los eventos de los elementos <li>
+					etiqueta_click();
+					usuario_click();
 					//cuando se ha cargado la peticion ajax se añade un evento a las imagenes para poder visualizarlas en un modal
 					$(".div_imagen>img").click(function(){
 						var i = $(this).parent().attr("id").split("_")[1];
@@ -96,5 +123,39 @@ $(document).ready(function(){
 	        });
 		});
 	});
+	//funcion que nos dice si el tag existe, pra no repetirlos
+	function existeTag(tag, array){
+		var bol = false;
+		for(r=0;r<array.length;r++){
+			if(array[r] == tag){
+				bol = true;
+			}
+		}
+		return bol;
+	}
+	//funcion que nos dice si el usuario existe, pra no repetirlos
+	function existeUsuario(id, array){
+		var bol = false;
+		for(r=0;r<array.length;r++){
+			if(array[r] == id){
+				bol = true;
+			}
+		}
+		return bol;
+	}
+	//funcion que añade el evento click a cada elemento de la lista de tags
+	function etiqueta_click(){
+		$(".a_tag_user").click(function(){
+			$("#txtTag").val($(this).text());
+			$("#btn_enviar").click();
+		});
+	}
+	//funcion que añade el evento click a cada elemento de la lista de usuarios
+	function usuario_click(){
+		$(".a_users").click(function(){
+			$("#txtId").val($(this).attr("idautor"));
+			$("#btn_enviar").click();
+		});
+	}
 });
 
