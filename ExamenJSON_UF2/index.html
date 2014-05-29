@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title>HTML</title>
+		<meta name="description" content="">
+		<meta name="author" content="JordiS">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="shortcut icon" href="/favicon.ico">
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+		<link rel="stylesheet" href="index.css" />
+		<script type="text/javascript" src="jquery-2.1.0.js"></script>
+		<script type="text/javascript" src="json.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				if( !localStorage.JSON ){
+					getJSON();
+				}
+				else{
+					getLocalStorageJSON();
+				}
+				$("#btn_ordenar").click(function(){
+					ordernarAtaques();
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<div id="container">
+			<div id="container_personajes">
+				
+			</div>
+			<div id="div_botones">
+				<input type='button' value='Ordenar' id='btn_ordenar' />
+			</div>
+		</div>
+	</body>
+</html>

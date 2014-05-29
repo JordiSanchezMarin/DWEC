@@ -1,0 +1,49 @@
+{
+    "juego": {
+        "Nombre": "Mordor",
+        "Debug": true,
+        "ListadoPersonajes": "for(i=0;i<juego.juego.arrayPers.length;i++){ divs_arrayPersonajes.push('<div class=div_personaje><label class=lbl_pers>Nombre: ' + juego.juego.arrayPers[i].Nombre + '</label><label class=lbl_pers>Raza: ' + juego.juego.arrayPers[i].Raza + '</label></div>' );}",
+        "arrayPers": [
+            {
+                "Nombre": "Kalush",
+                "Apellido": "Sanchez",
+                "Raza": "Mago",
+                "Magia": "9",
+                "Fuerza": "2",
+                "Inteligencia": "7",
+                "genAtaque": "return (juego.juego.arrayPers[i].Magia * juego.juego.arrayPers[i].Fuerza * juego.juego.arrayPers[i].Inteligencia) / 3;",
+                "Informacion": "if(juego.juego.Debug == true){console.log(juego.juego.arrayPers[i]);}"
+            },
+            {
+                "Nombre": "Teilig",
+                "Apellido": "Pus",
+                "Raza": "Curandero",
+                "Magia": "10",
+                "Fuerza": "3",
+                "Inteligencia": "8",
+                "genAtaque": "return (juego.juego.arrayPers[i].Magia * juego.juego.arrayPers[i].Fuerza * juego.juego.arrayPers[i].Inteligencia) / 3;",
+                "Informacion": "if(juego.juego.Debug == true){console.log(juego.juego.arrayPers[i]);}"
+            },
+            {
+                "Nombre": "Typhon",
+                "Apellido": "Mail",
+                "Raza": "Guerrero",
+                "Magia": "7",
+                "Fuerza": "9",
+                "Inteligencia": "6",
+                "genAtaque": "return (juego.juego.arrayPers[i].Magia * juego.juego.arrayPers[i].Fuerza * juego.juego.arrayPers[i].Inteligencia) / 3;",
+                "Informacion": "if(juego.juego.Debug == true){console.log(juego.juego.arrayPers[i]);}"
+            },
+            {
+                "Nombre": "Alrak",
+                "Apellido": "Sanchez",
+                "Raza": "Picaro",
+                "Magia": "5",
+                "Fuerza": "9",
+                "Inteligencia": "9",
+                "genAtaque": "return (juego.juego.arrayPers[i].Magia * juego.juego.arrayPers[i].Fuerza * juego.juego.arrayPers[i].Inteligencia) / 3;",
+                "Informacion": "if(juego.juego.Debug == true){console.log(juego.juego.arrayPers[i]);}"
+            }
+        ]
+    }
+}

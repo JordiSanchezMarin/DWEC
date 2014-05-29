@@ -1,0 +1,13 @@
+.div_personaje{
+	padding: 2%;
+	margin: 1%;
+	border-radius: 20px;
+	border: 1px solid black;
+	width: 10%;
+}
+#container{
+	margin: 4%;
+}
+.lbl_pers{
+	display: list-item;
+}
